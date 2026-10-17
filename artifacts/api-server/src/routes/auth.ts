@@ -14,6 +14,7 @@ import {
 } from "../lib/apple-signin";
 import { authStore } from "../lib/auth-store";
 import { hashPassword, verifyPassword } from "../lib/password";
+import { alertNewSignup, type SignupRoute } from "../lib/signup-alert";
 import { currentUser, endSession, isAdmin, requireUser, startSession } from "../lib/session";
 import { workspaceStore } from "../lib/workspace-store";
 
@@ -41,6 +42,28 @@ function tooManyAttempts(req: Request, res: Response): boolean {
     return true;
   }
   return false;
+}
+
+/**
+ * Tell the owner, without the baker waiting for it.
+ *
+ * Called from each of the three ways an account comes into being rather than
+ * from createUser, because the store's job is to store and because the route
+ * is the only thing that knows which way it was. A fourth way in has to call
+ * this too; there is no hook that would catch it.
+ */
+function announceSignup(
+  user: { email: string; displayName: string | null },
+  route: SignupRoute,
+): void {
+  void alertNewSignup({
+    email: user.email,
+    displayName: user.displayName,
+    route,
+    at: new Date(),
+  }).catch(() => {
+    // alertNewSignup already logged it, and a signup is not worth failing here
+  });
 }
 
 const publicUser = (user: { id: string; email: string; displayName: string | null }) => ({
@@ -77,6 +100,7 @@ router.post("/auth/signup", json({ limit: "8kb" }), async (req: Request, res: Re
     // the token goes back as well, for the phone app that cannot keep a cookie
     const token = await startSession(res, user.id);
     req.log.info({ userId: user.id }, "Account created");
+    announceSignup(user, "email");
     res.status(201).json({ user: publicUser(user), token });
   } catch (error) {
     req.log.warn({ err: error }, "Signup failed");
@@ -261,6 +285,7 @@ router.get("/auth/google/callback", async (req: Request, res: Response) => {
           displayName: payload?.name ?? null,
           googleSub: sub,
         });
+        announceSignup(user, "Google");
       }
     }
 
@@ -365,6 +390,7 @@ router.post("/auth/apple/callback", async (req: Request, res: Response) => {
           displayName: appleDisplayName(body.user),
           appleSub: identity.sub,
         });
+        announceSignup(user, "Apple");
       }
     }
 
