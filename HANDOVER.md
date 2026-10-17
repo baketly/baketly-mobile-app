@@ -1,9 +1,9 @@
 # Where Baketly is, for picking the work up elsewhere
 
-Written 4 October 2026, moving from the Windows machine to the Mac. A Claude
-Code conversation lives on the computer it ran on, so this is the part worth
-carrying: what is done, what is waiting, and the handful of rules that are not
-guessable from the code.
+Written 4 October 2026 while moving machines; brought up to date 17 October,
+the day 1.0 went live. A Claude Code conversation lives on the computer it ran
+on, so this is the part worth carrying: what is done, what is waiting, and the
+handful of rules that are not guessable from the code.
 
 ## The app, in one line
 
@@ -14,43 +14,44 @@ with Capacitor, and talks to an Express API in `artifacts/api-server`.
 
 ## Where the App Store submission stands
 
-- **Version 1.0 has never been released.** It is the only version there will be
-  until it is approved, which is why App Store Connect offers no way to add
-  another.
-- It was submitted, and Apple replied with **Guideline 2.1 – Information
-  Needed**: a routine hold on new developer accounts asking for a screen
-  recording and six written answers. Not a verdict on the app.
-- **Build 4 is uploaded** and is the one to submit: it carries every fix listed
-  below. The repo is set to match (`CURRENT_PROJECT_VERSION = 4`,
-  `MARKETING_VERSION = 1.0`). Build 2 is in TestFlight.
-- It went up as 4 rather than 3 because Xcode's upload flow ticks **Manage
-  Version and Build Number** by default, which bumps the build number when the
-  one being uploaded already exists. It does this quietly. If a number ever
-  jumps again, that is why, and the repo has to be brought up to match or the
-  next archive collides and jumps again.
+**1.0 is live on the App Store**, as build 4. App Store Connect shows it as
+*Ready for Distribution*, which is the current name for what used to be Ready
+for Sale: approved and released, with nothing further to press.
+
+Guideline 2.1 — Information Needed was the hold before that, a routine one on
+new developer accounts asking for a screen recording and six written answers.
+It was answered and cleared; the reply is still in `SUBMITTING.md` in case a
+later version draws the same question.
+
+Things that cost time getting here, worth keeping:
+
+- The build went up as **4**, not the 3 that was archived, because Xcode's
+  upload flow ticks **Manage Version and Build Number** by default. That bumps
+  the build number when the one being uploaded already exists, and it does it
+  quietly. The repo is set to 4 to match. If a number jumps again, that is
+  why, and the repo has to be brought up or the next archive collides and
+  jumps again.
 - The version string in Xcode must read exactly what App Store Connect shows
   for the version — `1.0`, not `1`. A build whose version string differs is
   never offered in that version's Build picker.
 
-### What still has to happen
+### 1.0.1, when it goes
 
-1. ~~Rebuild and sync, archive, upload.~~ Done — build 4 is uploaded.
-2. Attach build 4 to version 1.0.
-3. Paste the reply (below) into **App Review Information → Notes**, with the
-   demo account in its own two fields.
-4. Record the video on the phone, on that build.
-5. Reply in the Resolution Centre with the same text and the recording.
-6. Add for Review → Submit.
+On `main` and shipped to the server, but not yet in a build on anyone's phone:
 
-The step-by-step version of this, with the recording script and the reply as a
-copy button, is the guide artifact:
-**https://claude.ai/artifact/8he2cdS8WYXyaY8eCa5LrE** (phase 7).
+1. The till, and then every other screen, reads the currency the baker chose.
+   See the currency note below — this is the one real bug 1.0 went out with.
+2. Setup asks which currency they price in, instead of assuming dollars.
+
+Changing screenshots on the product page needs a version submission, so the
+new screenshots ride along with this rather than going up on their own.
+Promotional text is the one piece of metadata that can change without review.
 
 ### Demo account
 
 `review@baketly.com` / `12345678`. Loaded with a sample bakery. Reviewers come
-back to it, so leave its data alone. The password is weak and worth changing
-before submitting; it is typed into App Store Connect once.
+back to it for updates, so leave its data alone. The password is weak and
+worth changing; it is typed into App Store Connect once.
 
 ## The rules of this workspace
 
@@ -66,33 +67,135 @@ before submitting; it is typed into App Store Connect once.
   its own secret dialog.
 - `AUTH_DEV_STORE` must never be set in production.
 
-## The two machines
+## The Mac
 
-Source edits happened on Windows; the Mac only pulls, builds and archives. That
-is why the Mac keeps hitting *"please commit your changes before you merge"* —
-`cap sync` and `pod install` rewrite tracked files, and Xcode writes the project
-file back from memory. **Close Xcode, then:**
+Everything — editing, running, building, archiving — now happens in one macOS
+account. It used to be split, and the split was expensive: **the signing
+certificate's private key lives in a login keychain**, which is per-account and
+not shared, so a second account could clone the repo and still be unable to
+sign anything.
+
+Three things this project kept in per-user state and lost on a new account, all
+now in the repo:
+
+- `DEVELOPMENT_TEAM`. Setting the team in Xcode writes it into the project
+  file, which showed as a local change, which the pull routine below then threw
+  away — so the team was chosen, discarded and chosen again, and the build in
+  between failed to sign every time.
+- The workspace's `contents.xcworkspacedata`, which `pod install` writes. Open
+  `App.xcworkspace` without it and Xcode shows an empty window with no project
+  in it. **Still not committed** — worth doing.
+- The `App` scheme. Xcode autocreates it per-user in `xcuserdata`, which is
+  gitignored, so a fresh clone has none and archiving reports *"a scheme called
+  App does not exist"*. Ticking **Shared** in Manage Schemes writes a file that
+  can be committed. **Still not committed** — worth doing.
+
+A fresh clone needs the build and sync before Xcode will open anything, because
+`App/Pods` and `App/App/public` are both gitignored:
 
 ```bash
-cd ~/baketly-replit && git checkout -- . && git pull
+cd ~/baketly-replit && git pull
+pnpm install
 cd artifacts/claude-design && VITE_API_BASE=https://baketly-app.replit.app pnpm --filter @workspace/claude-design run build && npx cap sync ios
+open ios/App/App.xcworkspace
 ```
 
-Never set the build number by hand in Xcode: it comes from the repo, and typing
-it there is what makes the next pull fight you.
+Open the `.xcworkspace`, never the `.xcodeproj` — the latter opens and then
+cannot find the pods. Close Xcode before pulling: `cap sync` and `pod install`
+rewrite tracked files and Xcode writes the project file back from memory, which
+is what produces *"please commit your changes before you merge"*. Never set the
+build number by hand there; it comes from the repo.
+
+If a stale provisioning profile is named in a build error, it is Xcode's cache
+rather than the project — profiles are per-account too. Quit Xcode, delete
+`~/Library/Developer/Xcode/UserData/Provisioning Profiles` and the project's
+DerivedData, reopen, and let automatic signing fetch a fresh one.
 
 ## The server
 
 Replit app `6670bc5a-68f6-4f11-b167-0af55fc0259c`, live at
-`https://baketly-app.replit.app`. Publishing is: ask the Replit agent to fetch
-and fast-forward to `origin/main` (it has needed asking twice before it took),
-check the file you expect actually changed, then publish and poll the status.
-A publish takes anywhere from five to forty minutes.
+`https://baketly-app.replit.app`.
 
-**The deployment must stay awake from submission to approval.** A sleeping
-backend reads as a broken app and is a 2.1 rejection on its own.
+### Publishing
 
-## What changed since the submitted build
+The workspace is its own checkout, so publishing means getting it to
+`origin/main` first and only then pressing publish.
+
+**It will look like the fast-forward silently did nothing, and the reason is
+always the same.** Replit writes an *empty* commit of its own, titled
+"Published your App", every time the app is published. That commit diverges the
+workspace from `origin/main`, and a fast-forward cannot apply across a
+divergence — so it is refused, quietly, and the old code publishes again. This
+is what the earlier note about "needing asking twice" was really describing.
+
+So: fetch, then hard-reset to `origin/main` rather than fast-forwarding. It is
+safe because that commit contains nothing — check it first if you like, it adds,
+modifies and deletes no files. Then **verify before publishing**: read back a
+file you know is new and confirm `HEAD` is the commit you expect. Publishing
+without checking is how the same build goes out twice.
+
+A publish takes five to forty minutes. Poll the status until it settles rather
+than assuming.
+
+### It sleeps
+
+`.replit` says `deploymentTarget = "autoscale"`, which scales to zero when
+idle. A measured cold start is around **4.6 seconds**, against 0.2 warm. For a
+baker that is several seconds of an app that has drawn itself with no numbers
+in it — the same thing a reviewer would have called broken, except now it is
+customers.
+
+Either move to a Reserved VM or point an uptime monitor at `/api/healthz` every
+few minutes. Nothing in the code can fix this; it is a property of the
+deployment type.
+
+### Email
+
+Resend, through one verified sending domain. Three things use it:
+
+- **Receipts** to a customer after a sale. Not best effort — the baker is at a
+  stall and needs to know within a second whether to say it is on its way.
+- **Contact form** messages from a baker. Written to the database first, so a
+  provider being down costs nothing.
+- **Signup alerts** to the owner, one per new account, from all three ways in:
+  an email address, Google, Apple. Fire-and-forget; a signup never fails
+  because mail did. `SIGNUP_ALERT_TO` says where they land, falling back to
+  `CONTACT_EMAIL_TO`; setting it to an empty string turns them off.
+
+**Worth confirming that `contact@baketly.com` actually receives mail.** The
+domain was bought with nothing serving it. If it has no MX records then both
+the signup alerts and every message a baker sends through the contact form go
+nowhere, silently.
+
+## Since 1.0 went out
+
+On `main`, live on the server, not yet in a build on a phone. This is 1.0.1.
+
+| Commit | What |
+|---|---|
+| `96b3951` | A signup sends the owner an alert, from all three ways in |
+| `57c0778` | Setup asks which currency they price in |
+| `ec54789` | One currency list instead of fifteen: all 24 work on every screen |
+| `d20ce66` | The till reads the chosen currency — it was dollars whatever Settings said |
+| `a337ffc` | Build number caught up to 4, which is what App Store Connect has |
+| `756c9f4` | The signing team comes from the repo, not from whoever opens Xcode |
+| `ce5dc8c` | `RUNNING-LOCALLY.md`, which HANDOVER had always pointed at and which had never existed |
+
+### The currency bug, because it is the instructive one
+
+Settings offered 24 currencies. Fourteen template files each carried a
+hand-written copy of three — dollars, euros, pounds — and fell back to a dollar
+sign for everything else, so 21 of the 24 were half-supported and the three
+that worked were the three nobody had needed to test. The generated page had a
+third money formatter beside the two that were already bound, which nobody had
+noticed, so the till stayed in dollars entirely.
+
+Two things made it survive as long as it did. A `.replace()` whose anchor stops
+matching looks exactly like a `.replace()` with nothing to do — so the binding
+now carries how many times each anchor should match and throws when the count
+is wrong. And nobody changes the currency, so nobody sees it.
+
+## What changed before the submitted build
 
 Newest first; `git log` has the full reasoning in each message.
 
