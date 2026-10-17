@@ -317,7 +317,7 @@ const recipePreview =
   `<div style="font-family:var(--font-heading);font-weight:600;font-size:26px;font-feature-settings:'tnum'">{{ recipeSell }}</div></div>` +
   `<div style="padding:14px 16px;border-left:1px solid var(--color-divider)"><div class="text-muted" style="font-size:10px;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:4px">Margin</div>` +
   `<div style="font-family:var(--font-heading);font-weight:600;font-size:26px;font-feature-settings:'tnum'">{{ recipeMargin }}</div></div></div>` +
-  `<div class="text-muted" style="font-size:12px;margin-top:6px">Margin = what you keep of the {{ recipeSell }} price after ingredients and packaging.</div>` +
+  `<div class="text-muted" style="font-size:12px;margin-top:6px">Margin = what you keep of the {{ recipeSell }} price after what it costs to make.</div>` +
   `</sc-if>`;
 
 /** A recipe is worth reading before it is edited: costs, lines and margin. */
