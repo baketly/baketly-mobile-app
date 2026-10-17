@@ -4,6 +4,8 @@
 // input and a send button with no bindings at all. This replaces the canned
 // logic with calls to /api/ask and gives the dead controls something to do.
 
+import { currencySymbolExpr, currencySymbolMap } from "./currency";
+
 const chatControllerLogic = `      ...(() => {
         // The conversation starts over each time the app opens. What was said
         // last week was answered last week; a baker opening the chat wants to
@@ -130,7 +132,7 @@ const chatControllerLogic = `      ...(() => {
             .catch(() => {});
         }
 
-        const CUR = (({ USD: '$', EUR: '€', GBP: '£' })[this.state.currency] || '$');
+        const CUR = ${currencySymbolExpr};
         const gettingStartedPrompts = ['What can Baketly do for me?', 'What should I add first?', 'How should I price what I bake?'];
         const workingPrompts = ['Which product earns the least?', 'Where am I losing margin?', 'How do I hit ' + CUR + '1,500 at the next market?'];
         const fromServer = Array.isArray(this.state.chatSuggestions) ? this.state.chatSuggestions : [];
@@ -231,7 +233,7 @@ const chatControllerLogic = `      ...(() => {
         // and Save records the old one in the history the way the pantry
         // form does. Nothing happens on "Not now" except the card going away.
         const describeDone = (action) => {
-          const cur = (({ USD: '$', EUR: '€', GBP: '£', ILS: '₪' })[this.state.currency] || '');
+          const cur = (${currencySymbolMap}[this.state.currency] || '');
           const m = v => cur ? cur + v : v + ' ' + (this.state.currency || '');
           if (action.type === 'addTodo') return 'Added to the list for ' + action.day + ': ' + action.text;
           if (action.type === 'createEvent') return 'Here is ' + action.name + ' for ' + action.day + (action.items && action.items.length ? ', with ' + action.items.map(i => i.quantity + ' × ' + i.name).join(', ') : '') + '. Look it over and press Save.';

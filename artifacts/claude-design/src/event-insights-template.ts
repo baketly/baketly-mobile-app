@@ -10,8 +10,10 @@
 // Every market stores what was planned for it, and every sale stores what went
 // out and what it cost to make, so both are already in the data.
 
+import { currencySymbolExpr } from "./currency";
+
 const eventInsightsController = `      ...(() => {
-        const CUR = (({ USD: '$', EUR: '€', GBP: '£' })[this.state.currency] || '$');
+        const CUR = ${currencySymbolExpr};
         const money = value => CUR + value.toFixed(2);
         const sales = Array.isArray(this.state.saleRecords) ? this.state.saleRecords : [];
         const allEvents = Array.isArray(this.state.eventRecords) ? this.state.eventRecords : [];

@@ -1,4 +1,6 @@
 // Shared with the recipe ingredient picker, which offers these as filters.
+import { currencySymbolExpr } from "./currency";
+
 export const INGREDIENT_CATEGORIES: ReadonlyArray<readonly [string, string]> = [
   ["flour", "Flour"],
   ["sugar", "Sugar"],
@@ -99,7 +101,7 @@ function replaceIngredientEditor(template: string): string {
 function addIngredientController(template: string): string {
   const defaults = JSON.stringify(defaultIngredientDetails);
   const controller = `      ...(() => {
-        const CUR = (({ USD: '$', EUR: '€', GBP: '£' })[this.state.currency] || '$');
+        const CUR = ${currencySymbolExpr};
         const detailDefaults = ${defaults};
         const savedIngredients = this.state.ingredientRecords || {};
         const removedIngredientKeys = new Set(this.state.removedIngredientKeys || []);

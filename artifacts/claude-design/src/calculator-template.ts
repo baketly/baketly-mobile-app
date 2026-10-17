@@ -8,8 +8,10 @@
 // The calculator does it. Pick a recipe, say how many you need, and each
 // ingredient is scaled from the batch it was written for.
 
+import { currencySymbolExpr } from "./currency";
+
 const calculatorController = `      ...(() => {
-        const CUR = (({ USD: '$', EUR: '€', GBP: '£' })[this.state.currency] || '$');
+        const CUR = ${currencySymbolExpr};
         const recipes = Array.isArray(this.state.recipeRecords) ? this.state.recipeRecords : [];
         const chosenId = this.state.calcRecipeId || (recipes[0] && recipes[0].id) || '';
         const chosen = recipes.find(r => r.id === chosenId) || null;

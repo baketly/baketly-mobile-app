@@ -11,10 +11,12 @@
 // matters, then what they make, then how they want to be paid for it. Every
 // step can be walked back.
 
+import { currencySelect, currencySymbolExpr } from "./currency";
+
 const STEPS = ["ob1", "ob2", "ob3"];
 
 const onboardingController = `      ...(() => {
-        const CUR = (({ USD: '$', EUR: '€', GBP: '£' })[this.state.currency] || '$');
+        const CUR = ${currencySymbolExpr};
         const steps = ${JSON.stringify(STEPS)};
         const here = steps.indexOf(this.state.screen);
         const dot = index => (index <= here ? 'var(--color-accent)' : 'var(--color-neutral-300)');
@@ -118,7 +120,7 @@ const stepWhatIsBaketly = `
 
 const stepBakery = `
     <h2 style="font-size:30px;line-height:1.15;margin:0 0 8px">Tell us about your bakery</h2>
-    <p class="text-muted" style="font-size:14px;margin-bottom:22px">Your name, the bakery's, and roughly where you sell.</p>
+    <p class="text-muted" style="font-size:14px;margin-bottom:22px">Your name, the bakery's, roughly where you sell, and what you price in.</p>
     <div class="field" style="margin-bottom:16px">
       <label>Your name</label>
       <input class="input" value="{{ ownerName }}" sc-camel-on-change="{{ setOwnerName }}" aria-label="Your name" placeholder="e.g. Dana">
@@ -138,6 +140,10 @@ const stepBakery = `
         </sc-for>
       </div>
     </sc-if>
+    <div class="field" style="margin-bottom:16px">
+      <label>What you price in</label>
+      ${currencySelect("Currency")}
+    </div>
     <div class="card" style="gap:6px;margin:14px 0 20px">
       <span class="card-kicker">Why Baketly asks</span>
       <div style="font-size:14px;line-height:1.55">Pricing only means something next to what people near you already pay. Baketly checks what comparable bakeries in your area charge, twice a week, and tells you where you sit.</div>

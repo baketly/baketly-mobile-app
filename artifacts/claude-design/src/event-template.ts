@@ -11,8 +11,10 @@
 // actually sold before moving it to Past events — and Delete with a
 // confirmation at any point.
 
+import { currencySymbolExpr } from "./currency";
+
 const eventController = `      ...(() => {
-        const CUR = (({ USD: '$', EUR: '€', GBP: '£' })[this.state.currency] || '$');
+        const CUR = ${currencySymbolExpr};
         const recipes = Array.isArray(this.state.recipeRecords) ? this.state.recipeRecords : [];
         const events = Array.isArray(this.state.eventRecords) ? this.state.eventRecords : [];
         const sales = Array.isArray(this.state.saleRecords) ? this.state.saleRecords : [];

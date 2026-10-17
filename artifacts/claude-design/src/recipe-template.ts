@@ -1,4 +1,5 @@
 import { INGREDIENT_CATEGORIES } from "./ingredient-template";
+import { currencySymbolExpr } from "./currency";
 
 export const defaultRecipes = [
   {
@@ -324,7 +325,7 @@ function replacePackagingDeleteDialog(template: string): string {
 function addPackagingController(template: string): string {
   const defaults = JSON.stringify(packagingDefaults);
   const controller = `      ...(() => {
-        const CUR = (({ USD: '$', EUR: '€', GBP: '£' })[this.state.currency] || '$');
+        const CUR = ${currencySymbolExpr};
         const defaults = ${defaults};
         this.PACK_META = this.PACK_META || {};
         const saved = this.state.packagingRecords || {};
@@ -399,7 +400,7 @@ function replaceRecipeList(template: string): string {
   return template
     .replace(
       /        let list = this\.RECIPES[\s\S]*?        const recFilters =/,
-      () => `        const CUR = (({ USD: '$', EUR: '€', GBP: '£' })[this.state.currency] || '$');
+      () => `        const CUR = ${currencySymbolExpr};
         const records = Array.isArray(this.state.recipeRecords) ? this.state.recipeRecords : [];
         const recipeUnitCost = r => {
           const yieldCount = Math.max(1, Number(r.yield) || 1);
@@ -460,7 +461,7 @@ function macrosPerUnit(template: string): string {
 
 function replaceRecipeEditorLogic(template: string): string {
   const editorLogic = `      ...(() => {
-        const CUR = (({ USD: '$', EUR: '€', GBP: '£' })[this.state.currency] || '$');
+        const CUR = ${currencySymbolExpr};
         const records = Array.isArray(this.state.recipeRecords) ? this.state.recipeRecords : [];
         const blankRecipe = ${blankRecipeSource};
         const isNewRecipe = !this.state.activeRecipeId;
