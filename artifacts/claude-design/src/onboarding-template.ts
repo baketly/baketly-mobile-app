@@ -11,10 +11,12 @@
 // matters, then what they make, then how they want to be paid for it. Every
 // step can be walked back.
 
+import { currencySymbolExpr } from "./currency";
+
 const STEPS = ["ob1", "ob2", "ob3"];
 
 const onboardingController = `      ...(() => {
-        const CUR = (({ USD: '$', EUR: '€', GBP: '£' })[this.state.currency] || '$');
+        const CUR = ${currencySymbolExpr};
         const steps = ${JSON.stringify(STEPS)};
         const here = steps.indexOf(this.state.screen);
         const dot = index => (index <= here ? 'var(--color-accent)' : 'var(--color-neutral-300)');

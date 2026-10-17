@@ -11,6 +11,8 @@
 // button says "Save changes". A NEW item skips the preview and opens straight
 // into the form, whose button still says what it is saving.
 
+import { currencySymbolExpr } from "./currency";
+
 const ICON_PENCIL = '<path d="M4 20h4l10-10-4-4L4 16z"></path><path d="M13.5 6.5l4 4"></path>';
 const ICON_MINUS = '<circle cx="12" cy="12" r="9"></circle><path d="M8.5 12h7"></path>';
 
@@ -26,7 +28,7 @@ export const itemActions = (editHandler: string, deleteHandler: string, noun: st
   `</div>`;
 
 const modeController = `      ...(() => {
-        const CUR = (({ USD: '$', EUR: '€', GBP: '£' })[this.state.currency] || '$');
+        const CUR = ${currencySymbolExpr};
         const openFor = this.state.editingKey || '';
 
         // A saved item is read-only until its pencil is pressed; a new one has

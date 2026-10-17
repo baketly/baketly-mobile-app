@@ -6,8 +6,10 @@
 // the baker's own price history, except the local prices, which come from the
 // grounded /api/market-check research.
 
+import { currencySymbolExpr } from "./currency";
+
 const watchController = `      ...(() => {
-        const CUR = (({ USD: '$', EUR: '€', GBP: '£' })[this.state.currency] || '$');
+        const CUR = ${currencySymbolExpr};
         const money = value => (value < 0 ? ('-' + CUR) : CUR) + Math.abs(value).toFixed(2);
         const history = this.state.priceHistory || {};
         const removed = new Set(this.state.removedIngredientKeys || []);

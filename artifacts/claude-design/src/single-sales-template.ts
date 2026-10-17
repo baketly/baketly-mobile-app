@@ -9,8 +9,10 @@
 // products and markets that made up the same month. Tapping a line opens what
 // was in it.
 
+import { currencySymbolExpr } from "./currency";
+
 const singleSalesController = `      ...(() => {
-        const CUR = (({ USD: '$', EUR: '€', GBP: '£' })[this.state.currency] || '$');
+        const CUR = ${currencySymbolExpr};
         const sales = Array.isArray(this.state.saleRecords) ? this.state.saleRecords : [];
         const now = new Date();
         const monthKey = date => date.getFullYear() + '-' + String(date.getMonth() + 1).padStart(2, '0');

@@ -46,6 +46,27 @@ const symbolMap = `({ ${CURRENCIES.map((c) => `${c.code}: '${c.symbol}'`).join("
  */
 export const currencySymbolExpr = `(${symbolMap}[this.state.currency] || '$')`;
 
+/**
+ * The lookup on its own, for the one caller that wants a different answer when
+ * the code is unknown. The chat says "12.50 CAD" rather than guessing a symbol,
+ * which only works if it can tell "no symbol" from "dollars".
+ */
+export const currencySymbolMap = symbolMap;
+
+/**
+ * The picker, wherever it is asked for. Both the Settings row and the setup
+ * flow draw it, and neither carries its own copy of the list: an added
+ * currency appears in both or in neither.
+ */
+export function currencySelect(ariaLabel: string): string {
+  return (
+    '<select class="input" value="{{ currencyCode }}" sc-camel-on-change="{{ setCurrency }}"' +
+    ` aria-label="${ariaLabel}" style="width:100%">` +
+    CURRENCIES.map((c) => `<option value="${c.code}">${c.label}</option>`).join("") +
+    "</select>"
+  );
+}
+
 /** Declares `CUR` at the top of a controller so money formatting can use it. */
 export const currencyConst = `        const CUR = ${currencySymbolExpr};\n`;
 
@@ -79,14 +100,7 @@ function bindCurrencyControl(template: string): string {
   const anchor =
     '<div class="seg"><label class="seg-opt"><input type="radio" name="cur" checked="">USD $</label><label class="seg-opt"><input type="radio" name="cur">EUR €</label><label class="seg-opt"><input type="radio" name="cur">GBP £</label></div>';
   if (!template.includes(anchor)) throw new Error("Missing currency control anchor");
-  return template.replace(
-    anchor,
-    () =>
-      '<select class="input" value="{{ currencyCode }}" sc-camel-on-change="{{ setCurrency }}"' +
-      ' aria-label="Currency" style="width:100%">' +
-      '<option value="USD">USD $</option><option value="EUR">EUR €</option><option value="GBP">GBP £</option><option value="ILS">ILS ₪</option><option value="CAD">CAD CA$</option><option value="AUD">AUD A$</option><option value="NZD">NZD NZ$</option><option value="CHF">CHF CHF</option><option value="SEK">SEK kr</option><option value="NOK">NOK kr</option><option value="DKK">DKK kr</option><option value="PLN">PLN zł</option><option value="CZK">CZK Kč</option><option value="HUF">HUF Ft</option><option value="RON">RON lei</option><option value="JPY">JPY ¥</option><option value="INR">INR ₹</option><option value="MXN">MXN MX$</option><option value="BRL">BRL R$</option><option value="ZAR">ZAR R</option><option value="AED">AED AED</option><option value="SGD">SGD S$</option><option value="HKD">HKD HK$</option><option value="TRY">TRY ₺</option>' +
-      "</select>",
-  );
+  return template.replace(anchor, () => currencySelect("Currency"));
 }
 
 /**

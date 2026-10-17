@@ -1,3 +1,5 @@
+import { currencySymbolExpr } from "./currency";
+
 export function applyAnalyticsBehavior(template: string): string {
   template = bindUpcomingRow(template);
   const newMarkup = `<!-- ══ ANALYTICS ══ -->
@@ -382,7 +384,7 @@ export function applyAnalyticsBehavior(template: string): string {
 <!-- ══`;
 
   const newLogic = `      ...(() => {
-        const CUR = (({ USD: '$', EUR: '€', GBP: '£' })[this.state.currency] || '$');
+        const CUR = ${currencySymbolExpr};
         const events = Array.isArray(this.state.eventRecords) ? this.state.eventRecords : [];
         const sales = Array.isArray(this.state.saleRecords) ? this.state.saleRecords : [];
 
@@ -1087,7 +1089,7 @@ function addCommerceBehavior(template: string): string {
            eventOtherCosts: draftOtherCosts.map((cost, index) => ({
              label: String((cost && cost.label) ?? ''),
              amount: String((cost && cost.amount) ?? ''),
-             amountStr: (({ USD: '$', EUR: '€', GBP: '£' })[this.state.currency] || '$') + (Number((cost && cost.amount) || 0)).toFixed(2),
+             amountStr: ${currencySymbolExpr} + (Number((cost && cost.amount) || 0)).toFixed(2),
              setLabel: e => this.setState(st => { const next = [...(st.eventOtherCosts || [])]; next[index] = { ...next[index], label: e.target.value.slice(0, 60) }; return { eventOtherCosts: next }; }),
              setAmount: e => this.setState(st => { const next = [...(st.eventOtherCosts || [])]; next[index] = { ...next[index], amount: e.target.value }; return { eventOtherCosts: next }; }),
              remove: () => this.setState(st => ({ eventOtherCosts: (st.eventOtherCosts || []).filter((_, i) => i !== index) }))
@@ -1100,9 +1102,9 @@ function addCommerceBehavior(template: string): string {
            evCardSub: (() => {
              const planned = Object.keys(this.state.evQty || {}).filter(key => (Number((this.state.evQty || {})[key]) || 0) > 0).length;
              const booth = Number(this.state.eventBoothFee) || 0;
-             return planned + (planned === 1 ? ' product' : ' products') + ' · booth ' + (({ USD: '$', EUR: '€', GBP: '£' })[this.state.currency] || '$') + booth.toFixed(2);
+             return planned + (planned === 1 ? ' product' : ' products') + ' · booth ' + ${currencySymbolExpr} + booth.toFixed(2);
            })(),
-           eventOtherCostTotalStr: (({ USD: '$', EUR: '€', GBP: '£' })[this.state.currency] || '$') + draftOtherCostTotal.toFixed(2),
+           eventOtherCostTotalStr: ${currencySymbolExpr} + draftOtherCostTotal.toFixed(2),
            addEventOtherCost: () => this.setState(st => ({ eventOtherCosts: [...(Array.isArray(st.eventOtherCosts) ? st.eventOtherCosts : []), { label: '', amount: '' }].slice(0, 20) })),
            setEventName: e => this.setState({ eventName: e.target.value.slice(0, 160) }), setEventDate: e => this.setState({ eventDate: e.target.value }), setEventBoothFee: e => this.setState({ eventBoothFee: Math.max(0, Number(e.target.value) || 0) }),
            startNewEvent: () => this.setState(st => ({ eventOtherCosts: [], eventCurrentId: 'event-' + Date.now().toString(36), eventName: 'New market', eventDate: (() => { const d = new Date(); return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0'); })(), eventBoothFee: 0, evQty: {}, evSold: {}, evStatus: 'planned', evSaved: false, actualRev: 0, soldRev: 0, cashQty: {}, cashPaid: '', cashOrdersArr: [], screen: 'event', stack: st.stack })),

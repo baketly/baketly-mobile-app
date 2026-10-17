@@ -10,8 +10,10 @@
 // event, and completing the market arrives with the quantities already filled
 // in from what was actually rung up.
 
+import { currencySymbolExpr } from "./currency";
+
 const saleController = `      ...(() => {
-        const CUR = (({ USD: '$', EUR: '€', GBP: '£' })[this.state.currency] || '$');
+        const CUR = ${currencySymbolExpr};
         const events = Array.isArray(this.state.eventRecords) ? this.state.eventRecords : [];
         const sales = Array.isArray(this.state.saleRecords) ? this.state.saleRecords : [];
         const attachedTo = this.state.saleEventId || '';

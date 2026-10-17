@@ -12,7 +12,7 @@
 const GREETING_HOURS = { morning: 12, afternoon: 18 };
 
 const homeController = `      ...(() => {
-        const CUR = (({ USD: '$', EUR: '€', GBP: '£' })[this.state.currency] || '$');
+        const CUR = ${currencySymbolExpr};
         const st = this.state;
         const recipes = Array.isArray(st.recipeRecords) ? st.recipeRecords : [];
         const events = Array.isArray(st.eventRecords) ? st.eventRecords : [];
@@ -326,6 +326,7 @@ function addHomeController(template: string): string {
 // different drawing of one — spokes rather than a toothed wheel — so the
 // button that opens Settings and the tab it lands on looked like two features.
 import { SETTINGS_GEAR } from "./settings-template";
+import { currencySymbolExpr } from "./currency";
 
 // An envelope: the one drawing everyone reads as a message, which matters
 // on a button whose label only screen readers hear.

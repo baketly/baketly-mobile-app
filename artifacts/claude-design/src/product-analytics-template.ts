@@ -10,8 +10,10 @@
 // for how it has sold month by month, what it has been charged at over time,
 // and what it has come to in total.
 
+import { currencySymbolExpr } from "./currency";
+
 const productAnalyticsController = `      ...(() => {
-        const CUR = (({ USD: '$', EUR: '€', GBP: '£' })[this.state.currency] || '$');
+        const CUR = ${currencySymbolExpr};
         const sales = Array.isArray(this.state.saleRecords) ? this.state.saleRecords : [];
         const recipes = Array.isArray(this.state.recipeRecords) ? this.state.recipeRecords : [];
         const now = new Date();
