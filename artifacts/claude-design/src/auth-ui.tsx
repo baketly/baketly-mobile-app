@@ -577,7 +577,7 @@ export function AuthGate({ onSignedIn }: { onSignedIn: (user: SignedInUser) => v
           >
             Privacy Policy
           </button>
-          <span>@Baketly {new Date().getFullYear()}</span>
+          <span>© {new Date().getFullYear()} Baketly</span>
         </div>
       </div>
     </div>
