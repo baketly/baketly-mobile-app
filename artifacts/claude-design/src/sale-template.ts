@@ -408,7 +408,7 @@ function tillCountsPlannedStock(template: string): string {
   out = swapOnce(
     out,
     "iconEl: React.createElement('span', { style: { display: 'grid' }, dangerouslySetInnerHTML: { __html: this.REC_ICONS[r.icon] } }),",
-    "iconEl: r.photo ? React.createElement('img', { src: r.photo, alt: '', style: { position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', borderRadius: '9px' } })" +
+    "iconEl: r.photo ? React.createElement('img', { src: r.photo, alt: '', style: { position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'contain', borderRadius: '9px' } })" +
       " : React.createElement('span', { style: { display: 'grid' }, dangerouslySetInnerHTML: { __html: this.REC_ICONS[r.icon] } }),",
     "till photo",
   );

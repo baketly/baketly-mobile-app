@@ -421,7 +421,7 @@ function replaceRecipeList(template: string): string {
             slot: 'rc-' + r.id,
             // a recipe's own photo takes the icon's place wherever it is shown
             iconEl: r.photo
-              ? React.createElement('img', { src: r.photo, alt: '', style: { position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', borderRadius: '9px' } })
+              ? React.createElement('img', { src: r.photo, alt: '', style: { position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'contain', borderRadius: '9px' } })
               : React.createElement('span', { style: { display: 'grid' }, dangerouslySetInnerHTML: { __html: this.REC_ICONS[r.icon] } }),
             open: () => this.setState(st => ({ screen: 'recipeEditor', stack: [...st.stack, st.screen], activeRecipeId: r.id, recipeDraft: null, recipeDeleteOpen: false, ingPickerOpen: false, packPickerOpen: false }))
           };
@@ -520,15 +520,18 @@ function replaceRecipeEditorLogic(template: string): string {
           recipeTitle: recipe.name,
           setRecipeTitle: e => updateRecipe({ name: e.target.value.slice(0, 160) }),
 
-          // A photo of the bake, shown in place of its icon. It is cropped
-          // square and shrunk on the phone before it is kept, so a 4 MB camera
-          // shot becomes a few dozen KB that saves with the rest of the recipe.
+          // A photo of the bake, shown in place of its icon. It is shrunk on
+          // the phone before it is kept, so a 4 MB camera shot becomes a few
+          // dozen KB that saves with the rest of the recipe. It is fitted
+          // whole onto a square rather than cut down to one: a portrait photo
+          // of a cake was losing its top and bottom, which is the part of a
+          // cake worth photographing.
           recipePhoto: recipe.photo || '',
           recipeHasPhoto: !!recipe.photo,
           recipePhotoAction: recipe.photo ? 'Change photo' : 'Add photo',
           recipePhotoError: this.state.recipePhotoError || '',
           recipePhotoEl: recipe.photo
-            ? React.createElement('img', { src: recipe.photo, alt: '', style: { position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' } })
+            ? React.createElement('img', { src: recipe.photo, alt: '', style: { position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'contain' } })
             : React.createElement('span', { style: { display: 'grid', transform: 'scale(1.5)' }, dangerouslySetInnerHTML: { __html: this.REC_ICONS[recipe.icon] || '' } }),
           setRecipePhoto: e => {
             const input = e && e.target;
@@ -566,7 +569,10 @@ function replaceRecipeEditorLogic(template: string): string {
                   canvas.height = size;
                   ctx.fillStyle = '#ffffff';
                   ctx.fillRect(0, 0, size, size);
-                  ctx.drawImage(img, (img.naturalWidth - side) / 2, (img.naturalHeight - side) / 2, side, side, 0, 0, size, size);
+                  const fit = Math.min(size / img.naturalWidth, size / img.naturalHeight);
+                  const drawW = img.naturalWidth * fit;
+                  const drawH = img.naturalHeight * fit;
+                  ctx.drawImage(img, 0, 0, img.naturalWidth, img.naturalHeight, (size - drawW) / 2, (size - drawH) / 2, drawW, drawH);
                   photo = canvas.toDataURL('image/jpeg', quality);
                   if (photo.length <= LIMIT) break;
                 }
