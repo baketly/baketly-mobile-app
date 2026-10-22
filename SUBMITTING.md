@@ -27,7 +27,7 @@ have now and Apple will test it on an iPad, and App Store Connect will demand
 iPad screenshots before it will take the submission.
 
 ```
-cd ~/baketly-replit && git stash && git pull && pnpm install
+cd ~/baketly-mobile-app && git stash && git pull && pnpm install
 cd artifacts/claude-design && VITE_API_BASE=https://baketly-app.replit.app pnpm --filter @workspace/claude-design run build && npx cap sync ios
 ```
 

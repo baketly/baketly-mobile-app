@@ -94,7 +94,7 @@ A fresh clone needs the build and sync before Xcode will open anything, because
 `App/Pods` and `App/App/public` are both gitignored:
 
 ```bash
-cd ~/baketly-replit && git pull
+cd ~/baketly-mobile-app && git pull
 pnpm install
 cd artifacts/claude-design && VITE_API_BASE=https://baketly-app.replit.app pnpm --filter @workspace/claude-design run build && npx cap sync ios
 open ios/App/App.xcworkspace
