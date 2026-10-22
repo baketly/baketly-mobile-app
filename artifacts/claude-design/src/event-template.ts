@@ -78,7 +78,7 @@ const eventController = `      ...(() => {
           const otherCosts = costsFrom(st);
           return {
             id: st.eventCurrentId,
-            name: String(st.eventName || '').trim().slice(0, 160) || 'Market',
+            name: String(st.eventName || '').trim().slice(0, 160) || 'New market',
             occurredAt: day + 'T12:00:00.000Z',
             boothFee: Math.max(0, Number(st.eventBoothFee) || 0),
             status,

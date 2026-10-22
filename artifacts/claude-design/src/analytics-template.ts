@@ -988,7 +988,7 @@ function addCommerceBehavior(template: string): string {
   );
   out = out.replace(
     '<div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap"><h2 style="font-size:28px;margin:0">Base Farmers Market</h2><span class="tag tag-accent">{{ evStatusLabel }}</span></div>\n  <p class="text-muted" style="font-size:13px;margin:4px 0 18px">Production date Sep 12 · booth $125</p>',
-    () => '<div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:10px"><input class="input" value="{{ eventName }}" sc-camel-on-change="{{ setEventName }}" aria-label="Event name" style="flex:1;min-width:180px;font-family:var(--font-heading);font-weight:600;font-size:24px;padding:7px 10px"></div>\n  <div class="bk-pair" style="margin:10px 0 18px"><div class="field"><label>Event date</label><input class="input" type="date" value="{{ eventDate }}" sc-camel-on-change="{{ setEventDate }}" aria-label="Event date"></div><div class="field"><label>Booth fee</label><div style="position:relative"><span class="text-muted" style="position:absolute;left:11px;top:50%;transform:translateY(-50%);font-size:15px;line-height:1;pointer-events:none">{{ currencySymbol }}</span><input class="input" inputmode="decimal" value="{{ eventBoothFee }}" sc-camel-on-change="{{ setEventBoothFee }}" aria-label="Booth fee" style="width:100%;padding-left:27px;font-feature-settings:\'tnum\'"></div></div></div>',
+    () => '<div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:10px"><input class="input" value="{{ eventName }}" sc-camel-on-change="{{ setEventName }}" sc-camel-on-focus="{{ focusEventName }}" placeholder="Name this market" aria-label="Event name" style="flex:1;min-width:180px;font-family:var(--font-heading);font-weight:600;font-size:24px;padding:7px 10px"></div>\n  <div class="bk-pair" style="margin:10px 0 18px"><div class="field"><label>Event date</label><input class="input" type="date" value="{{ eventDate }}" sc-camel-on-change="{{ setEventDate }}" aria-label="Event date"></div><div class="field"><label>Booth fee</label><div style="position:relative"><span class="text-muted" style="position:absolute;left:11px;top:50%;transform:translateY(-50%);font-size:15px;line-height:1;pointer-events:none">{{ currencySymbol }}</span><input class="input" inputmode="decimal" value="{{ eventBoothFee }}" sc-camel-on-change="{{ setEventBoothFee }}" aria-label="Booth fee" style="width:100%;padding-left:27px;font-feature-settings:\'tnum\'"></div></div></div>',
   );
   out = out.replace(
     "        const { evQty, evSold, shopChecked, cashQty, cashPaid, cashOrdersArr } = this.state;",
@@ -1085,7 +1085,7 @@ function addCommerceBehavior(template: string): string {
   );
   out = out.replace(
     "          updateRevenue: () => this.setState({ evSaved: true, soldRev: soldRevenue, actualRev: soldRevenue + collected }),",
-    () => `          eventName: this.state.eventName || 'Base Farmers Market', eventDate: this.state.eventDate || '2026-09-12', eventBoothFee: String(this.state.eventBoothFee ?? 125),
+    () => `          eventName: this.state.eventName ?? '', eventDate: this.state.eventDate || '2026-09-12', eventBoothFee: String(this.state.eventBoothFee ?? 125),
            eventOtherCosts: draftOtherCosts.map((cost, index) => ({
              label: String((cost && cost.label) ?? ''),
              amount: String((cost && cost.amount) ?? ''),
@@ -1106,7 +1106,11 @@ function addCommerceBehavior(template: string): string {
            })(),
            eventOtherCostTotalStr: ${currencySymbolExpr} + draftOtherCostTotal.toFixed(2),
            addEventOtherCost: () => this.setState(st => ({ eventOtherCosts: [...(Array.isArray(st.eventOtherCosts) ? st.eventOtherCosts : []), { label: '', amount: '' }].slice(0, 20) })),
-           setEventName: e => this.setState({ eventName: e.target.value.slice(0, 160) }), setEventDate: e => this.setState({ eventDate: e.target.value }), setEventBoothFee: e => this.setState({ eventBoothFee: Math.max(0, Number(e.target.value) || 0) }),
+           setEventName: e => this.setState({ eventName: e.target.value.slice(0, 160) || undefined }),
+           // the name a new market is handed is a suggestion, not something
+           // to delete first: tapping the box clears it, and leaving it
+           // untouched still saves under it
+           focusEventName: () => { if (this.state.eventName === 'New market') this.setState({ eventName: undefined }); }, setEventDate: e => this.setState({ eventDate: e.target.value }), setEventBoothFee: e => this.setState({ eventBoothFee: Math.max(0, Number(e.target.value) || 0) }),
            startNewEvent: () => this.setState(st => ({ eventOtherCosts: [], eventCurrentId: 'event-' + Date.now().toString(36), eventName: 'New market', eventDate: (() => { const d = new Date(); return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0'); })(), eventBoothFee: 0, evQty: {}, evSold: {}, evStatus: 'planned', evSaved: false, actualRev: 0, soldRev: 0, cashQty: {}, cashPaid: '', cashOrdersArr: [], screen: 'event', stack: st.stack })),
           updateRevenue: () => this.setState(st => {
             const occurredAt = (st.eventDate || '2026-09-12') + 'T12:00:00.000Z';
@@ -1127,7 +1131,7 @@ function addCommerceBehavior(template: string): string {
             const plannedItems = eventProducts
               .map(p => ({ productId: p.productId, name: p.name, quantity: Math.max(0, Math.round(Number((st.evQty || {})[p.id]) || 0)) }))
               .filter(item => item.quantity > 0);
-            const event = { id: eventId, name: st.eventName || 'Base Farmers Market', occurredAt, boothFee: Math.max(0, Number(st.eventBoothFee) || 0), ...(otherCosts.length ? { otherCosts } : {}), ...(plannedItems.length ? { plannedItems } : {}), lineItems: lines };
+            const event = { id: eventId, name: String(st.eventName || '').trim() || 'New market', occurredAt, boothFee: Math.max(0, Number(st.eventBoothFee) || 0), ...(otherCosts.length ? { otherCosts } : {}), ...(plannedItems.length ? { plannedItems } : {}), lineItems: lines };
             const salesWithoutDirect = (st.saleRecords || []).filter(s => s.id !== direct.id);
             const sales = lines.length > 0 ? [...salesWithoutDirect, direct] : salesWithoutDirect;
             const actual = sales.filter(s => s.eventId === eventId).reduce((sum, s) => sum + (Number(s.total) || 0), 0);
