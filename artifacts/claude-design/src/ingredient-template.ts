@@ -112,11 +112,11 @@ function addIngredientController(template: string): string {
         const units = ['g', 'kg', 'oz', 'lb', 'ml', 'pc'];
         const categories = ${JSON.stringify(categoryKeys)};
         const normalize = (key, draft) => {
-          const base = this.ING_META[key] || { name: key, per: 0, unit: 'g' };
+          const base = this.ING_META[key] || { name: '', per: 0, unit: 'g' };
           const fallback = detailDefaults[key] || { supplier: '', packagePrice: 0, packageSize: 1, unit: base.unit || 'g', kcal: 0, protein: 0, carbs: 0, fat: 0 };
           const source = { ...fallback, ...(savedIngredients[key] || {}), ...(draft || {}) };
           return {
-            name: String(source.name || base.name || key).slice(0, 160),
+            name: String(source.name || base.name || 'New ingredient').slice(0, 160),
             supplier: String(source.supplier || '').slice(0, 160),
             packagePrice: Math.max(0, Number(source.packagePrice) || 0),
             packageSize: Math.max(0, Number(source.packageSize) || 0),
@@ -248,8 +248,8 @@ function addIngredientController(template: string): string {
           saveIngredient: () => {
             const key = activeKey || 'ingredient-' + Date.now().toString(36);
              const normalized = normalize(key, activeKey ? this.state.ingredientDraft : { ...blankIngredient, ...(this.state.ingredientDraft || {}) });
-            if (!normalized.name.trim() || normalized.packageSize <= 0) {
-              this.setState({ ingredientSaveError: normalized.name.trim() ? 'Package size must be greater than zero.' : 'Ingredient name is required.' });
+            if (normalized.packageSize <= 0) {
+              this.setState({ ingredientSaveError: 'Package size must be greater than zero.' });
               return;
             }
             this.setState(st => {

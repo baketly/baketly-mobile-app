@@ -333,9 +333,9 @@ function addPackagingController(template: string): string {
         // as with ingredients: only packaging this baker has saved
         const keys = Object.keys(saved).filter(key => !removedPackagingKeys.has(key));
         const normalize = (key, draft) => {
-          const base = defaults[key] || { name: (this.PACK_META[key] && this.PACK_META[key].name) || key, supplier: '', packPrice: 0, unitsPerPack: 1 };
+          const base = defaults[key] || { name: (this.PACK_META[key] && this.PACK_META[key].name) || '', supplier: '', packPrice: 0, unitsPerPack: 1 };
           const source = { ...base, ...(saved[key] || {}), ...(draft || {}) };
-           return { name: String(source.name || key || 'Unnamed packaging').slice(0, 160), supplier: String(source.supplier || '').slice(0, 160), packPrice: Math.max(0, Number(source.packPrice) || 0), unitsPerPack: Math.max(0, Number(source.unitsPerPack) || 0) };
+           return { name: String(source.name || 'New packaging').slice(0, 160), supplier: String(source.supplier || '').slice(0, 160), packPrice: Math.max(0, Number(source.packPrice) || 0), unitsPerPack: Math.max(0, Number(source.unitsPerPack) || 0) };
         };
         keys.forEach(key => { const item = normalize(key); this.PACK_META[key] = { ...this.PACK_META[key], name: item.name, per: item.unitsPerPack > 0 ? item.packPrice / item.unitsPerPack : 0 }; });
         const activeKey = this.state.activePackagingKey || null;
@@ -382,7 +382,7 @@ function addPackagingController(template: string): string {
           savePackaging: () => {
             const key = activeKey || 'pack-' + Date.now().toString(36);
             const normalized = normalize(key, this.state.packagingDraft);
-            if (!normalized.name.trim() || normalized.unitsPerPack <= 0) { this.setState({ packagingSaveError: normalized.name.trim() ? 'Units per pack must be greater than zero.' : 'Packaging name is required.' }); return; }
+            if (normalized.unitsPerPack <= 0) { this.setState({ packagingSaveError: 'Units per pack must be greater than zero.' }); return; }
             this.setState(st => { const stack = [...st.stack]; const previous = stack.pop() || 'ingredients'; return { packagingRecords: { ...(st.packagingRecords || {}), [key]: normalized }, screen: previous, stack, activePackagingKey: null, packagingDraft: null, packagingDeleteOpen: false, packagingSaveError: '' }; });
           }
         };
