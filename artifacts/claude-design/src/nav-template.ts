@@ -1,76 +1,67 @@
-// Navigation in the order the work happens.
+// Navigation, in the redesign's order.
 //
-// The tab bar was laid out Home · Analytics · (sell) · Pantry · Markets, which
-// put the reporting before the things being reported on and buried selling in
-// the middle. A baker's week runs the other way: stock the pantry, plan a
-// market, sell, then look at what it came to.
+// Home · Pantry · Pay · Events · Analytics -- the pantry you stock, the thing
+// you reach for mid-market, the events you plan, and what it came to. Pay sits
+// in the middle as a disc because it is the one tab used one-handed with a
+// queue waiting.
 //
-// Inside the pantry the same problem: it opened on Recipes, which cannot be
-// written until there are ingredients and packaging to write them from.
+// Inside the pantry: it opens on Ingredients, which recipes are written from,
+// rather than on Recipes.
+
+import { tabBar } from "./design/pieces";
 
 /**
- * Pulls the tab bar's buttons apart and puts them back in a given order.
- * Matching on each button's own handler survives any restyling of the bar.
+ * Draws the redesign's tab bar in place of the generated one.
+ *
+ * Home · Pantry · Pay · Events · Analytics, with Pay as the olive disc in the
+ * middle -- design/mobile-redesign/screens/Main.dc.html, the <nav> at the
+ * bottom. The generated bar is found by its own container and read for its
+ * handlers, so every tab keeps the action it had; only the drawing changes.
+ * Pay routes to the existing New sale for now; the sale chooser sheet comes
+ * later.
  */
-function reorderTabBar(template: string): string {
+function restyleTabBar(template: string): string {
   const barStart = template.indexOf(
     '<div style="flex:none;display:flex;align-items:stretch;border-top:1px solid var(--color-divider);background:var(--color-bg);padding:6px 8px 2px">',
   );
   if (barStart === -1) throw new Error("Missing tab bar anchor");
-  const innerStart = template.indexOf(">", barStart) + 1;
-  const innerEnd = template.indexOf("</div>", innerStart);
-  if (innerEnd === -1) throw new Error("Unclosed tab bar");
-  const inner = template.slice(innerStart, innerEnd);
+  const barEnd = template.indexOf("</div>", barStart);
+  if (barEnd === -1) throw new Error("Unclosed tab bar");
+  const inner = template.slice(barStart, barEnd);
 
-  const buttons: string[] = [];
-  let cursor = 0;
-  while (true) {
-    const open = inner.indexOf("<button", cursor);
-    if (open === -1) break;
-    const close = inner.indexOf("</button>", open);
-    if (close === -1) throw new Error("Unclosed tab bar button");
-    buttons.push(inner.slice(open, close + 9));
-    cursor = close + 9;
+  // each handler the new bar routes to must still exist in the old one, or
+  // a tab would be drawn that does nothing
+  for (const handler of ["{{ goDash }}", "{{ goIngredients }}", "{{ startSale }}", "{{ goMarkets }}", "{{ goAnalytics }}"]) {
+    if (!inner.includes(handler)) throw new Error(`Missing tab button for ${handler}`);
   }
-  if (buttons.length < 5) throw new Error(`Expected 5+ tab buttons, found ${buttons.length}`);
 
-  const find = (handler: string) => {
-    const hit = buttons.find((button) => button.includes(handler));
-    if (!hit) throw new Error(`Missing tab button for ${handler}`);
-    return hit;
-  };
-
-  // stock it, plan it, sell it, then read what it came to
-  const ordered = [
-    find("{{ goDash }}"),
-    find("{{ goIngredients }}"),
-    find("{{ goMarkets }}"),
-    find("{{ goAnalytics }}"),
-    payButton(find("{{ startSale }}")),
-  ];
-  // the hidden create button is dropped; nothing referenced it
-  return (
-    template.slice(0, innerStart) +
-    "\n  " +
-    ordered.join("\n  ") +
-    "\n" +
-    template.slice(innerEnd)
+  const bar = tabBar(
+    null,
+    {
+      home: "{{ goDash }}",
+      pantry: "{{ goIngredients }}",
+      pay: "{{ startSale }}",
+      events: "{{ goMarkets }}",
+      analytics: "{{ goAnalytics }}",
+    },
+    {
+      home: "{{ tcDash }}",
+      pantry: "{{ tcIngredients }}",
+      events: "{{ tcMarkets }}",
+      analytics: "{{ tcAnalytics }}",
+    },
   );
+  return template.slice(0, barStart) + bar + template.slice(barEnd + "</div>".length);
 }
 
 /**
- * Selling sat in the middle of the bar as an unlabelled circle. At the end of
- * the row it needs a name, and it reads as one of the five steps rather than a
- * floating action.
+ * The lit tab is olive and the rest are the design's grey, not the page's
+ * accent and neutral variables, which are a shade off either.
  */
-function payButton(original: string): string {
-  const handler = original.includes("{{ startSale }}") ? "{{ startSale }}" : "{{ goSale }}";
-  return (
-    `<button sc-camel-on-click="${handler}" aria-label="New sale" style="flex:1;min-height:50px;background:none;border:0;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;font-family:var(--font-body);color:var(--color-accent)">` +
-    '<svg width="20" height="20" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">' +
-    '<rect x="2" y="6" width="20" height="13" rx="2"></rect><path d="M2 10h20"></path><path d="M6 15h4"></path></svg>' +
-    '<span style="font-size:10px;font-weight:600">Pay</span></button>'
-  );
+function tabColours(template: string): string {
+  const from = "const tc = keys => keys.includes(screen) ? 'var(--color-accent)' : 'var(--color-neutral-600)';";
+  if (!template.includes(from)) throw new Error("Missing tab colour helper");
+  return template.replace(from, () => "const tc = keys => keys.includes(screen) ? '#7d8a3c' : '#9a947f';");
 }
 
 /** The pantry opens on what a recipe is built from, not on the recipe. */
@@ -100,5 +91,5 @@ function defaultToIngredients(template: string): string {
 }
 
 export function applyNavBehavior(template: string): string {
-  return defaultToIngredients(reorderPantryTabs(reorderTabBar(template)));
+  return defaultToIngredients(reorderPantryTabs(tabColours(restyleTabBar(template))));
 }

@@ -293,7 +293,15 @@ const TAB_ORDER: TabKey[] = ["home", "pantry", "pay", "events", "analytics"];
  * a baker reaches for mid-market with one hand, and it is the only tab that
  * opens a sheet instead of a screen.
  */
-export function tabBar(active: TabKey, taps: Partial<Record<TabKey, string>> = {}): string {
+export function tabBar(
+  active: TabKey | null,
+  taps: Partial<Record<TabKey, string>> = {},
+  // One bar is drawn for every screen, so which tab is lit is usually a
+  // binding ("{{ tcDash }}") rather than something known when the markup is
+  // written. A colour given here wins over the active/idle pair; Pay is
+  // always olive.
+  colorOf: Partial<Record<TabKey, string>> = {},
+): string {
   const items = TAB_ORDER.map((key) => {
     const on = key === active;
     const icon = (size: number) =>
@@ -313,7 +321,7 @@ export function tabBar(active: TabKey, taps: Partial<Record<TabKey, string>> = {
       (on ? ' aria-current="page"' : "") +
       ` style="flex:1;min-height:50px;display:flex;flex-direction:column;align-items:center;` +
       `justify-content:center;gap:3px;border:0;background:none;padding:0;cursor:pointer;` +
-      `font-family:inherit;font-size:10px;color:${on || key === "pay" ? OLIVE : TAB_IDLE}` +
+      `font-family:inherit;font-size:10px;color:${key === "pay" ? OLIVE : colorOf[key] || (on ? OLIVE : TAB_IDLE)}` +
       `${key === "pay" ? ";font-weight:600" : ""}">${inner}</button>`
     );
   }).join("");

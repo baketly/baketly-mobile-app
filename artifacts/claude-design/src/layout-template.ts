@@ -252,10 +252,12 @@ export function fillTheScreen(template: string, native: boolean): string {
 
   // and the tab bar clears the home indicator, so a swipe up does not land on
   // whichever tab happens to sit under it
+  // the bar is the redesign's <nav> (nav-template.ts); its 24px is the
+  // design's allowance for the home indicator, kept as the floor
   return once(
     out,
-    "background:var(--color-bg);padding:6px 8px 2px\">",
-    "background:var(--color-bg);padding:6px 8px max(2px, env(safe-area-inset-bottom))\">",
+    'padding:6px 8px 24px;background:#ffffff;border-top:1px solid #eee7d9">',
+    'padding:6px 8px max(24px, env(safe-area-inset-bottom));background:#ffffff;border-top:1px solid #eee7d9">',
     "tab bar",
   );
 }
