@@ -432,6 +432,38 @@
       "title": "Lists \u00b7 swipe an item off (interactive)",
       "radius": 44,
       "is_interactive": true
+    },
+    "Onboarding1.dc.html": {
+      "x": 0,
+      "y": 13248,
+      "w": 390,
+      "h": 844,
+      "title": "Onboarding \u00b7 welcome",
+      "radius": 44
+    },
+    "Onboarding2.dc.html": {
+      "x": 470,
+      "y": 13248,
+      "w": 390,
+      "h": 844,
+      "title": "Onboarding \u00b7 what it does",
+      "radius": 44
+    },
+    "Onboarding4.dc.html": {
+      "x": 1410,
+      "y": 13248,
+      "w": 390,
+      "h": 844,
+      "title": "Onboarding \u00b7 how you price",
+      "radius": 44
+    },
+    "OnboardingBakery.dc.html": {
+      "x": 940,
+      "y": 13248,
+      "w": 390,
+      "h": 844,
+      "title": "Onboarding \u00b7 your bakery",
+      "radius": 44
     }
   },
   "createdOnFiles": {
@@ -530,6 +562,13 @@
       "w": 240,
       "x": 0,
       "y": 9009
+    },
+    "t12": {
+      "x": 0,
+      "y": 12988,
+      "text": "Onboarding \u00b7 first run, four screens",
+      "kind": "title1",
+      "maxW": 1800
     }
   },
   "order": [
@@ -585,7 +624,11 @@
     "NewRecipeParts.dc.html",
     "MovePart.dc.html",
     "DeleteConfirm.dc.html",
-    "SwipeRemove.dc.html"
+    "SwipeRemove.dc.html",
+    "Onboarding1.dc.html",
+    "Onboarding2.dc.html",
+    "OnboardingBakery.dc.html",
+    "Onboarding4.dc.html"
   ],
   "pages": [],
   "title": "Baketly mobile"

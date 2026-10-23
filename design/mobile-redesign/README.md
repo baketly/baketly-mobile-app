@@ -10,6 +10,9 @@ here so the code can be built against it directly.
   file; there is nothing to guess.
 - `canvas.json` — which screens exist, their titles, and which ones are
   `is_interactive` (those carry real gesture logic, see below).
+- `assets/baketly-icon-512.png` — the app icon as used on the welcome screen
+  (the design file references it as `/_blob/05c1…`; in the app use
+  `public/icon-512.png`).
 - `tokens.json` — the Baketly design system (colours, type scale, spacing,
   radii, shadows). The screens use the hex values directly; this file names them.
 
@@ -97,6 +100,7 @@ Rules that follow from the files:
 | `NearbyPrices`, `NearbyProduct` | `watch-template.ts` | one row per product with a single verdict tag; "Worth a look yourself" with Open ↗; product page has the range bar, the three suggested prices, and the shops. |
 | `SaleChooser` → `SaleTill` / `SaleTillEvent` → `SaleCharge` (+`SaleDiscount`, `SaleChargeDiscounted`) → `SaleDone` → `SaleFinish` | `sale-template.ts`, `card-payment-template.ts`, `receipt-template.ts` | wallet opens the chooser sheet; till rows with steppers and "of N left" at an event; Charge: big amount, Card·coming soon / Cash, tendered chips + "Other amount they gave", Tendered/Change strip; discount sheet (None/10/15/20% or custom total); olive "recorded" screen with receipt email; ✓ in the event till opens the prefilled finish sheet. |
 | `Settings`, `SettingsScrolled`, `CurrencySheet`, `SettingsAccount`, `SettingsBilling`, `SettingsData` | `settings-template.ts`, `recipe-groups-template.ts` | General/Account/Billing chips kept; rows are the real fields (tap value, type, blur saves); currency is a dropdown → sheet; reminders with time chip beside the toggle; groups as chips. `SettingsData` ("What Baketly keeps") is new. |
+| `Onboarding1`, `Onboarding2`, `OnboardingBakery`, `Onboarding4` | `onboarding-template.ts` | four first-run screens, one idea each: welcome (app icon, one line), what it does (three tiles), your bakery (name / bakery / where, no examples), how you price (currency dropdown + optional hourly rate). Progress bars at the bottom, Skip top-right, Back from the second screen. |
 | `AskBaketly`, `Contact` | `chat-template.ts`, `contact-template.ts` | olive user bubbles, white answer cards with a source line, action cards with Confirm / Not now, follow-up chips, composer with mic + send. Contact: topic chips instead of a select. |
 
 ## Gesture specs (port exactly)

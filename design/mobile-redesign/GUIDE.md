@@ -207,6 +207,17 @@ In order: `SaleChooser`, `SaleTill`, `SaleTillEvent`, `SaleCharge`
 > follow-up chips, composer with mic and send) and the contact form to
 > `screens/Contact.dc.html` (topic chips instead of the select). Show me.
 
+## Stage 8b — Onboarding
+
+> Restyle first-run onboarding to the four screens `screens/Onboarding1.dc.html`
+> (welcome: the real app icon from `public/icon-512.png`, one headline, one
+> line), `screens/Onboarding2.dc.html` (three tiles), `screens/OnboardingBakery.dc.html`
+> (name / bakery / where you sell, placeholders exactly as written, no
+> examples) and `screens/Onboarding4.dc.html` (currency dropdown + optional
+> hourly rate, "Take me to my bakery"). Keep `onboarding-template.ts`'s
+> controller and the step logic; the welcome screen's Skip goes straight to
+> Home. Show me all four.
+
 ## Stage 9 — The last two gestures
 
 > Port the swipe-back in `screens/SwipeBack.dc.html` into `swipe-back.ts`:
