@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>What actually sold</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:#5f6a2c;text-decoration:none}a:hover{color:#6a7532}
+.tnum{font-feature-settings:'tnum'}
+</style>
+</helmet>
+<div style="width: 390px; height: 844px; box-sizing: border-box; overflow: hidden; position: relative; background: #faf6f0; color: #33301f; font-family: 'Poppins', sans-serif; font-size: 14px; line-height: 1.6; display: flex; flex-direction: column">
+
+  <div aria-hidden="true" style="padding: 54px 20px 0; display: flex; flex-direction: column; gap: 20px; opacity: 0.55">
+    <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px">
+      <span style="display: flex; align-items: center; gap: 4px; min-height: 44px; font-size: 13px; font-weight: 600; color: #5f6a2c">‹ Events</span>
+      <span style="font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; font-weight: 600; color: #c9a24a">Market · today</span>
+      <span style="width: 40px; height: 40px; border-radius: 50%; background: #ffffff"></span>
+    </div>
+    <div style="display: flex; align-items: center; gap: 14px">
+      <span style="flex: none; width: 56px; height: 56px; border-radius: 16px; background: #eef0dd"></span>
+      <span style="display: flex; flex-direction: column"><span style="font-size: 22px; font-weight: 600; line-height: 1.25">Saturday Market</span><span style="font-size: 12px; color: #8a8578">8:00–13:00</span></span>
+    </div>
+  </div>
+
+  <div role="dialog" aria-modal="true" aria-label="What actually sold" style="position: absolute; left: 0; right: 0; bottom: 0; background: #faf6f0; border-radius: 18px 18px 0 0; box-shadow: 0 -8px 30px rgba(60,55,30,.18); padding: 10px 20px 30px; display: flex; flex-direction: column; gap: 14px; box-sizing: border-box">
+    <div style="width: 36px; height: 4px; border-radius: 2px; background: #c9c2b2; align-self: center"></div>
+
+    <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px">
+      <div style="display: flex; flex-direction: column">
+        <h2 style="margin: 0; font-size: 20px; font-weight: 600; line-height: 1.3">What actually sold?</h2>
+        <span style="font-size: 12px; color: #8a8578">Starts at what you planned. Adjust and complete.</span>
+      </div>
+      <a href="EventOverview.dc.html" aria-label="Close" style="width: 40px; height: 40px; border-radius: 50%; background: #ffffff; color: #33301f; display: grid; place-items: center"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"></path></svg></a>
+    </div>
+
+    <div style="background: #ffffff; border-radius: 22px; padding: 0 16px; box-shadow: 0 2px 10px rgba(60,55,30,.07); display: flex; flex-direction: column">
+      <div style="display: flex; align-items: center; gap: 8px; padding: 6px 0; min-height: 60px; box-sizing: border-box">
+        <div style="flex: 1; min-width: 0; display: flex; flex-direction: column"><span style="font-size: 14px; font-weight: 500; line-height: 1.3">Mini Chocolate Babka</span><span class="tnum" style="font-size: 12px; color: #8a8578">took 24 · $10.00</span></div>
+        <div style="display: flex; align-items: center; gap: 2px">
+          <button type="button" aria-label="One fewer" style="width: 40px; height: 40px; border-radius: 50%; border: 1px solid #e5dfd2; background: #ffffff; color: #33301f; font-family: inherit; font-size: 18px; cursor: pointer; display: grid; place-items: center; padding: 0">−</button>
+          <input type="text" value="24" inputmode="numeric" aria-label="Mini Chocolate Babka sold" class="tnum" style="width: 44px; height: 40px; border: 0; background: none; color: #33301f; font-family: inherit; font-weight: 600; font-size: 18px; text-align: center">
+          <button type="button" aria-label="One more" style="width: 40px; height: 40px; border-radius: 50%; border: 1px solid #e5dfd2; background: #ffffff; color: #33301f; font-family: inherit; font-size: 18px; cursor: pointer; display: grid; place-items: center; padding: 0">+</button>
+        </div>
+      </div>
+      <div style="display: flex; align-items: center; gap: 8px; padding: 6px 0; min-height: 60px; box-sizing: border-box; border-top: 1px solid #eee7d9">
+        <div style="flex: 1; min-width: 0; display: flex; flex-direction: column"><span style="font-size: 14px; font-weight: 500; line-height: 1.3">Sourdough Loaf</span><span class="tnum" style="font-size: 12px; color: #8a8578">took 18 · $12.00 · <span style="color: #b07a1f">3 left</span></span></div>
+        <div style="display: flex; align-items: center; gap: 2px">
+          <button type="button" aria-label="One fewer" style="width: 40px; height: 40px; border-radius: 50%; border: 1px solid #e5dfd2; background: #ffffff; color: #33301f; font-family: inherit; font-size: 18px; cursor: pointer; display: grid; place-items: center; padding: 0">−</button>
+          <input type="text" value="15" inputmode="numeric" aria-label="Sourdough Loaf sold" class="tnum" style="width: 44px; height: 40px; border: 0; background: none; color: #33301f; font-family: inherit; font-weight: 600; font-size: 18px; text-align: center">
+          <button type="button" aria-label="One more" style="width: 40px; height: 40px; border-radius: 50%; border: 1px solid #e5dfd2; background: #ffffff; color: #33301f; font-family: inherit; font-size: 18px; cursor: pointer; display: grid; place-items: center; padding: 0">+</button>
+        </div>
+      </div>
+      <div style="display: flex; align-items: center; gap: 8px; padding: 6px 0; min-height: 60px; box-sizing: border-box; border-top: 1px solid #eee7d9">
+        <div style="flex: 1; min-width: 0; display: flex; flex-direction: column"><span style="font-size: 14px; font-weight: 500; line-height: 1.3">Cinnamon Buns · 6 pack</span><span class="tnum" style="font-size: 12px; color: #8a8578">took 10 · $18.00 · <span style="color: #5f6a2c">sold out</span></span></div>
+        <div style="display: flex; align-items: center; gap: 2px">
+          <button type="button" aria-label="One fewer" style="width: 40px; height: 40px; border-radius: 50%; border: 1px solid #e5dfd2; background: #ffffff; color: #33301f; font-family: inherit; font-size: 18px; cursor: pointer; display: grid; place-items: center; padding: 0">−</button>
+          <input type="text" value="10" inputmode="numeric" aria-label="Cinnamon Buns sold" class="tnum" style="width: 44px; height: 40px; border: 0; background: none; color: #33301f; font-family: inherit; font-weight: 600; font-size: 18px; text-align: center">
+          <button type="button" aria-label="One more" style="width: 40px; height: 40px; border-radius: 50%; border: 1px solid #e5dfd2; background: #ffffff; color: #33301f; font-family: inherit; font-size: 18px; cursor: pointer; display: grid; place-items: center; padding: 0">+</button>
+        </div>
+      </div>
+    </div>
+
+    <div style="display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 4px 2px 0">
+      <div style="display: flex; flex-direction: column; gap: 2px">
+        <span style="font-size: 11px; color: #8a8578">Took</span>
+        <span class="tnum" style="font-size: 22px; font-weight: 600; line-height: 1.2">$600</span>
+        <span class="tnum" style="font-size: 11px; color: #8a8578">49 of 52 sold</span>
+      </div>
+      <div style="display: flex; flex-direction: column; align-items: flex-end; gap: 2px; text-align: right">
+        <span style="font-size: 11px; color: #8a8578">You earned</span>
+        <span class="tnum" style="font-size: 22px; font-weight: 600; color: #5f6a2c; line-height: 1.2">$405</span>
+        <span class="tnum" style="font-size: 11px; color: #8a8578">after $195 costs</span>
+      </div>
+    </div>
+
+    <a href="EventOverview.dc.html" style="display: flex; align-items: center; justify-content: center; height: 48px; border-radius: 14px; background: #7d8a3c; color: #ffffff; font-size: 13px; font-weight: 600">Complete event</a>
+  </div>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+renderVals() {
+return {};
+}
+}
+</script>
+</body>
+</html>

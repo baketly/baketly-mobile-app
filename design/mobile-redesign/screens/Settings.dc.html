@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Settings: general</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:#5f6a2c;text-decoration:none}a:hover{color:#6a7532}
+input::placeholder{color:#b9b4a8}
+.tnum{font-feature-settings:'tnum'}
+</style>
+</helmet>
+<div style="width: 390px; height: 844px; box-sizing: border-box; overflow: hidden; position: relative; background: #faf6f0; color: #33301f; font-family: 'Poppins', sans-serif; font-size: 14px; line-height: 1.6; display: flex; flex-direction: column">
+
+  <div style="flex: 1 1 auto; min-height: 0; overflow: hidden; padding: 54px 20px 32px; display: flex; flex-direction: column; gap: 16px">
+
+    <div style="flex: none; display: flex; align-items: center; justify-content: space-between; gap: 12px">
+      <a href="Main.dc.html" style="display: flex; align-items: center; gap: 4px; min-height: 44px; font-size: 13px; font-weight: 600; color: #5f6a2c; margin-left: -4px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 6l-6 6 6 6"></path></svg>Home</a>
+      <span></span>
+      <span style="width: 56px"></span>
+    </div>
+
+    <h1 style="flex: none; margin: 0; font-size: 22px; font-weight: 600; line-height: 1.25">Settings</h1>
+
+    <div style="flex: none; display: flex; gap: 8px">
+      <a href="Settings.dc.html" aria-current="true" style="display: flex; align-items: center; gap: 8px; height: 40px; padding: 0 14px 0 6px; border-radius: 999px; background: #7d8a3c; color: #ffffff; border: 1px solid #7d8a3c; font-size: 13px; font-weight: 600"><span style="width: 28px; height: 28px; border-radius: 50%; background: rgba(255,255,255,.18); color: #ffffff; display: grid; place-items: center"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"></path></svg></span>General</a>
+      <a href="SettingsAccount.dc.html" style="display: flex; align-items: center; gap: 8px; height: 40px; padding: 0 14px 0 6px; border-radius: 999px; background: #ffffff; color: #33301f; border: 1px solid #e5dfd2; font-size: 13px; font-weight: 600"><span style="width: 28px; height: 28px; border-radius: 50%; background: #eef0dd; color: #5f6a2c; display: grid; place-items: center"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"></circle><path d="M4 21a8 8 0 0 1 16 0"></path></svg></span>Account</a>
+      <a href="SettingsBilling.dc.html" style="display: flex; align-items: center; gap: 8px; height: 40px; padding: 0 14px 0 6px; border-radius: 999px; background: #ffffff; color: #33301f; border: 1px solid #e5dfd2; font-size: 13px; font-weight: 600"><span style="width: 28px; height: 28px; border-radius: 50%; background: #eef0dd; color: #5f6a2c; display: grid; place-items: center"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"></rect><path d="M3 10h18M7 15h4"></path></svg></span>Billing</a>
+    </div>
+    <div style="flex: none; display: flex; flex-direction: column; gap: 10px">
+      <div style="display: flex; align-items: baseline; justify-content: space-between; padding: 0 2px">
+        <h6 style="margin: 0; font-size: 15px; font-weight: 700; line-height: 1.3">You and your bakery</h6>
+        <span style="font-size: 12px; font-weight: 600; color: #5f6a2c; opacity: {{ savedOpacity }}; transition: opacity 200ms">Saved</span>
+      </div>
+      <div style="background: #ffffff; border-radius: 22px; padding: 0 16px; box-shadow: 0 2px 10px rgba(60,55,30,.07); display: flex; flex-direction: column">
+        <div style="display: flex; align-items: center; gap: 12px; min-height: 50px;">
+          <label for="name" style="flex: none; width: 112px; font-size: 12px; color: #7a7464">Your name</label>
+          <input id="name" type="text" value="{{ ownerName }}" onChange="{{ setOwnerName }}" onBlur="{{ commit }}" style="flex: 1; min-width: 0; height: 36px; border: 0; background: none; color: #33301f; font-family: inherit; font-size: 14px; font-weight: 500; text-align: right">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#c9c2b2" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: none"><path d="M12 20h9"></path><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"></path></svg>
+        </div>
+        <div style="display: flex; align-items: center; gap: 12px; min-height: 50px; border-top: 1px solid #eee7d9;">
+          <label for="bakery" style="flex: none; width: 112px; font-size: 12px; color: #7a7464">Bakery name</label>
+          <input id="bakery" type="text" value="{{ bakeryName }}" onChange="{{ setBakeryName }}" onBlur="{{ commit }}" style="flex: 1; min-width: 0; height: 36px; border: 0; background: none; color: #33301f; font-family: inherit; font-size: 14px; font-weight: 500; text-align: right">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#c9c2b2" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: none"><path d="M12 20h9"></path><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"></path></svg>
+        </div>
+        <div style="display: flex; align-items: center; gap: 12px; min-height: 50px; border-top: 1px solid #eee7d9;">
+          <label for="where" style="flex: none; width: 112px; font-size: 12px; color: #7a7464">Where you sell</label>
+          <input id="where" type="text" value="{{ bakeryLocation }}" onChange="{{ setBakeryLocation }}" onBlur="{{ commit }}" style="flex: 1; min-width: 0; height: 36px; border: 0; background: none; color: #33301f; font-family: inherit; font-size: 14px; font-weight: 500; text-align: right">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#c9c2b2" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: none"><path d="M12 20h9"></path><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"></path></svg>
+        </div>
+      </div>
+    </div>
+    <div style="flex: none; display: flex; flex-direction: column; gap: 10px">
+      <div style="display: flex; align-items: baseline; justify-content: space-between; padding: 0 2px">
+        <h6 style="margin: 0; font-size: 15px; font-weight: 700; line-height: 1.3">Money</h6>
+        
+      </div>
+      <div style="background: #ffffff; border-radius: 22px; padding: 0 16px; box-shadow: 0 2px 10px rgba(60,55,30,.07); display: flex; flex-direction: column">
+        <div style="display: flex; align-items: center; gap: 12px; min-height: 50px">
+          <span style="flex: none; width: 112px; font-size: 12px; color: #7a7464">Currency</span>
+          <a href="CurrencySheet.dc.html" style="flex: 1; display: flex; align-items: center; justify-content: space-between; gap: 8px; height: 36px; color: #33301f"><span style="font-size: 14px; font-weight: 500">US dollar · $</span><span style="display: flex; align-items: center; gap: 4px; font-size: 12px; color: #8a8578">USD<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8a8578" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg></span></a>
+        </div>
+        <div style="display: flex; align-items: center; gap: 12px; min-height: 50px; border-top: 1px solid #eee7d9;">
+          <label for="rate" style="flex: none; width: 112px; font-size: 12px; color: #7a7464">My hourly rate</label>
+          <span style="font-size: 14px; color: #8a8578">$</span><input id="rate" type="text" placeholder="per hour" style="flex: 1; min-width: 0; height: 36px; border: 0; background: none; color: #33301f; font-family: inherit; font-size: 14px; font-weight: 500; text-align: right">
+        </div>
+        <div style="font-size: 12px; color: #8a8578; padding: 0 0 12px; margin-top: -6px">Set a rate and every recipe shows profit after your time, not just ingredients.</div>
+      </div>
+    </div>
+    <div style="flex: none; display: flex; flex-direction: column; gap: 10px">
+      <div style="display: flex; align-items: baseline; justify-content: space-between; padding: 0 2px">
+        <h6 style="margin: 0; font-size: 15px; font-weight: 700; line-height: 1.3">Reminders</h6>
+        <span style="font-size: 12px; color: #8a8578">times in New York</span>
+      </div>
+      <div style="background: #ffffff; border-radius: 22px; padding: 0 16px; box-shadow: 0 2px 10px rgba(60,55,30,.07); display: flex; flex-direction: column">
+        <div style="display: flex; align-items: center; gap: 10px; padding: 10px 0; min-height: 60px;">
+          <div style="flex: 1; min-width: 0; display: flex; flex-direction: column"><span style="font-size: 14px; font-weight: 500; line-height: 1.3">What's on today's list</span><span style="font-size: 12px; color: #8a8578; line-height: 1.4">A morning nudge on days that have to-dos</span></div>
+          <button type="button" style="flex: none; display: flex; align-items: center; gap: 4px; height: 30px; padding: 0 10px; border: 0; border-radius: 10px; background: #eef0dd; color: #5f6a2c; font-family: inherit; font-size: 12px; font-weight: 600; cursor: pointer" class="tnum">08:00<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg></button><button type="button" role="switch" aria-checked="true" aria-label="What's on today's list" style="flex: none; width: 44px; height: 26px; border-radius: 999px; border: 0; background: #7d8a3c; position: relative; cursor: pointer; padding: 0"><span style="position: absolute; top: 3px; left: 21px; width: 20px; height: 20px; border-radius: 50%; background: #ffffff; box-shadow: 0 1px 3px rgba(60,55,30,.2)"></span></button>
+        </div>
+        <div style="display: flex; align-items: center; gap: 10px; padding: 10px 0; min-height: 60px; border-top: 1px solid #eee7d9;">
+          <div style="flex: 1; min-width: 0; display: flex; flex-direction: column"><span style="font-size: 14px; font-weight: 500; line-height: 1.3">A market tomorrow</span><span style="font-size: 12px; color: #8a8578; line-height: 1.4">The evening before, with what there is to bake</span></div>
+          <button type="button" style="flex: none; display: flex; align-items: center; gap: 4px; height: 30px; padding: 0 10px; border: 0; border-radius: 10px; background: #eef0dd; color: #5f6a2c; font-family: inherit; font-size: 12px; font-weight: 600; cursor: pointer" class="tnum">18:00<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg></button><button type="button" role="switch" aria-checked="true" aria-label="A market tomorrow" style="flex: none; width: 44px; height: 26px; border-radius: 999px; border: 0; background: #7d8a3c; position: relative; cursor: pointer; padding: 0"><span style="position: absolute; top: 3px; left: 21px; width: 20px; height: 20px; border-radius: 50%; background: #ffffff; box-shadow: 0 1px 3px rgba(60,55,30,.2)"></span></button>
+        </div>
+        <div style="display: flex; align-items: center; gap: 10px; padding: 10px 0; min-height: 60px; border-top: 1px solid #eee7d9;">
+          <div style="flex: 1; min-width: 0; display: flex; flex-direction: column"><span style="font-size: 14px; font-weight: 500; line-height: 1.3">The shopping for a market</span><span style="font-size: 12px; color: #8a8578; line-height: 1.4">Two days before, while there is time to buy</span></div>
+          <button type="button" role="switch" aria-checked="false" aria-label="The shopping for a market" style="flex: none; width: 44px; height: 26px; border-radius: 999px; border: 0; background: #e5dfd2; position: relative; cursor: pointer; padding: 0"><span style="position: absolute; top: 3px; left: 3px; width: 20px; height: 20px; border-radius: 50%; background: #ffffff; box-shadow: 0 1px 3px rgba(60,55,30,.2)"></span></button>
+        </div>
+      </div>
+    </div>
+    <div style="flex: none; display: flex; flex-direction: column; gap: 10px">
+      <div style="display: flex; align-items: baseline; justify-content: space-between; padding: 0 2px">
+        <h6 style="margin: 0; font-size: 15px; font-weight: 700; line-height: 1.3">Recipe groups</h6>
+        <span style="font-size: 12px; color: #8a8578">4 groups</span>
+      </div>
+      <div style="background: #ffffff; border-radius: 22px; padding: 14px 16px; box-shadow: 0 2px 10px rgba(60,55,30,.07); display: flex; flex-direction: column; gap: 12px">
+        <div style="display: flex; flex-wrap: wrap; gap: 8px">
+          <span style="display: flex; align-items: center; gap: 6px; height: 32px; padding: 0 6px 0 12px; border-radius: 999px; background: #eef0dd; color: #5f6a2c; font-size: 12px; font-weight: 600">Babka<button type="button" aria-label="Remove Babka" style="width: 22px; height: 22px; border-radius: 50%; border: 0; background: none; color: #5f6a2c; font-family: inherit; font-size: 16px; line-height: 1; cursor: pointer; padding: 0">×</button></span>
+          <span style="display: flex; align-items: center; gap: 6px; height: 32px; padding: 0 6px 0 12px; border-radius: 999px; background: #eef0dd; color: #5f6a2c; font-size: 12px; font-weight: 600">Bread<button type="button" aria-label="Remove Bread" style="width: 22px; height: 22px; border-radius: 50%; border: 0; background: none; color: #5f6a2c; font-family: inherit; font-size: 16px; line-height: 1; cursor: pointer; padding: 0">×</button></span>
+          <span style="display: flex; align-items: center; gap: 6px; height: 32px; padding: 0 6px 0 12px; border-radius: 999px; background: #eef0dd; color: #5f6a2c; font-size: 12px; font-weight: 600">Cookies<button type="button" aria-label="Remove Cookies" style="width: 22px; height: 22px; border-radius: 50%; border: 0; background: none; color: #5f6a2c; font-family: inherit; font-size: 16px; line-height: 1; cursor: pointer; padding: 0">×</button></span>
+          <span style="display: flex; align-items: center; gap: 6px; height: 32px; padding: 0 6px 0 12px; border-radius: 999px; background: #eef0dd; color: #5f6a2c; font-size: 12px; font-weight: 600">Treats<button type="button" aria-label="Remove Treats" style="width: 22px; height: 22px; border-radius: 50%; border: 0; background: none; color: #5f6a2c; font-family: inherit; font-size: 16px; line-height: 1; cursor: pointer; padding: 0">×</button></span>
+        </div>
+        <div style="display: flex; align-items: center; gap: 8px">
+          <input type="text" placeholder="New group, e.g. Pies" aria-label="New group name" style="flex: 1; min-width: 0; height: 40px; padding: 0 14px; border: 1px solid #e5dfd2; border-radius: 14px; background: #ffffff; color: #33301f; font-family: inherit; font-size: 13px">
+          <button type="button" style="flex: none; height: 40px; padding: 0 14px; border: 1px solid #e5dfd2; border-radius: 14px; background: #ffffff; color: #5f6a2c; font-family: inherit; font-size: 13px; font-weight: 600; cursor: pointer">Add</button>
+        </div>
+        <div style="font-size: 12px; color: #8a8578">Removing a group moves its recipes to No group.</div>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+constructor(props) {
+super(props);
+// Each row is the real field: tapping the value puts the caret in it, typing
+// changes it, and leaving the field (blur) saves. No separate edit screen.
+this.state = { ownerName: 'Maya', bakeryName: 'Base Street Bakes', bakeryLocation: 'Montclair, NJ', saved: false };
+}
+renderVals() {
+const st = this.state;
+const flash = () => {
+clearTimeout(this._t);
+this.setState({ saved: true });
+this._t = setTimeout(() => this.setState({ saved: false }), 1400);
+};
+return {
+ownerName: st.ownerName,
+bakeryName: st.bakeryName,
+bakeryLocation: st.bakeryLocation,
+savedOpacity: st.saved ? '1' : '0',
+setOwnerName: e => this.setState({ ownerName: e.target.value }),
+setBakeryName: e => this.setState({ bakeryName: e.target.value }),
+setBakeryLocation: e => this.setState({ bakeryLocation: e.target.value }),
+commit: () => flash()
+};
+}
+}
+</script>
+</body>
+</html>

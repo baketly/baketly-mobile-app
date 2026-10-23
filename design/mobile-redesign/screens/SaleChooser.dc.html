@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>New sale</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:#5f6a2c;text-decoration:none}a:hover{color:#6a7532}
+.tnum{font-feature-settings:'tnum'}
+input::placeholder{color:#b9b4a8}
+</style>
+</helmet>
+<div style="width: 390px; height: 844px; box-sizing: border-box; overflow: hidden; position: relative; background: #faf6f0; color: #33301f; font-family: 'Poppins', sans-serif; font-size: 14px; line-height: 1.6; display: flex; flex-direction: column">
+
+  <div aria-hidden="true" style="opacity: 0.55">
+    <div style="padding: 54px 20px 16px; background: #eef0dd; border-radius: 0 0 26px 26px; display: flex; flex-direction: column; gap: 14px">
+      <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 12px"><div style="display: flex; flex-direction: column"><span style="font-size: 26px; font-weight: 700; line-height: 1.2">Morning, Maya</span><span style="font-size: 12px; color: #8a8578">Fri 23 Oct</span></div><div style="display: flex; gap: 6px"><span style="width: 40px; height: 40px; border-radius: 50%; background: #ffffff"></span><span style="width: 40px; height: 40px; border-radius: 50%; background: #ffffff"></span><span style="width: 40px; height: 40px; border-radius: 50%; background: #ffffff"></span></div></div>
+      <div style="font-size: 14px; line-height: 1.45">Two markets this week and three things to do. Saturday Market is tomorrow.</div>
+      <div style="display: flex; gap: 6px"><span style="flex: 1; height: 54px; border-radius: 14px; background: #ffffff"></span><span style="flex: 1; height: 54px; border-radius: 14px; background: #ffffff"></span><span style="flex: 1; height: 54px; border-radius: 14px; background: #ffffff"></span><span style="flex: 1; height: 54px; border-radius: 14px; background: #ffffff"></span><span style="flex: 1; height: 54px; border-radius: 14px; background: #ffffff"></span></div>
+    </div>
+  </div>
+
+  <div role="dialog" aria-modal="true" aria-label="New sale" style="position: absolute; left: 0; right: 0; bottom: 0; background: #faf6f0; border-radius: 18px 18px 0 0; box-shadow: 0 -8px 30px rgba(60,55,30,.18); padding: 10px 20px 30px; display: flex; flex-direction: column; gap: 14px; box-sizing: border-box">
+    <div style="width: 36px; height: 4px; border-radius: 2px; background: #c9c2b2; align-self: center"></div>
+    <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px">
+      <div style="display: flex; flex-direction: column"><h2 style="margin: 0; font-size: 20px; font-weight: 600; line-height: 1.3">New sale</h2><span style="font-size: 12px; color: #8a8578">Where is this one being sold?</span></div>
+      <a href="Main.dc.html" aria-label="Close" style="width: 40px; height: 40px; border-radius: 50%; background: #ffffff; color: #33301f; display: grid; place-items: center"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"></path></svg></a>
+    </div>
+
+    <a href="SaleTill.dc.html" style="display: flex; align-items: center; gap: 14px; padding: 14px 16px; background: #ffffff; border-radius: 22px; box-shadow: 0 2px 10px rgba(60,55,30,.07); color: #33301f">
+      <span style="flex: none; width: 44px; height: 44px; border-radius: 14px; background: #eef0dd; color: #5f6a2c; display: grid; place-items: center"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 7a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v1H3z"></path><path d="M3 8h17a1 1 0 0 1 1 1v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><path d="M16 14h2"></path></svg></span>
+      <span style="flex: 1; display: flex; flex-direction: column"><span style="font-size: 15px; font-weight: 600; line-height: 1.3">Single sale</span><span style="font-size: 12px; color: #8a8578">Over the counter or an order · not tied to an event</span></span>
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8a8578" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"></path></svg>
+    </a>
+
+    <div style="display: flex; flex-direction: column; gap: 10px">
+      <div style="display: flex; align-items: baseline; justify-content: space-between; padding: 0 2px">
+        <h6 style="margin: 0; font-size: 15px; font-weight: 700; line-height: 1.3">At an event</h6>
+        <span style="font-size: 12px; color: #8a8578">sales are filed to it</span>
+      </div>
+      <div style="background: #ffffff; border-radius: 22px; padding: 0 16px; box-shadow: 0 2px 10px rgba(60,55,30,.07); display: flex; flex-direction: column">
+        <a href="SaleTillEvent.dc.html" style="display: flex; align-items: center; gap: 12px; min-height: 62px; color: #33301f">
+          <span style="flex: none; width: 44px; height: 44px; border-radius: 12px; background: #7d8a3c; color: #ffffff; display: flex; flex-direction: column; align-items: center; justify-content: center; line-height: 1.1"><span style="font-size: 9px; letter-spacing: 0.08em; text-transform: uppercase; opacity: 0.85">Sat</span><span class="tnum" style="font-size: 17px; font-weight: 600">24</span></span>
+          <span style="flex: 1; display: flex; flex-direction: column"><span style="font-size: 14px; font-weight: 600; line-height: 1.3">Saturday Market</span><span class="tnum" style="font-size: 12px; color: #8a8578">Tomorrow · 3 products · nothing sold yet</span></span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8a8578" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"></path></svg>
+        </a>
+        <a href="SaleTillEvent.dc.html" style="display: flex; align-items: center; gap: 12px; min-height: 62px; border-top: 1px solid #eee7d9; color: #33301f">
+          <span style="flex: none; width: 44px; height: 44px; border-radius: 12px; background: #eef0dd; color: #5f6a2c; display: flex; flex-direction: column; align-items: center; justify-content: center; line-height: 1.1"><span style="font-size: 9px; letter-spacing: 0.08em; text-transform: uppercase">Sat</span><span class="tnum" style="font-size: 17px; font-weight: 600">31</span></span>
+          <span style="flex: 1; display: flex; flex-direction: column"><span style="font-size: 14px; font-weight: 600; line-height: 1.3">Halloween Pop-up</span><span class="tnum" style="font-size: 12px; color: #8a8578">In 8 days · no lineup yet</span></span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8a8578" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"></path></svg>
+        </a>
+      </div>
+      <a href="NewEvent.dc.html" style="display: flex; align-items: center; justify-content: center; min-height: 36px; font-size: 12px; font-weight: 600; color: #5f6a2c">Selling somewhere else? Create an event</a>
+    </div>
+  </div>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+renderVals() {
+return {};
+}
+}
+</script>
+</body>
+</html>

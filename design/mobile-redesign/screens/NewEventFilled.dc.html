@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>New event with lineup</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:#5f6a2c;text-decoration:none}a:hover{color:#6a7532}
+input::placeholder{color:#b9b4a8}
+.tnum{font-feature-settings:'tnum'}
+</style>
+</helmet>
+<div style="width: 390px; height: 844px; box-sizing: border-box; overflow: hidden; position: relative; background: #faf6f0; color: #33301f; font-family: 'Poppins', sans-serif; font-size: 14px; line-height: 1.6; display: flex; flex-direction: column">
+
+  <div style="flex: 1 1 auto; min-height: 0; overflow: hidden; padding: 54px 20px 0; display: flex; flex-direction: column; gap: 18px">
+
+    <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px">
+      <a href="Main.dc.html" style="display: flex; align-items: center; gap: 4px; min-height: 44px; font-size: 13px; font-weight: 600; color: #5f6a2c; margin-left: -4px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 6l-6 6 6 6"></path></svg>Events</a>
+      <span style="font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; font-weight: 600; color: #c9a24a">New event</span>
+      <span style="width: 64px"></span>
+    </div>
+
+    <div style="display: flex; flex-direction: column; gap: 12px">
+      <div style="display: flex; align-items: center; gap: 12px">
+        <div style="flex: none; width: 56px; height: 56px; border-radius: 16px; background: #eef0dd; color: #5f6a2c; display: flex; flex-direction: column; align-items: center; justify-content: center; line-height: 1.1"><span style="font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase">Sat</span><span class="tnum" style="font-size: 22px; font-weight: 600">24</span></div>
+        <input type="text" value="Saturday Market" aria-label="Event name" style="flex: 1; min-width: 0; box-sizing: border-box; height: 56px; padding: 0 16px; border: 1px solid #e5dfd2; border-radius: 16px; background: #ffffff; color: #33301f; font-family: inherit; font-weight: 600; font-size: 20px">
+      </div>
+
+      <div style="display: flex; gap: 10px">
+        <button type="button" style="flex: 1; display: flex; align-items: center; justify-content: space-between; gap: 8px; height: 44px; padding: 0 14px; border: 1px solid #e5dfd2; border-radius: 16px; background: #ffffff; color: #33301f; font-family: inherit; font-size: 12px; cursor: pointer; text-align: left">
+          <span style="color: #7a7464">Date</span>
+          <span class="tnum" style="font-size: 13px; font-weight: 600">Sat 24 Oct</span>
+        </button>
+        <button type="button" style="flex: 1; display: flex; align-items: center; justify-content: space-between; gap: 8px; height: 44px; padding: 0 14px; border: 1px solid #e5dfd2; border-radius: 16px; background: #ffffff; color: #33301f; font-family: inherit; font-size: 12px; cursor: pointer; text-align: left">
+          <span style="color: #7a7464">Hours</span>
+          <span class="tnum" style="font-size: 13px; font-weight: 600">8:00–13:00</span>
+        </button>
+      </div>
+
+      <div style="display: flex; gap: 10px">
+        <div role="group" aria-label="Event type" style="flex: 1.4; display: flex; gap: 4px; padding: 4px; border: 1px solid #e5dfd2; border-radius: 14px; background: #ffffff; box-sizing: border-box; height: 44px">
+          <button type="button" aria-pressed="true" style="flex: 1; border: 0; border-radius: 10px; background: #7d8a3c; color: #ffffff; font-family: inherit; font-size: 11px; font-weight: 600; cursor: pointer">Market</button>
+          <button type="button" style="flex: 1; border: 0; border-radius: 10px; background: transparent; color: #8a8578; font-family: inherit; font-size: 11px; font-weight: 600; cursor: pointer">Pop-up</button>
+          <button type="button" style="flex: 1; border: 0; border-radius: 10px; background: transparent; color: #8a8578; font-family: inherit; font-size: 11px; font-weight: 600; cursor: pointer">Order</button>
+        </div>
+        <div style="flex: 1; display: flex; align-items: center; justify-content: space-between; gap: 6px; height: 44px; padding: 0 14px; border: 1px solid #e5dfd2; border-radius: 16px; background: #ffffff; box-sizing: border-box">
+          <label for="fee" style="font-size: 12px; color: #7a7464">Fee</label>
+          <div style="display: flex; align-items: baseline; gap: 2px"><span style="font-size: 13px; color: #8a8578">$</span><input id="fee" type="text" value="85" inputmode="decimal" class="tnum" style="width: 34px; height: 36px; border: 0; background: none; color: #33301f; font-family: inherit; font-weight: 600; font-size: 15px; text-align: right"></div>
+        </div>
+      </div>
+    </div>
+
+    <div style="display: flex; flex-direction: column; gap: 10px">
+      <div style="display: flex; align-items: baseline; justify-content: space-between; padding: 0 2px">
+        <h6 style="margin: 0; font-size: 15px; font-weight: 700; line-height: 1.3">Lineup</h6>
+        <a href="Main.dc.html" style="display: flex; align-items: center; gap: 4px; font-size: 12px; font-weight: 600; color: #5f6a2c">Shopping list · 11<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"></path></svg></a>
+      </div>
+      <div style="background: #ffffff; border-radius: 22px; padding: 0 16px; box-shadow: 0 2px 10px rgba(60,55,30,.07); display: flex; flex-direction: column">
+        <div style="display: flex; align-items: center; gap: 10px; padding: 4px 0; min-height: 46px; box-sizing: border-box">
+          <div style="flex: 1; min-width: 0; display: flex; flex-direction: column"><span style="font-size: 14px; font-weight: 500; line-height: 1.3">Mini Chocolate Babka</span><span class="tnum" style="font-size: 12px; color: #8a8578">$10.00 each · costs $0.87</span></div>
+          <input type="text" value="24" inputmode="numeric" aria-label="Mini Chocolate Babka quantity" class="tnum" style="width: 52px; height: 36px; padding: 0 8px; border: 1px solid #e5dfd2; border-radius: 10px; background: #ffffff; color: #33301f; font-family: inherit; font-weight: 600; font-size: 13px; text-align: right">
+          <span class="tnum" style="width: 50px; text-align: right; font-size: 13px; font-weight: 600">$240</span>
+        </div>
+        <div style="display: flex; align-items: center; gap: 10px; padding: 4px 0; min-height: 46px; box-sizing: border-box; border-top: 1px solid #eee7d9">
+          <div style="flex: 1; min-width: 0; display: flex; flex-direction: column"><span style="font-size: 14px; font-weight: 500; line-height: 1.3">Sourdough Loaf</span><span class="tnum" style="font-size: 12px; color: #8a8578">$12.00 each · costs $1.42</span></div>
+          <input type="text" value="18" inputmode="numeric" aria-label="Sourdough Loaf quantity" class="tnum" style="width: 52px; height: 36px; padding: 0 8px; border: 1px solid #e5dfd2; border-radius: 10px; background: #ffffff; color: #33301f; font-family: inherit; font-weight: 600; font-size: 13px; text-align: right">
+          <span class="tnum" style="width: 50px; text-align: right; font-size: 13px; font-weight: 600">$216</span>
+        </div>
+        <div style="display: flex; align-items: center; gap: 10px; padding: 4px 0; min-height: 46px; box-sizing: border-box; border-top: 1px solid #eee7d9">
+          <div style="flex: 1; min-width: 0; display: flex; flex-direction: column"><span style="font-size: 14px; font-weight: 500; line-height: 1.3">Cinnamon Buns · 6 pack</span><span class="tnum" style="font-size: 12px; color: #8a8578">$18.00 each · costs $3.10</span></div>
+          <input type="text" value="10" inputmode="numeric" aria-label="Cinnamon Buns quantity" class="tnum" style="width: 52px; height: 36px; padding: 0 8px; border: 1px solid #7d8a3c; border-radius: 10px; background: #ffffff; color: #33301f; font-family: inherit; font-weight: 600; font-size: 13px; text-align: right">
+          <span class="tnum" style="width: 50px; text-align: right; font-size: 13px; font-weight: 600">$180</span>
+        </div>
+        <a href="AddProduct.dc.html" style="display: flex; align-items: center; justify-content: center; gap: 8px; min-height: 44px; border-top: 1px solid #eee7d9; color: #5f6a2c; font-size: 13px; font-weight: 600"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg>Add more</a>
+      </div>
+    </div>
+
+
+    <div style="display: flex; flex-direction: column; gap: 10px">
+      <div style="display: flex; align-items: baseline; justify-content: space-between; padding: 0 2px">
+        <h6 style="margin: 0; font-size: 15px; font-weight: 700; line-height: 1.3">Other costs</h6>
+        <span class="tnum" style="font-size: 12px; color: #8a8578">$32</span>
+      </div>
+      <div style="background: #ffffff; border-radius: 16px; padding: 0 16px; box-shadow: 0 2px 10px rgba(60,55,30,.07); display: flex; flex-direction: column">
+        <div style="display: flex; align-items: center; gap: 10px; min-height: 42px">
+          <input type="text" value="Parking" aria-label="Cost label" style="flex: 1; min-width: 0; height: 32px; border: 0; background: none; color: #33301f; font-family: inherit; font-size: 13px; font-weight: 500">
+          <div style="display: flex; align-items: baseline; gap: 2px"><span style="font-size: 12px; color: #8a8578">$</span><input type="text" value="12" inputmode="decimal" aria-label="Parking amount" class="tnum" style="width: 44px; height: 32px; padding: 0 6px; border: 1px solid #e5dfd2; border-radius: 10px; background: #ffffff; color: #33301f; font-family: inherit; font-weight: 600; font-size: 13px; text-align: right"></div>
+          <button type="button" aria-label="Remove parking" style="width: 28px; height: 28px; border-radius: 50%; border: 0; background: none; color: #c9c2b2; font-family: inherit; font-size: 18px; line-height: 1; cursor: pointer; padding: 0; margin-right: -8px">×</button>
+        </div>
+        <div style="display: flex; align-items: center; gap: 10px; min-height: 42px; border-top: 1px solid #eee7d9">
+          <input type="text" value="Table hire" aria-label="Cost label" style="flex: 1; min-width: 0; height: 32px; border: 0; background: none; color: #33301f; font-family: inherit; font-size: 13px; font-weight: 500">
+          <div style="display: flex; align-items: baseline; gap: 2px"><span style="font-size: 12px; color: #8a8578">$</span><input type="text" value="20" inputmode="decimal" aria-label="Table hire amount" class="tnum" style="width: 44px; height: 32px; padding: 0 6px; border: 1px solid #e5dfd2; border-radius: 10px; background: #ffffff; color: #33301f; font-family: inherit; font-weight: 600; font-size: 13px; text-align: right"></div>
+          <button type="button" aria-label="Remove table hire" style="width: 28px; height: 28px; border-radius: 50%; border: 0; background: none; color: #c9c2b2; font-family: inherit; font-size: 18px; line-height: 1; cursor: pointer; padding: 0; margin-right: -8px">×</button>
+        </div>
+        <button type="button" style="display: flex; align-items: center; justify-content: center; gap: 8px; min-height: 40px; border: 0; border-top: 1px solid #eee7d9; background: none; color: #5f6a2c; font-family: inherit; font-size: 13px; font-weight: 600; cursor: pointer"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg>Add a cost</button>
+      </div>
+    </div>
+
+  </div>
+
+  <div style="flex: none; background: #ffffff; border-radius: 22px 22px 0 0; box-shadow: 0 -8px 30px rgba(60,55,30,.10); padding: 16px 20px 26px; display: flex; flex-direction: column; gap: 12px">
+    <div style="display: flex; align-items: center; justify-content: space-between; gap: 16px">
+      <div style="display: flex; flex-direction: column; gap: 2px">
+        <span style="font-size: 11px; color: #8a8578">Projected takings</span>
+        <span class="tnum" style="font-size: 22px; font-weight: 600; line-height: 1.2">$636</span>
+        <span class="tnum" style="font-size: 11px; color: #8a8578">fee covered by 9 babkas</span>
+      </div>
+      <div style="display: flex; flex-direction: column; align-items: flex-end; gap: 2px; text-align: right">
+        <span style="font-size: 11px; color: #8a8578">You'd earn</span>
+        <span class="tnum" style="font-size: 22px; font-weight: 600; color: #5f6a2c; line-height: 1.2">$441</span>
+        <span class="tnum" style="font-size: 11px; color: #8a8578">after $78 ingredients, $85 fee, $32 other</span>
+      </div>
+    </div>
+    <a href="Main.dc.html" style="display: flex; align-items: center; justify-content: center; height: 48px; border-radius: 14px; background: #7d8a3c; color: #ffffff; font-size: 13px; font-weight: 600">Save event</a>
+  </div>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+renderVals() {
+return {};
+}
+}
+</script>
+</body>
+</html>

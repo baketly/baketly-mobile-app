@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Nearby prices</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:#5f6a2c;text-decoration:none}a:hover{color:#6a7532}
+.tnum{font-feature-settings:'tnum'}
+</style>
+</helmet>
+<div style="width: 390px; height: 844px; box-sizing: border-box; overflow: hidden; position: relative; background: #faf6f0; color: #33301f; font-family: 'Poppins', sans-serif; font-size: 14px; line-height: 1.6; display: flex; flex-direction: column">
+
+  <div style="flex: 1 1 auto; min-height: 0; overflow: hidden; padding: 54px 20px 32px; display: flex; flex-direction: column; gap: 18px">
+    <div style="flex: none; display: flex; align-items: center; justify-content: space-between; gap: 12px">
+      <a href="PantryRecipes.dc.html" style="display: flex; align-items: center; gap: 4px; min-height: 44px; font-size: 13px; font-weight: 600; color: #5f6a2c; margin-left: -4px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 6l-6 6 6 6"></path></svg>Recipes</a>
+      <span style="font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; font-weight: 600; color: #c9a24a">Nearby prices</span>
+      <button type="button" aria-label="Check local prices now" style="width: 40px; height: 40px; border-radius: 50%; border: 0; background: #ffffff; color: #33301f; display: grid; place-items: center; cursor: pointer; padding: 0"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a9 9 0 1 1-2.6-6.4"></path><path d="M21 3v6h-6"></path></svg></button>
+    </div>
+
+    <div style="flex: none; display: flex; flex-direction: column">
+      <h1 style="margin: 0; font-size: 22px; font-weight: 600; line-height: 1.25">Nearby prices</h1>
+      <span class="tnum" style="font-size: 12px; color: #8a8578">Checked Tuesday · 6 bakeries within 10 km</span>
+    </div>
+
+    <div style="flex: none; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border: 1px solid #eee7d9; border-radius: 18px; background: #ffffff; overflow: hidden">
+      <div style="padding: 11px 12px; display: flex; flex-direction: column; gap: 3px"><div style="font-size: 10px; letter-spacing: 0.06em; text-transform: uppercase; color: #7a7464">In range</div><div class="tnum" style="font-weight: 600; font-size: 16px; line-height: 1.2; color: #5f6a2c">3</div></div>
+      <div style="padding: 11px 12px; border-left: 1px solid #eee7d9; display: flex; flex-direction: column; gap: 3px"><div style="font-size: 10px; letter-spacing: 0.06em; text-transform: uppercase; color: #7a7464">Out of step</div><div class="tnum" style="font-weight: 600; font-size: 16px; line-height: 1.2; color: #b07a1f">2</div></div>
+      <div style="padding: 11px 12px; border-left: 1px solid #eee7d9; display: flex; flex-direction: column; gap: 3px"><div style="font-size: 10px; letter-spacing: 0.06em; text-transform: uppercase; color: #7a7464">No match</div><div class="tnum" style="font-weight: 600; font-size: 16px; line-height: 1.2">1</div></div>
+    </div>
+    <div style="flex: none; display: flex; flex-direction: column; gap: 10px">
+      <div style="display: flex; align-items: baseline; justify-content: space-between; padding: 0 2px">
+        <h6 style="margin: 0; font-size: 15px; font-weight: 700; line-height: 1.3">Your products</h6>
+        <span class="tnum" style="font-size: 12px; color: #8a8578"></span>
+      </div>
+      <div style="background: #ffffff; border-radius: 22px; padding: 0 16px; box-shadow: 0 2px 10px rgba(60,55,30,.07); display: flex; flex-direction: column">
+        <a href="NearbyProduct.dc.html" style="display: flex; align-items: center; gap: 12px; min-height: 58px; color: #33301f">
+          <div style="flex: 1; min-width: 0; display: flex; flex-direction: column"><span style="font-size: 14px; font-weight: 500; line-height: 1.3">Mini Chocolate Babka</span><span class="tnum" style="font-size: 12px; color: #8a8578">You $10.00 · nearby $8–12</span></div>
+          <span style="flex: none; font-size: 10px; font-weight: 600; padding: 3px 9px; border-radius: 999px; background: #eef0dd; color: #5f6a2c">in range</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#c9c2b2" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"></path></svg>
+        </a>
+        <a href="NearbyProduct.dc.html" style="display: flex; align-items: center; gap: 12px; min-height: 58px; border-top: 1px solid #eee7d9; color: #33301f">
+          <div style="flex: 1; min-width: 0; display: flex; flex-direction: column"><span style="font-size: 14px; font-weight: 500; line-height: 1.3">Sourdough Loaf</span><span class="tnum" style="font-size: 12px; color: #8a8578">You $12.00 · nearby $9–11</span></div>
+          <span style="flex: none; font-size: 10px; font-weight: 600; padding: 3px 9px; border-radius: 999px; background: #f5e6cf; color: #b07a1f">above nearby</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#c9c2b2" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"></path></svg>
+        </a>
+        <a href="NearbyProduct.dc.html" style="display: flex; align-items: center; gap: 12px; min-height: 58px; border-top: 1px solid #eee7d9; color: #33301f">
+          <div style="flex: 1; min-width: 0; display: flex; flex-direction: column"><span style="font-size: 14px; font-weight: 500; line-height: 1.3">Cinnamon Buns · 6 pack</span><span class="tnum" style="font-size: 12px; color: #8a8578">You $18.00 · nearby $20–24</span></div>
+          <span style="flex: none; font-size: 10px; font-weight: 600; padding: 3px 9px; border-radius: 999px; background: #f5e6cf; color: #b07a1f">below nearby</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#c9c2b2" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"></path></svg>
+        </a>
+        <a href="NearbyProduct.dc.html" style="display: flex; align-items: center; gap: 12px; min-height: 58px; border-top: 1px solid #eee7d9; color: #33301f">
+          <div style="flex: 1; min-width: 0; display: flex; flex-direction: column"><span style="font-size: 14px; font-weight: 500; line-height: 1.3">Chocolate Chip Cookies</span><span class="tnum" style="font-size: 12px; color: #8a8578">You $3.50 · nearby $3–4</span></div>
+          <span style="flex: none; font-size: 10px; font-weight: 600; padding: 3px 9px; border-radius: 999px; background: #eef0dd; color: #5f6a2c">in range</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#c9c2b2" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"></path></svg>
+        </a>
+        <a href="NearbyProduct.dc.html" style="display: flex; align-items: center; gap: 12px; min-height: 58px; border-top: 1px solid #eee7d9; color: #33301f">
+          <div style="flex: 1; min-width: 0; display: flex; flex-direction: column"><span style="font-size: 14px; font-weight: 500; line-height: 1.3">Brownies · tray of 16</span><span class="tnum" style="font-size: 12px; color: #8a8578">You $4.00 · nearby $3.50–5</span></div>
+          <span style="flex: none; font-size: 10px; font-weight: 600; padding: 3px 9px; border-radius: 999px; background: #eef0dd; color: #5f6a2c">in range</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#c9c2b2" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"></path></svg>
+        </a>
+        <a href="NearbyProduct.dc.html" style="display: flex; align-items: center; gap: 12px; min-height: 58px; border-top: 1px solid #eee7d9; color: #33301f">
+          <div style="flex: 1; min-width: 0; display: flex; flex-direction: column"><span style="font-size: 14px; font-weight: 500; line-height: 1.3">Rosemary Focaccia</span><span class="tnum" style="font-size: 12px; color: #8a8578">You $9.00 · nearby —</span></div>
+          <span style="flex: none; font-size: 10px; font-weight: 600; padding: 3px 9px; border-radius: 999px; background: #efe9dd; color: #7a7464">no match</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#c9c2b2" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"></path></svg>
+        </a>
+      </div>
+    </div>
+    <div style="flex: none; display: flex; flex-direction: column; gap: 10px">
+      <div style="display: flex; align-items: baseline; justify-content: space-between; padding: 0 2px">
+        <h6 style="margin: 0; font-size: 15px; font-weight: 700; line-height: 1.3">Worth a look yourself</h6>
+        <span class="tnum" style="font-size: 12px; color: #8a8578">3 bakeries</span>
+      </div>
+      <div style="font-size: 12px; color: #8a8578; padding: 0 2px; margin-top: -4px">Baketly couldn't read prices from these. Their sites open in your browser.</div>
+      <div style="background: #ffffff; border-radius: 22px; padding: 0 16px; box-shadow: 0 2px 10px rgba(60,55,30,.07); display: flex; flex-direction: column">
+        <a href="https://example.com" target="_blank" rel="noopener noreferrer" style="display: flex; align-items: center; gap: 12px; min-height: 52px; color: #33301f">
+          <div style="flex: 1; min-width: 0; display: flex; flex-direction: column"><span style="font-size: 14px; font-weight: 500; line-height: 1.3">Hearth & Crumb</span><span class="tnum" style="font-size: 12px; color: #8a8578">1.2 km · no prices on the site</span></div>
+          <span style="flex: none; display: flex; align-items: center; gap: 4px; font-size: 12px; font-weight: 600; color: #5f6a2c">Open<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17L17 7M9 7h8v8"></path></svg></span>
+        </a>
+        <a href="https://example.com" target="_blank" rel="noopener noreferrer" style="display: flex; align-items: center; gap: 12px; min-height: 52px; border-top: 1px solid #eee7d9; color: #33301f">
+          <div style="flex: 1; min-width: 0; display: flex; flex-direction: column"><span style="font-size: 14px; font-weight: 500; line-height: 1.3">The Flour Room</span><span class="tnum" style="font-size: 12px; color: #8a8578">3.8 km · prices in photos</span></div>
+          <span style="flex: none; display: flex; align-items: center; gap: 4px; font-size: 12px; font-weight: 600; color: #5f6a2c">Open<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17L17 7M9 7h8v8"></path></svg></span>
+        </a>
+        <a href="https://example.com" target="_blank" rel="noopener noreferrer" style="display: flex; align-items: center; gap: 12px; min-height: 52px; border-top: 1px solid #eee7d9; color: #33301f">
+          <div style="flex: 1; min-width: 0; display: flex; flex-direction: column"><span style="font-size: 14px; font-weight: 500; line-height: 1.3">Nonna Bakes</span><span class="tnum" style="font-size: 12px; color: #8a8578">6.1 km · Instagram only</span></div>
+          <span style="flex: none; display: flex; align-items: center; gap: 4px; font-size: 12px; font-weight: 600; color: #5f6a2c">Open<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17L17 7M9 7h8v8"></path></svg></span>
+        </a>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+renderVals() {
+return {};
+}
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,592 @@
+{
+  "v": 3,
+  "attachments": {},
+  "boards": {
+    "AddCost.dc.html": {
+      "h": 844,
+      "radius": 44,
+      "title": "New event \u00b7 add a cost",
+      "w": 390,
+      "x": 1410,
+      "y": 5200
+    },
+    "AddIngredient.dc.html": {
+      "h": 844,
+      "radius": 44,
+      "title": "New recipe \u00b7 add ingredient modal",
+      "w": 390,
+      "x": 470,
+      "y": 1300
+    },
+    "AddProduct.dc.html": {
+      "h": 844,
+      "radius": 44,
+      "title": "New event \u00b7 add products modal",
+      "w": 390,
+      "x": 470,
+      "y": 5200
+    },
+    "Analytics.dc.html": {
+      "h": 844,
+      "radius": 44,
+      "title": "Analytics \u00b7 overview",
+      "w": 390,
+      "x": 2350,
+      "y": 0
+    },
+    "AnalyticsEvents.dc.html": {
+      "h": 844,
+      "radius": 44,
+      "title": "Analytics \u00b7 events",
+      "w": 390,
+      "x": 3290,
+      "y": 0
+    },
+    "AnalyticsProducts.dc.html": {
+      "h": 844,
+      "radius": 44,
+      "title": "Analytics \u00b7 products",
+      "w": 390,
+      "x": 2820,
+      "y": 0
+    },
+    "AnalyticsSwipe.dc.html": {
+      "h": 844,
+      "is_interactive": true,
+      "radius": 44,
+      "title": "Analytics \u00b7 swiping between tabs (interactive)",
+      "w": 390,
+      "x": 3760,
+      "y": 0
+    },
+    "AskBaketly.dc.html": {
+      "h": 844,
+      "radius": 44,
+      "title": "Ask Baketly \u00b7 chat",
+      "w": 390,
+      "x": 0,
+      "y": 11948
+    },
+    "Contact.dc.html": {
+      "h": 844,
+      "radius": 44,
+      "title": "Send a message \u00b7 contact",
+      "w": 390,
+      "x": 470,
+      "y": 11948
+    },
+    "CurrencySheet.dc.html": {
+      "h": 844,
+      "radius": 44,
+      "title": "Settings \u00b7 currency dropdown",
+      "w": 390,
+      "x": 940,
+      "y": 8048
+    },
+    "EventCostsOpen.dc.html": {
+      "h": 844,
+      "radius": 44,
+      "title": "Overview \u00b7 event, costs expanded",
+      "w": 390,
+      "x": 470,
+      "y": 6500
+    },
+    "EventOverview.dc.html": {
+      "h": 844,
+      "is_interactive": true,
+      "radius": 44,
+      "title": "Overview \u00b7 event",
+      "w": 390,
+      "x": 0,
+      "y": 6500
+    },
+    "GroupPicker.dc.html": {
+      "h": 844,
+      "radius": 44,
+      "title": "New recipe \u00b7 group dropdown",
+      "w": 390,
+      "x": 1410,
+      "y": 1300
+    },
+    "IngredientOverview.dc.html": {
+      "h": 844,
+      "radius": 44,
+      "title": "Overview \u00b7 ingredient",
+      "w": 390,
+      "x": 0,
+      "y": 3900
+    },
+    "Main.dc.html": {
+      "h": 844,
+      "radius": 44,
+      "title": "Home",
+      "w": 390,
+      "x": 0,
+      "y": 0
+    },
+    "Markets.dc.html": {
+      "h": 844,
+      "radius": 44,
+      "title": "Events",
+      "w": 390,
+      "x": 1880,
+      "y": 0
+    },
+    "NearbyPrices.dc.html": {
+      "h": 844,
+      "radius": 44,
+      "title": "Nearby prices \u00b7 all products",
+      "w": 390,
+      "x": 0,
+      "y": 9269
+    },
+    "NearbyProduct.dc.html": {
+      "h": 844,
+      "radius": 44,
+      "title": "Nearby prices \u00b7 one product",
+      "w": 390,
+      "x": 470,
+      "y": 9269
+    },
+    "NewEvent.dc.html": {
+      "h": 844,
+      "radius": 44,
+      "title": "New event \u00b7 one screen",
+      "w": 390,
+      "x": 0,
+      "y": 5200
+    },
+    "NewEventFilled.dc.html": {
+      "h": 844,
+      "radius": 44,
+      "title": "New event \u00b7 with lineup",
+      "w": 390,
+      "x": 940,
+      "y": 5200
+    },
+    "NewGroup.dc.html": {
+      "h": 844,
+      "radius": 44,
+      "title": "New recipe \u00b7 add new group",
+      "w": 390,
+      "x": 1880,
+      "y": 1300
+    },
+    "NewRecipe.dc.html": {
+      "h": 844,
+      "radius": 44,
+      "title": "New recipe \u00b7 one screen",
+      "w": 390,
+      "x": 0,
+      "y": 1300
+    },
+    "NewRecipeFilled.dc.html": {
+      "h": 844,
+      "radius": 44,
+      "title": "New recipe \u00b7 with ingredients",
+      "w": 390,
+      "x": 940,
+      "y": 1300
+    },
+    "PackagingOverview.dc.html": {
+      "h": 844,
+      "radius": 44,
+      "title": "Overview \u00b7 packaging",
+      "w": 390,
+      "x": 470,
+      "y": 3900
+    },
+    "PantryIngredient.dc.html": {
+      "h": 844,
+      "radius": 44,
+      "title": "Pantry \u00b7 new ingredient",
+      "w": 390,
+      "x": 0,
+      "y": 2600
+    },
+    "PantryIngredients.dc.html": {
+      "h": 844,
+      "radius": 44,
+      "title": "Pantry \u00b7 ingredients",
+      "w": 390,
+      "x": 470,
+      "y": 0
+    },
+    "PantryPackaging.dc.html": {
+      "h": 844,
+      "radius": 44,
+      "title": "Pantry \u00b7 new packaging",
+      "w": 390,
+      "x": 470,
+      "y": 2600
+    },
+    "PantryPackagingList.dc.html": {
+      "h": 844,
+      "radius": 44,
+      "title": "Pantry \u00b7 packaging",
+      "w": 390,
+      "x": 940,
+      "y": 0
+    },
+    "PantryRecipes.dc.html": {
+      "h": 844,
+      "radius": 44,
+      "title": "Pantry \u00b7 recipes",
+      "w": 390,
+      "x": 1410,
+      "y": 0
+    },
+    "PantrySwipe.dc.html": {
+      "h": 844,
+      "is_interactive": true,
+      "radius": 44,
+      "title": "Pantry \u00b7 swiping between tabs (interactive)",
+      "w": 390,
+      "x": 940,
+      "y": 2600
+    },
+    "ProductDetail.dc.html": {
+      "h": 844,
+      "radius": 44,
+      "title": "Analytics \u00b7 one product",
+      "w": 390,
+      "x": 4230,
+      "y": 0
+    },
+    "RecipeOverview.dc.html": {
+      "h": 844,
+      "radius": 44,
+      "title": "Overview \u00b7 recipe",
+      "w": 390,
+      "x": 940,
+      "y": 3900
+    },
+    "SaleCharge.dc.html": {
+      "h": 844,
+      "radius": 44,
+      "title": "Sale \u00b7 charge (cash)",
+      "w": 390,
+      "x": 1410,
+      "y": 10648
+    },
+    "SaleChargeDiscounted.dc.html": {
+      "h": 844,
+      "radius": 44,
+      "title": "Sale \u00b7 charge after the discount",
+      "w": 390,
+      "x": 2350,
+      "y": 10648
+    },
+    "SaleChooser.dc.html": {
+      "h": 844,
+      "radius": 44,
+      "title": "Sale \u00b7 wallet tap: where is it sold?",
+      "w": 390,
+      "x": 0,
+      "y": 10648
+    },
+    "SaleDiscount.dc.html": {
+      "h": 844,
+      "radius": 44,
+      "title": "Sale \u00b7 add a discount",
+      "w": 390,
+      "x": 1880,
+      "y": 10648
+    },
+    "SaleDone.dc.html": {
+      "h": 844,
+      "radius": 44,
+      "title": "Sale \u00b7 recorded",
+      "w": 390,
+      "x": 2820,
+      "y": 10648
+    },
+    "SaleFinish.dc.html": {
+      "h": 844,
+      "radius": 44,
+      "title": "Sale \u00b7 finish the event, prefilled",
+      "w": 390,
+      "x": 3290,
+      "y": 10648
+    },
+    "SaleTill.dc.html": {
+      "h": 844,
+      "radius": 44,
+      "title": "Sale \u00b7 till, single sale",
+      "w": 390,
+      "x": 470,
+      "y": 10648
+    },
+    "SaleTillEvent.dc.html": {
+      "h": 844,
+      "radius": 44,
+      "title": "Sale \u00b7 till at an event",
+      "w": 390,
+      "x": 940,
+      "y": 10648
+    },
+    "Settings.dc.html": {
+      "h": 844,
+      "is_interactive": true,
+      "radius": 44,
+      "title": "Settings \u00b7 general",
+      "w": 390,
+      "x": 0,
+      "y": 8048
+    },
+    "SettingsAccount.dc.html": {
+      "h": 844,
+      "radius": 44,
+      "title": "Settings \u00b7 account",
+      "w": 390,
+      "x": 1410,
+      "y": 8048
+    },
+    "SettingsBilling.dc.html": {
+      "h": 844,
+      "radius": 44,
+      "title": "Settings \u00b7 billing",
+      "w": 390,
+      "x": 1880,
+      "y": 8048
+    },
+    "SettingsData.dc.html": {
+      "h": 844,
+      "radius": 44,
+      "title": "Settings \u00b7 what Baketly keeps",
+      "w": 390,
+      "x": 2350,
+      "y": 8048
+    },
+    "SettingsScrolled.dc.html": {
+      "h": 844,
+      "radius": 44,
+      "title": "Settings \u00b7 general, scrolled",
+      "w": 390,
+      "x": 470,
+      "y": 8048
+    },
+    "SheetDismiss.dc.html": {
+      "h": 844,
+      "is_interactive": true,
+      "radius": 44,
+      "title": "Sheets \u00b7 drag down to dismiss (interactive)",
+      "w": 390,
+      "x": 1410,
+      "y": 6500
+    },
+    "SoldSheet.dc.html": {
+      "h": 844,
+      "radius": 44,
+      "title": "Event \u00b7 what actually sold",
+      "w": 390,
+      "x": 940,
+      "y": 6500
+    },
+    "SwipeBack.dc.html": {
+      "h": 844,
+      "is_interactive": true,
+      "radius": 44,
+      "title": "Swipe back \u00b7 new recipe \u2192 recipes (interactive)",
+      "w": 390,
+      "x": 2350,
+      "y": 1300
+    },
+    "RecipeParts.dc.html": {
+      "x": 2820,
+      "y": 1300,
+      "w": 390,
+      "h": 844,
+      "title": "New recipe \u00b7 split into parts",
+      "radius": 44
+    },
+    "NewRecipeParts.dc.html": {
+      "x": 3290,
+      "y": 1300,
+      "w": 390,
+      "h": 844,
+      "title": "New recipe \u00b7 ingredients in parts",
+      "radius": 44
+    },
+    "MovePart.dc.html": {
+      "x": 3760,
+      "y": 1300,
+      "w": 390,
+      "h": 844,
+      "title": "New recipe \u00b7 move an ingredient to a part",
+      "radius": 44
+    },
+    "DeleteConfirm.dc.html": {
+      "x": 1410,
+      "y": 3900,
+      "w": 390,
+      "h": 844,
+      "title": "Overview \u00b7 delete this recipe?",
+      "radius": 44
+    },
+    "SwipeRemove.dc.html": {
+      "x": 1880,
+      "y": 3900,
+      "w": 390,
+      "h": 844,
+      "title": "Lists \u00b7 swipe an item off (interactive)",
+      "radius": 44,
+      "is_interactive": true
+    }
+  },
+  "createdOnFiles": {
+    "at": "2026-10-23T08:55:00Z",
+    "v": 1
+  },
+  "designSystems": [
+    {
+      "artifact": "https://claude.ai/code/artifact/06b79b7c-5dd2-4bff-8d83-06716700a075",
+      "copiedAt": "2026-10-23T08:55:00Z",
+      "namespace": "baketly",
+      "title": "Baketly",
+      "version": null
+    }
+  ],
+  "launch": {
+    "view": "canvas"
+  },
+  "notes": {
+    "t1": {
+      "kind": "title1",
+      "maxW": 4620,
+      "text": "Tabs \u00b7 Home, Pantry, Events, Analytics (+ swipe, one product)",
+      "w": 240,
+      "x": 0,
+      "y": -260
+    },
+    "t10": {
+      "kind": "title1",
+      "maxW": 3680,
+      "text": "New sale \u00b7 wallet \u2192 where \u2192 till \u2192 charge \u2192 recorded \u2192 finish the event",
+      "w": 240,
+      "x": 0,
+      "y": 10388
+    },
+    "t11": {
+      "kind": "title1",
+      "maxW": 860,
+      "text": "Ask Baketly \u00b7 Send a message",
+      "w": 240,
+      "x": 0,
+      "y": 11688
+    },
+    "t2": {
+      "kind": "title1",
+      "maxW": 4150,
+      "text": "New recipe \u00b7 one screen, modals, group, swipe back, parts",
+      "w": 240,
+      "x": 0,
+      "y": 1040
+    },
+    "t3": {
+      "kind": "title1",
+      "maxW": 1330,
+      "text": "Pantry \u00b7 new ingredient, new packaging, swiping between tabs",
+      "w": 240,
+      "x": 0,
+      "y": 2340
+    },
+    "t4": {
+      "kind": "title1",
+      "maxW": 2270,
+      "text": "Overviews \u00b7 ingredient, packaging, recipe \u00b7 delete \u00b7 swipe an item off a list",
+      "w": 240,
+      "x": 0,
+      "y": 3640
+    },
+    "t5": {
+      "kind": "title1",
+      "maxW": 1800,
+      "text": "New event \u00b7 one screen, products modal, add a cost",
+      "w": 240,
+      "x": 0,
+      "y": 4940
+    },
+    "t6": {
+      "kind": "title1",
+      "maxW": 1800,
+      "text": "Event overview \u00b7 costs expanded, what actually sold \u00b7 drag a sheet down to dismiss",
+      "w": 240,
+      "x": 0,
+      "y": 6240
+    },
+    "t8": {
+      "kind": "title1",
+      "maxW": 2740,
+      "text": "Settings \u00b7 general, account, billing",
+      "w": 240,
+      "x": 0,
+      "y": 7788
+    },
+    "t9": {
+      "kind": "title1",
+      "maxW": 860,
+      "text": "Nearby prices \u00b7 what changed nearby, reworked",
+      "w": 240,
+      "x": 0,
+      "y": 9009
+    }
+  },
+  "order": [
+    "Main.dc.html",
+    "PantryIngredients.dc.html",
+    "PantryPackagingList.dc.html",
+    "PantryRecipes.dc.html",
+    "Markets.dc.html",
+    "Analytics.dc.html",
+    "AnalyticsProducts.dc.html",
+    "AnalyticsEvents.dc.html",
+    "AnalyticsSwipe.dc.html",
+    "ProductDetail.dc.html",
+    "NewRecipe.dc.html",
+    "AddIngredient.dc.html",
+    "NewRecipeFilled.dc.html",
+    "GroupPicker.dc.html",
+    "NewGroup.dc.html",
+    "SwipeBack.dc.html",
+    "PantryIngredient.dc.html",
+    "PantryPackaging.dc.html",
+    "PantrySwipe.dc.html",
+    "IngredientOverview.dc.html",
+    "PackagingOverview.dc.html",
+    "RecipeOverview.dc.html",
+    "NewEvent.dc.html",
+    "AddProduct.dc.html",
+    "NewEventFilled.dc.html",
+    "AddCost.dc.html",
+    "EventOverview.dc.html",
+    "EventCostsOpen.dc.html",
+    "SoldSheet.dc.html",
+    "Settings.dc.html",
+    "SettingsScrolled.dc.html",
+    "CurrencySheet.dc.html",
+    "SettingsAccount.dc.html",
+    "SettingsBilling.dc.html",
+    "SettingsData.dc.html",
+    "SheetDismiss.dc.html",
+    "NearbyPrices.dc.html",
+    "NearbyProduct.dc.html",
+    "SaleChooser.dc.html",
+    "SaleTill.dc.html",
+    "SaleTillEvent.dc.html",
+    "SaleCharge.dc.html",
+    "SaleDiscount.dc.html",
+    "SaleChargeDiscounted.dc.html",
+    "SaleDone.dc.html",
+    "SaleFinish.dc.html",
+    "AskBaketly.dc.html",
+    "Contact.dc.html",
+    "RecipeParts.dc.html",
+    "NewRecipeParts.dc.html",
+    "MovePart.dc.html",
+    "DeleteConfirm.dc.html",
+    "SwipeRemove.dc.html"
+  ],
+  "pages": [],
+  "title": "Baketly mobile"
+}

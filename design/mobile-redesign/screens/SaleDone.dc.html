@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Sale recorded</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:#5f6a2c;text-decoration:none}a:hover{color:#6a7532}
+.tnum{font-feature-settings:'tnum'}
+input::placeholder{color:#b9b4a8}
+</style>
+</helmet>
+<div style="width: 390px; height: 844px; box-sizing: border-box; overflow: hidden; position: relative; background: #7d8a3c; color: #ffffff; font-family: 'Poppins', sans-serif; font-size: 14px; line-height: 1.6; display: flex; flex-direction: column">
+
+  <div style="flex: 1 1 auto; min-height: 0; overflow: hidden; padding: 54px 24px 0; display: flex; flex-direction: column; gap: 20px">
+    <div style="flex: none; display: flex; align-items: center; justify-content: space-between"><span style="font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: #eef0dd">Sale recorded</span><a href="Main.dc.html" aria-label="Close" style="width: 40px; height: 40px; border-radius: 50%; background: rgba(255,255,255,.16); color: #ffffff; display: grid; place-items: center"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"></path></svg></a></div>
+
+    <div style="flex: none; display: flex; flex-direction: column; gap: 10px">
+      <div style="width: 56px; height: 56px; border-radius: 50%; background: #ffffff; color: #7d8a3c; display: grid; place-items: center"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"></path></svg></div>
+      <div class="tnum" style="font-size: 32px; font-weight: 700; line-height: 1.15; margin-top: 6px">$39.00 in cash.</div>
+      <div class="tnum" style="font-size: 15px; color: #eef0dd">Give back $1.00 change.</div>
+    </div>
+
+    <div class="tnum" style="flex: none; background: #ffffff; color: #33301f; border-radius: 22px; padding: 4px 18px; box-shadow: 0 6px 18px rgba(60,55,30,.10); display: flex; flex-direction: column; font-size: 13px">
+      <div style="display: flex; justify-content: space-between; min-height: 38px; align-items: center"><span>2 × Mini Chocolate Babka</span><span style="font-weight: 500">$20.00</span></div>
+      <div style="display: flex; justify-content: space-between; min-height: 38px; align-items: center; border-top: 1px solid #eee7d9"><span>1 × Sourdough Loaf</span><span style="font-weight: 500">$12.00</span></div>
+      <div style="display: flex; justify-content: space-between; min-height: 38px; align-items: center; border-top: 1px solid #eee7d9"><span>2 × Chocolate Chip Cookies</span><span style="font-weight: 500">$7.00</span></div>
+      <div style="display: flex; justify-content: space-between; min-height: 40px; align-items: center; border-top: 1px solid #33301f; font-weight: 700; font-size: 14px"><span>Total</span><span>$39.00</span></div>
+    </div>
+
+    <div style="flex: none; display: flex; flex-direction: column; gap: 8px">
+      <label for="receipt" style="font-size: 11px; font-weight: 600; color: #eef0dd">Receipt by email · optional</label>
+      <div style="display: flex; gap: 8px">
+        <input id="receipt" type="email" placeholder="customer@email.com" style="flex: 1; min-width: 0; height: 46px; padding: 0 16px; border: 0; border-radius: 14px; background: #ffffff; color: #33301f; font-family: inherit; font-size: 14px">
+        <button type="button" style="flex: none; height: 46px; padding: 0 16px; border: 1px solid rgba(255,255,255,.45); border-radius: 14px; background: transparent; color: #ffffff; font-family: inherit; font-size: 13px; font-weight: 600; cursor: pointer">Send</button>
+      </div>
+    </div>
+  </div>
+
+  <div style="flex: none; padding: 16px 24px 34px; display: flex; flex-direction: column; gap: 10px">
+    <a href="SaleTill.dc.html" style="display: flex; align-items: center; justify-content: center; height: 48px; border-radius: 14px; background: #ffffff; color: #5f6a2c; font-size: 13px; font-weight: 600">Next customer</a>
+    <a href="Main.dc.html" style="display: flex; align-items: center; justify-content: center; height: 44px; font-size: 13px; font-weight: 600; color: #ffffff">Done for now</a>
+  </div>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+renderVals() {
+return {};
+}
+}
+</script>
+</body>
+</html>

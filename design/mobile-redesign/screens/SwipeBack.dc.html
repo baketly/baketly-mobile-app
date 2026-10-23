@@ -1,0 +1,275 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Swipe back from new recipe to recipes</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:#5f6a2c;text-decoration:none}a:hover{color:#6a7532}
+input::placeholder{color:#b9b4a8}
+.tnum{font-feature-settings:'tnum'}
+</style>
+</helmet>
+<div style="width: 390px; height: 844px; position: relative; overflow: hidden; background: #faf6f0; font-family: 'Poppins', sans-serif">
+
+  <div aria-hidden="{{ underHidden }}" style="position: absolute; inset: 0; transform: {{ underTransform }}; transition: {{ transition }}; will-change: transform">
+<div style="width: 390px; height: 844px; box-sizing: border-box; overflow: hidden; position: relative; background: #faf6f0; color: #33301f; font-family: 'Poppins', sans-serif; font-size: 14px; line-height: 1.6; display: flex; flex-direction: column">
+
+  <div style="flex: 1 1 auto; min-height: 0; overflow: hidden; padding: 54px 20px 0; display: flex; flex-direction: column; gap: 14px">
+
+    <div style="flex: none; display: flex; align-items: center; justify-content: space-between; gap: 12px">
+      <div style="display: flex; flex-direction: column">
+        <h1 style="margin: 0; font-size: 22px; font-weight: 600; line-height: 1.25">Pantry</h1>
+        <span class="tnum" style="font-size: 12px; color: #8a8578">13 recipes · priced from your pantry</span>
+      </div>
+      <a href="NewRecipe.dc.html" aria-label="New recipe" style="width: 40px; height: 40px; border-radius: 50%; background: #7d8a3c; color: #ffffff; display: grid; place-items: center; box-shadow: 0 6px 18px rgba(60,55,30,.10)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg></a>
+    </div>
+
+    <div role="group" aria-label="Pantry section" style="flex: none; display: flex; gap: 4px; padding: 4px; border: 1px solid #e5dfd2; border-radius: 14px; background: #ffffff">
+      <a href="PantryIngredients.dc.html" style="flex: 1; height: 36px; display: flex; align-items: center; justify-content: center; border-radius: 10px; background: transparent; color: #8a8578; font-size: 12px; font-weight: 600">Ingredients</a>
+      <a href="PantryPackagingList.dc.html" style="flex: 1; height: 36px; display: flex; align-items: center; justify-content: center; border-radius: 10px; background: transparent; color: #8a8578; font-size: 12px; font-weight: 600">Packaging</a>
+      <a href="PantryRecipes.dc.html" aria-current="true" style="flex: 1; height: 36px; display: flex; align-items: center; justify-content: center; border-radius: 10px; background: #7d8a3c; color: #ffffff; font-size: 12px; font-weight: 600">Recipes</a>
+    </div>
+
+    <label style="flex: none; display: flex; align-items: center; gap: 10px; height: 44px; padding: 0 16px; border: 1px solid #e5dfd2; border-radius: 16px; background: #ffffff; cursor: text">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#8a8578" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="M20 20l-3.5-3.5"></path></svg>
+      <input type="search" placeholder="Search recipes" aria-label="Search recipes" style="flex: 1; min-width: 0; border: 0; outline: none; background: none; font-family: inherit; font-size: 14px; color: #33301f">
+    </label>
+    <div style="flex: none; display: flex; gap: 6px; overflow: hidden">
+      <button type="button" aria-pressed="true" style="height: 30px; padding: 0 11px; flex: none; border: 1px solid #7d8a3c; background: #7d8a3c; color: #ffffff; border-radius: 999px; font-family: inherit; font-size: 11px; font-weight: 600; cursor: pointer">All</button>
+      <button type="button" style="height: 30px; padding: 0 11px; flex: none; border: 1px solid #e5dfd2; background: #ffffff; color: #33301f; border-radius: 999px; font-family: inherit; font-size: 11px; font-weight: 600; cursor: pointer">Babka</button>
+      <button type="button" style="height: 30px; padding: 0 11px; flex: none; border: 1px solid #e5dfd2; background: #ffffff; color: #33301f; border-radius: 999px; font-family: inherit; font-size: 11px; font-weight: 600; cursor: pointer">Bread</button>
+      <button type="button" style="height: 30px; padding: 0 11px; flex: none; border: 1px solid #e5dfd2; background: #ffffff; color: #33301f; border-radius: 999px; font-family: inherit; font-size: 11px; font-weight: 600; cursor: pointer">Cookies</button>
+      <button type="button" style="height: 30px; padding: 0 11px; flex: none; border: 1px solid #e5dfd2; background: #ffffff; color: #33301f; border-radius: 999px; font-family: inherit; font-size: 11px; font-weight: 600; cursor: pointer">Treats</button>
+      <button type="button" style="height: 30px; padding: 0 11px; flex: none; border: 1px solid #e5dfd2; background: #ffffff; color: #33301f; border-radius: 999px; font-family: inherit; font-size: 11px; font-weight: 600; cursor: pointer">No group</button>
+    </div>
+    <div style="flex: none; display: flex; flex-direction: column; gap: 10px">
+      <div style="display: flex; align-items: baseline; justify-content: space-between; padding: 0 2px">
+        <h6 style="margin: 0; font-size: 15px; font-weight: 700; line-height: 1.3">Babka</h6>
+        <span class="tnum" style="font-size: 12px; color: #8a8578">3 recipes</span>
+      </div>
+      <div style="background: #ffffff; border-radius: 22px; padding: 0 16px; box-shadow: 0 2px 10px rgba(60,55,30,.07); display: flex; flex-direction: column">
+        <a href="RecipeOverview.dc.html" style="display: flex; align-items: center; gap: 10px; min-height: 56px; color: #33301f">
+          <div style="flex: 1; min-width: 0; display: flex; flex-direction: column"><span style="font-size: 14px; font-weight: 500; line-height: 1.3">Mini Chocolate Babka</span><span class="tnum" style="font-size: 12px; color: #8a8578">makes 12 · costs $0.87</span></div>
+          <div style="flex: none; display: flex; flex-direction: column; align-items: flex-end; line-height: 1.25"><span class="tnum" style="font-size: 13px; font-weight: 600">$10.00</span><span class="tnum" style="font-size: 11px; color: #8a8578">91% margin</span></div>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#c9c2b2" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"></path></svg>
+        </a>
+        <a href="RecipeOverview.dc.html" style="display: flex; align-items: center; gap: 10px; min-height: 56px; border-top: 1px solid #eee7d9; color: #33301f">
+          <div style="flex: 1; min-width: 0; display: flex; flex-direction: column"><span style="font-size: 14px; font-weight: 500; line-height: 1.3">Cinnamon Babka</span><span class="tnum" style="font-size: 12px; color: #8a8578">makes 12 · costs $0.74</span></div>
+          <div style="flex: none; display: flex; flex-direction: column; align-items: flex-end; line-height: 1.25"><span class="tnum" style="font-size: 13px; font-weight: 600">$10.00</span><span class="tnum" style="font-size: 11px; color: #8a8578">93% margin</span></div>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#c9c2b2" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"></path></svg>
+        </a>
+      </div>
+    </div>
+    <div style="flex: none; display: flex; flex-direction: column; gap: 10px">
+      <div style="display: flex; align-items: baseline; justify-content: space-between; padding: 0 2px">
+        <h6 style="margin: 0; font-size: 15px; font-weight: 700; line-height: 1.3">Bread</h6>
+        <span class="tnum" style="font-size: 12px; color: #8a8578">4 recipes</span>
+      </div>
+      <div style="background: #ffffff; border-radius: 22px; padding: 0 16px; box-shadow: 0 2px 10px rgba(60,55,30,.07); display: flex; flex-direction: column">
+        <a href="RecipeOverview.dc.html" style="display: flex; align-items: center; gap: 10px; min-height: 56px; color: #33301f">
+          <div style="flex: 1; min-width: 0; display: flex; flex-direction: column"><span style="font-size: 14px; font-weight: 500; line-height: 1.3">Sourdough Loaf</span><span class="tnum" style="font-size: 12px; color: #8a8578">makes 2 · costs $1.42</span></div>
+          <div style="flex: none; display: flex; flex-direction: column; align-items: flex-end; line-height: 1.25"><span class="tnum" style="font-size: 13px; font-weight: 600">$12.00</span><span class="tnum" style="font-size: 11px; color: #8a8578">88% margin</span></div>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#c9c2b2" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"></path></svg>
+        </a>
+        <a href="RecipeOverview.dc.html" style="display: flex; align-items: center; gap: 10px; min-height: 56px; border-top: 1px solid #eee7d9; color: #33301f">
+          <div style="flex: 1; min-width: 0; display: flex; flex-direction: column"><span style="font-size: 14px; font-weight: 500; line-height: 1.3">Rosemary Focaccia</span><span class="tnum" style="font-size: 12px; color: #8a8578">makes 2 · costs $1.05</span></div>
+          <div style="flex: none; display: flex; flex-direction: column; align-items: flex-end; line-height: 1.25"><span class="tnum" style="font-size: 13px; font-weight: 600">$9.00</span><span class="tnum" style="font-size: 11px; color: #8a8578">88% margin</span></div>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#c9c2b2" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"></path></svg>
+        </a>
+      </div>
+    </div>
+    <div style="flex: none; display: flex; flex-direction: column; gap: 10px">
+      <div style="display: flex; align-items: baseline; justify-content: space-between; padding: 0 2px">
+        <h6 style="margin: 0; font-size: 15px; font-weight: 700; line-height: 1.3">Cookies</h6>
+        <span class="tnum" style="font-size: 12px; color: #8a8578">6 recipes</span>
+      </div>
+      <div style="background: #ffffff; border-radius: 22px; padding: 0 16px; box-shadow: 0 2px 10px rgba(60,55,30,.07); display: flex; flex-direction: column">
+        <a href="RecipeOverview.dc.html" style="display: flex; align-items: center; gap: 10px; min-height: 56px; color: #33301f">
+          <div style="flex: 1; min-width: 0; display: flex; flex-direction: column"><span style="font-size: 14px; font-weight: 500; line-height: 1.3">Chocolate Chip Cookies</span><span class="tnum" style="font-size: 12px; color: #8a8578">makes 24 · costs $0.41</span></div>
+          <div style="flex: none; display: flex; flex-direction: column; align-items: flex-end; line-height: 1.25"><span class="tnum" style="font-size: 13px; font-weight: 600">$3.50</span><span class="tnum" style="font-size: 11px; color: #8a8578">88% margin</span></div>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#c9c2b2" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"></path></svg>
+        </a>
+        <a href="RecipeOverview.dc.html" style="display: flex; align-items: center; gap: 10px; min-height: 56px; border-top: 1px solid #eee7d9; color: #33301f">
+          <div style="flex: 1; min-width: 0; display: flex; flex-direction: column"><span style="font-size: 14px; font-weight: 500; line-height: 1.3">Brownies · tray of 16</span><span class="tnum" style="font-size: 12px; color: #8a8578">makes 16 · costs $0.62</span></div>
+          <div style="flex: none; display: flex; flex-direction: column; align-items: flex-end; line-height: 1.25"><span class="tnum" style="font-size: 13px; font-weight: 600">$4.00</span><span class="tnum" style="font-size: 11px; color: #8a8578">85% margin</span></div>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#c9c2b2" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"></path></svg>
+        </a>
+      </div>
+    </div>
+
+  </div>
+
+  <nav aria-label="Main" style="flex: none; display: flex; align-items: stretch; padding: 6px 8px 24px; background: #ffffff; border-top: 1px solid #eee7d9">
+    <a href="Main.dc.html" style="flex: 1; min-height: 50px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; color: #9a947f; font-size: 10px"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"></path></svg>Home</a>
+    <a href="PantryIngredients.dc.html" aria-current="page" style="flex: 1; min-height: 50px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; color: #7d8a3c; font-size: 10px"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 8l-9-5-9 5v8l9 5 9-5z"></path><path d="M3 8l9 5 9-5"></path></svg>Pantry</a>
+    <a href="SaleChooser.dc.html" aria-label="Pay" style="flex: 1; min-height: 50px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; color: #7d8a3c; font-size: 10px; font-weight: 600"><span style="width: 36px; height: 36px; border-radius: 50%; background: #7d8a3c; color: #ffffff; display: grid; place-items: center; box-shadow: 0 6px 18px rgba(60,55,30,.10)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 7a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v1H3z"></path><path d="M3 8h17a1 1 0 0 1 1 1v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><path d="M16 14h2"></path></svg></span></a>
+    <a href="Markets.dc.html" style="flex: 1; min-height: 50px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; color: #9a947f; font-size: 10px"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"></rect><path d="M3 10h18M8 3v4M16 3v4"></path></svg>Events</a>
+    <a href="Analytics.dc.html" style="flex: 1; min-height: 50px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; color: #9a947f; font-size: 10px"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20V10M10 20V4M16 20v-8M22 20H2"></path></svg>Analytics</a>
+  </nav>
+
+</div>
+  </div>
+  <div style="position: absolute; inset: 0; background: #1e1b16; opacity: {{ dimOpacity }}; transition: {{ dimTransition }}; pointer-events: none"></div>
+
+  <div onPointerDown="{{ down }}" onPointerMove="{{ move }}" onPointerUp="{{ up }}" onPointerCancel="{{ up }}" style="position: absolute; inset: 0; transform: {{ topTransform }}; transition: {{ transition }}; will-change: transform; box-shadow: -6px 0 24px rgba(30,27,22,.18); touch-action: pan-y; user-select: none">
+<div style="width: 390px; height: 844px; box-sizing: border-box; overflow: hidden; position: relative; background: #faf6f0; color: #33301f; font-family: 'Poppins', sans-serif; font-size: 14px; line-height: 1.6; display: flex; flex-direction: column">
+
+  <div style="flex: 1 1 auto; min-height: 0; overflow: hidden; padding: 54px 20px 0; display: flex; flex-direction: column; gap: 18px">
+
+    <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px">
+      <a href="Main.dc.html" style="display: flex; align-items: center; gap: 4px; min-height: 44px; font-size: 13px; font-weight: 600; color: #5f6a2c; margin-left: -4px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 6l-6 6 6 6"></path></svg>Recipes</a>
+      <span style="font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; font-weight: 600; color: #c9a24a">New recipe</span>
+      <span style="width: 64px"></span>
+    </div>
+
+    <div style="display: flex; flex-direction: column; gap: 14px">
+      <div style="display: flex; align-items: center; gap: 12px">
+        <button type="button" aria-label="Add a photo" style="flex: none; width: 56px; height: 56px; border-radius: 16px; border: 1.5px dashed #c9c2b2; background: #ffffff; color: #8a8578; display: grid; place-items: center; cursor: pointer; padding: 0"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 8h3l2-3h6l2 3h3v12H4z"></path><circle cx="12" cy="13" r="3.5"></circle></svg></button>
+        <input type="text" value="Mini Chocolate Babka" aria-label="Recipe name" style="flex: 1; min-width: 0; box-sizing: border-box; height: 56px; padding: 0 16px; border: 1px solid #e5dfd2; border-radius: 16px; background: #ffffff; color: #33301f; font-family: inherit; font-weight: 600; font-size: 20px">
+      </div>
+      <div style="display: flex; gap: 10px">
+        <div style="flex: 1; display: flex; align-items: center; justify-content: space-between; gap: 8px; height: 48px; padding: 0 6px 0 14px; border: 1px solid #e5dfd2; border-radius: 16px; background: #ffffff">
+          <label for="makes" style="font-size: 12px; color: #7a7464">Makes</label>
+          <div style="display: flex; align-items: center">
+            <button type="button" aria-label="One fewer" style="width: 36px; height: 36px; border: 0; background: none; color: #7a7464; font-family: inherit; font-size: 18px; cursor: pointer; padding: 0">−</button>
+            <input id="makes" type="text" value="12" inputmode="numeric" class="tnum" style="width: 32px; height: 36px; border: 0; background: none; color: #33301f; font-family: inherit; font-weight: 600; font-size: 15px; text-align: center">
+            <button type="button" aria-label="One more" style="width: 36px; height: 36px; border: 0; background: none; color: #7a7464; font-family: inherit; font-size: 18px; cursor: pointer; padding: 0">+</button>
+          </div>
+        </div>
+        <div style="flex: 1; display: flex; align-items: center; justify-content: space-between; gap: 8px; height: 48px; padding: 0 14px; border: 1px solid #e5dfd2; border-radius: 16px; background: #ffffff">
+          <label for="active" style="font-size: 12px; color: #7a7464">Active time</label>
+          <div style="display: flex; align-items: baseline; gap: 4px"><input id="active" type="text" value="40" inputmode="numeric" class="tnum" style="width: 36px; height: 36px; border: 0; background: none; color: #33301f; font-family: inherit; font-weight: 600; font-size: 15px; text-align: right"><span style="font-size: 12px; color: #8a8578">min</span></div>
+        </div>
+      </div>
+      <button type="button" style="display: flex; align-items: center; justify-content: space-between; gap: 8px; height: 44px; padding: 0 14px; border: 1px solid #e5dfd2; border-radius: 16px; background: #ffffff; color: #33301f; font-family: inherit; font-size: 12px; cursor: pointer; text-align: left">
+        <span style="color: #7a7464">Group</span>
+        <span style="display: flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 600">Babka<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8a8578" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg></span>
+      </button>
+    </div>
+
+    <div style="display: flex; flex-direction: column; gap: 10px">
+      <div style="display: flex; align-items: baseline; justify-content: space-between; padding: 0 2px">
+        <h6 style="margin: 0; font-size: 15px; font-weight: 700; line-height: 1.3">Ingredients</h6>
+        <span class="tnum" style="font-size: 12px; color: #8a8578">batch $6.89</span>
+      </div>
+      <div style="background: #ffffff; border-radius: 22px; padding: 0 16px; box-shadow: 0 2px 10px rgba(60,55,30,.07); display: flex; flex-direction: column">
+        <div style="display: flex; align-items: center; gap: 10px; padding: 6px 0; min-height: 46px; box-sizing: border-box">
+          <span style="flex: 1; font-size: 14px; font-weight: 500">Bread flour</span>
+          <input type="text" value="500" inputmode="decimal" aria-label="Bread flour amount in grams" class="tnum" style="width: 56px; height: 36px; padding: 0 8px; border: 1px solid #e5dfd2; border-radius: 10px; background: #ffffff; color: #33301f; font-family: inherit; font-size: 13px; text-align: right">
+          <span style="width: 18px; font-size: 12px; color: #8a8578">g</span>
+          <span class="tnum" style="width: 46px; text-align: right; font-size: 13px; color: #7a7464">$0.95</span>
+        </div>
+        <div style="display: flex; align-items: center; gap: 10px; padding: 6px 0; min-height: 46px; box-sizing: border-box; border-top: 1px solid #eee7d9">
+          <span style="flex: 1; font-size: 14px; font-weight: 500">Dark chocolate 70%</span>
+          <input type="text" value="180" inputmode="decimal" aria-label="Dark chocolate amount in grams" class="tnum" style="width: 56px; height: 36px; padding: 0 8px; border: 1px solid #e5dfd2; border-radius: 10px; background: #ffffff; color: #33301f; font-family: inherit; font-size: 13px; text-align: right">
+          <span style="width: 18px; font-size: 12px; color: #8a8578">g</span>
+          <span class="tnum" style="width: 46px; text-align: right; font-size: 13px; color: #7a7464">$3.24</span>
+        </div>
+        <div style="display: flex; align-items: center; gap: 10px; padding: 6px 0; min-height: 46px; box-sizing: border-box; border-top: 1px solid #eee7d9">
+          <span style="flex: 1; font-size: 14px; font-weight: 500">Butter, unsalted</span>
+          <input type="text" value="150" inputmode="decimal" aria-label="Butter amount in grams" class="tnum" style="width: 56px; height: 36px; padding: 0 8px; border: 1px solid #e5dfd2; border-radius: 10px; background: #ffffff; color: #33301f; font-family: inherit; font-size: 13px; text-align: right">
+          <span style="width: 18px; font-size: 12px; color: #8a8578">g</span>
+          <span class="tnum" style="width: 46px; text-align: right; font-size: 13px; color: #7a7464">$1.80</span>
+        </div>
+        <div style="display: flex; align-items: center; gap: 10px; padding: 6px 0; min-height: 46px; box-sizing: border-box; border-top: 1px solid #eee7d9">
+          <span style="flex: 1; font-size: 14px; font-weight: 500">Eggs, large</span>
+          <input type="text" value="2" inputmode="decimal" aria-label="Number of eggs" class="tnum" style="width: 56px; height: 36px; padding: 0 8px; border: 1px solid #e5dfd2; border-radius: 10px; background: #ffffff; color: #33301f; font-family: inherit; font-size: 13px; text-align: right">
+          <span style="width: 18px; font-size: 12px; color: #8a8578">pc</span>
+          <span class="tnum" style="width: 46px; text-align: right; font-size: 13px; color: #7a7464">$0.90</span>
+        </div>
+        <a href="AddIngredient.dc.html" style="display: flex; align-items: center; justify-content: center; gap: 8px; min-height: 44px; border-top: 1px solid #eee7d9; color: #5f6a2c; font-size: 13px; font-weight: 600"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg>Add more</a>
+      </div>
+    </div>
+
+    <div style="display: flex; flex-direction: column; gap: 10px">
+      <div style="display: flex; align-items: baseline; justify-content: space-between; padding: 0 2px">
+        <h6 style="margin: 0; font-size: 15px; font-weight: 700; line-height: 1.3">Packaging</h6>
+        <span class="tnum" style="font-size: 12px; color: #8a8578">$0.16 each</span>
+      </div>
+      <div style="background: #ffffff; border-radius: 16px; padding: 0 16px; box-shadow: 0 2px 10px rgba(60,55,30,.07); display: flex; flex-direction: column">
+        <div style="display: flex; align-items: center; gap: 10px; min-height: 44px">
+          <span style="flex: 1; font-size: 14px; font-weight: 500">Kraft box · small</span>
+          <span class="tnum" style="font-size: 13px; color: #7a7464">$0.16</span>
+          <button type="button" aria-label="Remove Kraft box" style="width: 32px; height: 32px; border-radius: 50%; border: 0; background: none; color: #c9c2b2; font-family: inherit; font-size: 18px; line-height: 1; cursor: pointer; padding: 0; margin-right: -8px">×</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div style="flex: none; background: #ffffff; border-radius: 22px 22px 0 0; box-shadow: 0 -8px 30px rgba(60,55,30,.10); padding: 16px 20px 26px; display: flex; flex-direction: column; gap: 12px">
+    <div style="display: flex; align-items: center; justify-content: space-between; gap: 16px">
+      <div style="display: flex; flex-direction: column; gap: 2px">
+        <label for="sell" style="font-size: 11px; font-weight: 600">Sells for</label>
+        <div style="display: flex; align-items: center; gap: 2px">
+          <span style="font-size: 26px; font-weight: 600; color: #8a8578">$</span>
+          <input id="sell" type="text" value="10.00" inputmode="decimal" class="tnum" style="width: 104px; height: 40px; padding: 0 8px; border: 1px solid #e5dfd2; border-radius: 10px; background: #ffffff; color: #33301f; font-family: inherit; font-weight: 600; font-size: 26px; text-align: right">
+        </div>
+      </div>
+      <div style="display: flex; flex-direction: column; align-items: flex-end; gap: 2px; text-align: right">
+        <span style="font-size: 11px; color: #8a8578">Each costs <span class="tnum" style="color: #33301f; font-weight: 600">$0.73</span></span>
+        <span class="tnum" style="font-size: 22px; font-weight: 600; color: #5f6a2c; line-height: 1.2">You earn $9.27</span>
+        <span style="font-size: 11px; color: #8a8578">93% margin</span>
+      </div>
+    </div>
+    <a href="Recipe.dc.html" style="display: flex; align-items: center; justify-content: center; height: 48px; border-radius: 14px; background: #7d8a3c; color: #ffffff; font-size: 13px; font-weight: 600">Save recipe</a>
+  </div>
+
+</div>
+  </div>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844},"edgeWidth":{"editor":"int","default":28,"min":12,"max":60,"unit":"px"}}'>
+class Component extends DCLogic {
+constructor(props) {
+super(props);
+// Opens mid-gesture: the new-recipe page has been pulled 140px to the right,
+// the recipes list is already showing underneath.
+this.state = { drag: 140, dragging: false, armed: false, startX: 0, done: false };
+}
+renderVals() {
+const st = this.state;
+const W = 390;
+const x = st.done ? W : Math.max(0, st.drag);
+const p = x / W;
+const edge = this.props.edgeWidth ?? 28;
+const ease = 'transform 300ms cubic-bezier(.2,.8,.2,1)';
+return {
+topTransform: 'translateX(' + x + 'px)',
+underTransform: 'translateX(' + Math.round(-W * 0.3 * (1 - p)) + 'px)',
+dimOpacity: (0.28 * (1 - p)).toFixed(3),
+transition: st.dragging ? 'none' : ease,
+dimTransition: st.dragging ? 'none' : 'opacity 300ms cubic-bezier(.2,.8,.2,1)',
+underHidden: st.done ? 'false' : 'true',
+down: e => {
+const left = e.currentTarget.getBoundingClientRect().left;
+const local = e.clientX - left;
+// Only a drag that starts at the left edge becomes a back gesture (iOS style).
+if (st.done || local > edge) return;
+if (e.currentTarget.setPointerCapture) e.currentTarget.setPointerCapture(e.pointerId);
+this.setState({ armed: true, dragging: true, startX: e.clientX, drag: 0 });
+},
+move: e => {
+if (!this.state.armed) return;
+this.setState({ drag: Math.max(0, e.clientX - this.state.startX) });
+},
+up: e => {
+if (!this.state.armed) return;
+const go = this.state.drag > W / 3;
+this.setState({ armed: false, dragging: false, drag: 0, done: go });
+}
+};
+}
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Ask Baketly</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:#5f6a2c;text-decoration:none}a:hover{color:#6a7532}
+.tnum{font-feature-settings:'tnum'}
+input::placeholder,textarea::placeholder{color:#b9b4a8}
+</style>
+</helmet>
+<div style="width: 390px; height: 844px; box-sizing: border-box; overflow: hidden; position: relative; background: #faf6f0; color: #33301f; font-family: 'Poppins', sans-serif; font-size: 14px; line-height: 1.6; display: flex; flex-direction: column">
+  <div style="flex: none; display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 54px 20px 0">
+    <a href="Main.dc.html" style="display: flex; align-items: center; gap: 4px; min-height: 44px; font-size: 13px; font-weight: 600; color: #5f6a2c; margin-left: -4px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 6l-6 6 6 6"></path></svg>Home</a>
+    <span style="font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; font-weight: 600; color: #c9a24a">Ask Baketly</span>
+    <button type="button" aria-label="Start a new chat" style="width: 40px; height: 40px; border-radius: 50%; border: 0; background: #ffffff; color: #33301f; display: grid; place-items: center; cursor: pointer; padding: 0"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9"></path><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"></path></svg></button>
+  </div>
+
+  <div style="flex: 1 1 auto; min-height: 0; overflow: hidden; padding: 16px 20px 0; display: flex; flex-direction: column; gap: 14px">
+    <div style="align-self: center; font-size: 11px; color: #8a8578">Today</div>
+    <div style="align-self: flex-end; max-width: 80%; background: #7d8a3c; color: #ffffff; border-radius: 20px 20px 6px 20px; padding: 12px 16px; font-size: 14px; line-height: 1.55">How do I hit $1,500 at Saturday Market?</div>
+    <div style="align-self: flex-start; max-width: 86%; display: flex; flex-direction: column; gap: 6px">
+      <div style="display: flex; align-items: center; gap: 6px; font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; font-weight: 600; color: #7d8a3c"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l1.9 5.6L19.5 10l-5.6 1.9L12 17.5l-1.9-5.6L4.5 10l5.6-1.4z"></path></svg>Baketly</div>
+      <div style="background: #ffffff; border-radius: 20px 20px 20px 6px; padding: 12px 16px; box-shadow: 0 2px 10px rgba(60,55,30,.07); font-size: 14px; line-height: 1.55">You're planning <span class="tnum" style="font-weight: 600">$636</span> right now, so <span class="tnum" style="font-weight: 600">$1,500</span> means roughly doubling the lineup. Babkas are your fastest seller — last time you sold out by 11. Taking 48 instead of 24 and adding focaccia at $9 gets you to about <span class="tnum" style="font-weight: 600">$1,420</span> before the fee.</div>
+      <span style="font-size: 11px; color: #8a8578">From your sales at Saturday Market, Oct 10 and Sep 26</span>
+    </div>
+
+    <div style="align-self: flex-start; max-width: 86%; border: 1px solid #c6cd93; border-radius: 20px 20px 20px 6px; padding: 12px 16px; background: #ffffff; display: flex; flex-direction: column; gap: 10px">
+      <div style="font-size: 14px; line-height: 1.5">Change Saturday Market's lineup to 48 babkas and add 12 Rosemary Focaccia?</div>
+      <div style="display: flex; gap: 8px">
+        <a href="EventOverview.dc.html" style="display: flex; align-items: center; justify-content: center; height: 40px; padding: 0 18px; border-radius: 14px; background: #7d8a3c; color: #ffffff; font-size: 13px; font-weight: 600">Update the lineup</a>
+        <button type="button" style="height: 40px; padding: 0 14px; border: 1px solid #e5dfd2; border-radius: 14px; background: #ffffff; color: #33301f; font-family: inherit; font-size: 13px; font-weight: 600; cursor: pointer">Not now</button>
+      </div>
+    </div>
+    <div style="align-self: flex-end; max-width: 80%; background: #7d8a3c; color: #ffffff; border-radius: 20px 20px 6px 20px; padding: 12px 16px; font-size: 14px; line-height: 1.55">Will I have enough flour for that?</div>
+    <div style="align-self: flex-start; max-width: 86%; display: flex; flex-direction: column; gap: 6px">
+      <div style="display: flex; align-items: center; gap: 6px; font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; font-weight: 600; color: #7d8a3c"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l1.9 5.6L19.5 10l-5.6 1.9L12 17.5l-1.9-5.6L4.5 10l5.6-1.4z"></path></svg>Baketly</div>
+      <div style="background: #ffffff; border-radius: 20px 20px 20px 6px; padding: 12px 16px; box-shadow: 0 2px 10px rgba(60,55,30,.07); font-size: 14px; line-height: 1.55">Not quite. 48 babkas and 12 focaccia need about <span class="tnum" style="font-weight: 600">4.6 kg</span> of bread flour; you logged 5 kg on Tuesday, but Tuesday's sourdough used 2 kg. I'd add 2 kg to the shopping list.</div>
+      <span style="font-size: 11px; color: #8a8578">From your pantry and Saturday Market's shopping list</span>
+    </div>
+
+  </div>
+
+  <div style="flex: none; padding: 10px 20px 28px; display: flex; flex-direction: column; gap: 10px; background: #faf6f0">
+    <div style="display: flex; gap: 6px; overflow: hidden">
+      <button type="button" style="height: 32px; padding: 0 12px; flex: none; border: 1px solid #c6cd93; border-radius: 999px; background: #ffffff; color: #5f6a2c; font-family: inherit; font-size: 11px; font-weight: 600; cursor: pointer">Add 2 kg flour to the list</button>
+      <button type="button" style="height: 32px; padding: 0 12px; flex: none; border: 1px solid #c6cd93; border-radius: 999px; background: #ffffff; color: #5f6a2c; font-family: inherit; font-size: 11px; font-weight: 600; cursor: pointer">Which product earns the least?</button>
+      <button type="button" style="height: 32px; padding: 0 12px; flex: none; border: 1px solid #c6cd93; border-radius: 999px; background: #ffffff; color: #5f6a2c; font-family: inherit; font-size: 11px; font-weight: 600; cursor: pointer">Where am I losing margin?</button>
+    </div>
+    <div style="display: flex; align-items: flex-end; gap: 8px">
+      <label style="flex: 1; min-width: 0; display: flex; align-items: center; min-height: 48px; padding: 0 16px; border: 1px solid #e5dfd2; border-radius: 16px; background: #ffffff; cursor: text">
+        <textarea rows="1" maxlength="500" placeholder="Ask about your bakery…" aria-label="Ask about your bakery" style="flex: 1; min-width: 0; border: 0; outline: none; background: none; resize: none; font-family: inherit; font-size: 14px; line-height: 1.5; color: #33301f; padding: 12px 0"></textarea>
+      </label>
+      <button type="button" aria-label="Talk instead of typing" style="flex: none; width: 48px; height: 48px; border-radius: 14px; border: 1px solid #e5dfd2; background: #ffffff; color: #5f6a2c; display: grid; place-items: center; cursor: pointer; padding: 0"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3"></rect><path d="M5 11a7 7 0 0 0 14 0M12 18v3"></path></svg></button>
+      <button type="button" aria-label="Send" style="flex: none; width: 48px; height: 48px; border-radius: 14px; border: 0; background: #7d8a3c; color: #ffffff; display: grid; place-items: center; cursor: pointer; padding: 0"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"></path></svg></button>
+    </div>
+  </div>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+renderVals() {
+return {};
+}
+}
+</script>
+</body>
+</html>

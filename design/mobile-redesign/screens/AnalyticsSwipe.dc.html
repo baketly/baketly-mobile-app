@@ -1,0 +1,244 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Analytics, swipe between tabs</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:#5f6a2c;text-decoration:none}a:hover{color:#6a7532}
+.tnum{font-feature-settings:'tnum'}
+</style>
+</helmet>
+<div style="width: 390px; height: 844px; box-sizing: border-box; overflow: hidden; position: relative; background: #faf6f0; color: #33301f; font-family: 'Poppins', sans-serif; font-size: 14px; line-height: 1.6; display: flex; flex-direction: column">
+
+  <div style="flex: 1 1 auto; min-height: 0; overflow: hidden; padding: 54px 0 0; display: flex; flex-direction: column; gap: 14px">
+
+    <div style="flex: none; display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 0 20px">
+      <div style="display: flex; flex-direction: column">
+        <h1 style="margin: 0; font-size: 22px; font-weight: 600; line-height: 1.25">Analytics</h1>
+        <span style="font-size: 12px; color: #8a8578">Swipe between tabs</span>
+      </div>
+      <button type="button" style="display: flex; align-items: center; gap: 6px; height: 40px; padding: 0 14px; border: 1px solid #e5dfd2; border-radius: 14px; background: #ffffff; color: #33301f; font-family: inherit; font-size: 13px; font-weight: 600; cursor: pointer">October<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#8a8578" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg></button>
+    </div>
+
+    <div role="group" aria-label="Analytics section" style="flex: none; margin: 0 20px; display: flex; gap: 4px; padding: 4px; border: 1px solid #e5dfd2; border-radius: 14px; background: #ffffff">
+      <button type="button" onClick="{{ go0 }}" style="flex: 1; height: 36px; border: 0; border-radius: 10px; background: {{ seg0bg }}; color: {{ seg0fg }}; font-family: inherit; font-size: 12px; font-weight: 600; cursor: pointer">Overview</button>
+      <button type="button" onClick="{{ go1 }}" style="flex: 1; height: 36px; border: 0; border-radius: 10px; background: {{ seg1bg }}; color: {{ seg1fg }}; font-family: inherit; font-size: 12px; font-weight: 600; cursor: pointer">Products</button>
+      <button type="button" onClick="{{ go2 }}" style="flex: 1; height: 36px; border: 0; border-radius: 10px; background: {{ seg2bg }}; color: {{ seg2fg }}; font-family: inherit; font-size: 12px; font-weight: 600; cursor: pointer">Events</button>
+    </div>
+    <div style="flex: 1 1 auto; min-height: 0; overflow: hidden; touch-action: pan-y">
+      <div onPointerDown="{{ down }}" onPointerMove="{{ move }}" onPointerUp="{{ up }}" onPointerCancel="{{ up }}" style="display: flex; height: 100%; width: 1170px; transform: {{ trackTransform }}; transition: {{ trackTransition }}; will-change: transform; user-select: none">
+        <div style="flex: none; width: 390px; height: 100%; box-sizing: border-box; padding: 0 20px; display: flex; flex-direction: column; gap: 14px; overflow: hidden">
+    <div style="flex: none; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px">
+      <div style="background: #ffffff; border-radius: 18px; padding: 14px 16px; box-shadow: 0 2px 10px rgba(60,55,30,.07); display: flex; flex-direction: column; gap: 2px"><span style="font-size: 10px; letter-spacing: 0.06em; text-transform: uppercase; color: #7a7464">Revenue</span><span class="tnum" style="font-size: 22px; font-weight: 600; line-height: 1.2; color: #33301f">$2,810</span><span class="tnum" style="font-size: 11px; color: #8a8578"><span style="color: #5f6a2c; font-weight: 600">↑12%</span> vs September</span></div>
+      <div style="background: #ffffff; border-radius: 18px; padding: 14px 16px; box-shadow: 0 2px 10px rgba(60,55,30,.07); display: flex; flex-direction: column; gap: 2px"><span style="font-size: 10px; letter-spacing: 0.06em; text-transform: uppercase; color: #7a7464">Earned</span><span class="tnum" style="font-size: 22px; font-weight: 600; line-height: 1.2; color: #5f6a2c">$2,292</span><span class="tnum" style="font-size: 11px; color: #8a8578">after all costs</span></div>
+      <div style="background: #ffffff; border-radius: 18px; padding: 14px 16px; box-shadow: 0 2px 10px rgba(60,55,30,.07); display: flex; flex-direction: column; gap: 2px"><span style="font-size: 10px; letter-spacing: 0.06em; text-transform: uppercase; color: #7a7464">Margin</span><span class="tnum" style="font-size: 22px; font-weight: 600; line-height: 1.2; color: #33301f">82%</span><span class="tnum" style="font-size: 11px; color: #8a8578">labour not set yet</span></div>
+      <div style="background: #ffffff; border-radius: 18px; padding: 14px 16px; box-shadow: 0 2px 10px rgba(60,55,30,.07); display: flex; flex-direction: column; gap: 2px"><span style="font-size: 10px; letter-spacing: 0.06em; text-transform: uppercase; color: #7a7464">Items sold</span><span class="tnum" style="font-size: 22px; font-weight: 600; line-height: 1.2; color: #33301f">214</span><span class="tnum" style="font-size: 11px; color: #8a8578">4 events · 2 orders</span></div>
+    </div>
+    <div style="flex: none; display: flex; flex-direction: column; gap: 10px">
+      <div style="display: flex; align-items: baseline; justify-content: space-between; padding: 0 2px">
+        <h6 style="margin: 0; font-size: 15px; font-weight: 700; line-height: 1.3">Last three months</h6>
+        <span class="tnum" style="font-size: 12px; color: #8a8578">revenue</span>
+      </div>
+      <div style="background: #ffffff; border-radius: 22px; padding: 16px 16px 14px; box-shadow: 0 2px 10px rgba(60,55,30,.07); display: flex; flex-direction: column; gap: 8px">
+        <div style="display: flex; align-items: flex-end; gap: 10px; height: 100px; border-bottom: 1px solid #eee7d9">
+          <div style="flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; gap: 6px; height: 100%"><span class="tnum" style="font-size: 11px; font-weight: 600; color: #33301f">$2,140</span><div style="width: 100%; max-width: 44px; height: 68px; border-radius: 4px 4px 0 0; background: #c6cd93"></div></div>
+          <div style="flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; gap: 6px; height: 100%"><span class="tnum" style="font-size: 11px; font-weight: 600; color: #33301f">$2,510</span><div style="width: 100%; max-width: 44px; height: 80px; border-radius: 4px 4px 0 0; background: #c6cd93"></div></div>
+          <div style="flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; gap: 6px; height: 100%"><span class="tnum" style="font-size: 11px; font-weight: 600; color: #33301f">$2,810</span><div style="width: 100%; max-width: 44px; height: 90px; border-radius: 4px 4px 0 0; background: #7d8a3c"></div></div>
+        </div>
+        <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; font-size: 11px; color: #7a7464; text-align: center"><span style="display: flex; flex-direction: column; align-items: center; line-height: 1.3"><span style="font-weight: 600; color: #33301f">Aug</span><span>earned $1,720</span></span><span style="display: flex; flex-direction: column; align-items: center; line-height: 1.3"><span style="font-weight: 600; color: #33301f">Sep</span><span>earned $2,030</span></span><span style="display: flex; flex-direction: column; align-items: center; line-height: 1.3"><span style="font-weight: 600; color: #33301f">Oct</span><span>earned $2,292</span></span></div>
+      </div>
+    </div>
+    <div style="flex: none; display: flex; flex-direction: column; gap: 10px">
+      <div style="display: flex; align-items: baseline; justify-content: space-between; padding: 0 2px">
+        <h6 style="margin: 0; font-size: 15px; font-weight: 700; line-height: 1.3">Revenue by product</h6>
+        <span class="tnum" style="font-size: 12px; color: #8a8578">top 5</span>
+      </div>
+      <div style="background: #ffffff; border-radius: 22px; padding: 2px 16px; box-shadow: 0 2px 10px rgba(60,55,30,.07); display: flex; flex-direction: column">
+        <div style="display: flex; align-items: center; gap: 12px; min-height: 44px;">
+          <span style="width: 118px; flex: none; font-size: 13px; font-weight: 500; line-height: 1.3">Sourdough</span>
+          <div style="flex: 1; height: 8px; border-radius: 4px; background: #efe9dd; overflow: hidden"><div style="width: 100%; height: 100%; border-radius: 4px; background: #7d8a3c"></div></div>
+          <span class="tnum" style="width: 48px; flex: none; text-align: right; font-size: 13px; font-weight: 600">$980</span>
+        </div>
+        <div style="display: flex; align-items: center; gap: 12px; min-height: 44px; border-top: 1px solid #eee7d9;">
+          <span style="width: 118px; flex: none; font-size: 13px; font-weight: 500; line-height: 1.3">Babkas</span>
+          <div style="flex: 1; height: 8px; border-radius: 4px; background: #efe9dd; overflow: hidden"><div style="width: 78%; height: 100%; border-radius: 4px; background: #c6cd93"></div></div>
+          <span class="tnum" style="width: 48px; flex: none; text-align: right; font-size: 13px; font-weight: 600">$760</span>
+        </div>
+        <div style="display: flex; align-items: center; gap: 12px; min-height: 44px; border-top: 1px solid #eee7d9;">
+          <span style="width: 118px; flex: none; font-size: 13px; font-weight: 500; line-height: 1.3">Cookies</span>
+          <div style="flex: 1; height: 8px; border-radius: 4px; background: #efe9dd; overflow: hidden"><div style="width: 55%; height: 100%; border-radius: 4px; background: #c6cd93"></div></div>
+          <span class="tnum" style="width: 48px; flex: none; text-align: right; font-size: 13px; font-weight: 600">$540</span>
+        </div>
+        <div style="display: flex; align-items: center; gap: 12px; min-height: 44px; border-top: 1px solid #eee7d9;">
+          <span style="width: 118px; flex: none; font-size: 13px; font-weight: 500; line-height: 1.3">Cheddar loaf</span>
+          <div style="flex: 1; height: 8px; border-radius: 4px; background: #efe9dd; overflow: hidden"><div style="width: 34%; height: 100%; border-radius: 4px; background: #c6cd93"></div></div>
+          <span class="tnum" style="width: 48px; flex: none; text-align: right; font-size: 13px; font-weight: 600">$330</span>
+        </div>
+        <div style="display: flex; align-items: center; gap: 12px; min-height: 44px; border-top: 1px solid #eee7d9;">
+          <span style="width: 118px; flex: none; font-size: 13px; font-weight: 500; line-height: 1.3">Frosting cups</span>
+          <div style="flex: 1; height: 8px; border-radius: 4px; background: #efe9dd; overflow: hidden"><div style="width: 20%; height: 100%; border-radius: 4px; background: #c6cd93"></div></div>
+          <span class="tnum" style="width: 48px; flex: none; text-align: right; font-size: 13px; font-weight: 600">$200</span>
+        </div>
+      </div>
+    </div>
+    <div style="flex: none; display: flex; flex-direction: column; gap: 6px; padding: 14px 16px; background: #ffffff; border-radius: 22px; box-shadow: 0 2px 10px rgba(60,55,30,.07)">
+      <span style="font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; font-weight: 600; color: #c9a24a">Baketly noticed</span>
+      <div style="font-size: 13px; line-height: 1.55">Sourdough is your most profitable line this month — $980 in, $845 earned. Babkas sell more units but keep $0.28 less each since butter went up.</div>
+    </div>
+        </div>
+        <div style="flex: none; width: 390px; height: 100%; box-sizing: border-box; padding: 0 20px; display: flex; flex-direction: column; gap: 14px; overflow: hidden">
+    <div style="flex: none; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px">
+      <div style="background: #ffffff; border-radius: 18px; padding: 14px 16px; box-shadow: 0 2px 10px rgba(60,55,30,.07); display: flex; flex-direction: column; gap: 2px"><span style="font-size: 10px; letter-spacing: 0.06em; text-transform: uppercase; color: #7a7464">Best earner</span><span class="tnum" style="font-size: 22px; font-weight: 600; line-height: 1.2; color: #5f6a2c">Sourdough</span><span class="tnum" style="font-size: 11px; color: #8a8578">$845 earned this month</span></div>
+      <div style="background: #ffffff; border-radius: 18px; padding: 14px 16px; box-shadow: 0 2px 10px rgba(60,55,30,.07); display: flex; flex-direction: column; gap: 2px"><span style="font-size: 10px; letter-spacing: 0.06em; text-transform: uppercase; color: #7a7464">Best margin</span><span class="tnum" style="font-size: 22px; font-weight: 600; line-height: 1.2; color: #33301f">Babka</span><span class="tnum" style="font-size: 11px; color: #8a8578">91% after ingredients</span></div>
+    </div>
+    <div style="flex: none; background: #ffffff; border-radius: 22px; padding: 16px; box-shadow: 0 2px 10px rgba(60,55,30,.07); display: flex; align-items: center; gap: 16px">
+      <div style="position: relative; width: 150px; height: 150px; flex: none">
+        <svg width="150" height="150" viewBox="0 0 100 100" role="img" aria-label="Revenue by product this month" style="display: block"><circle cx="50" cy="50" r="38" fill="none" stroke="#5f6a2c" stroke-width="16" stroke-dasharray="81.27 157.49" stroke-dashoffset="0.00" transform="rotate(-90 50 50)"></circle><circle cx="50" cy="50" r="38" fill="none" stroke="#7d8a3c" stroke-width="16" stroke-dasharray="62.58 176.19" stroke-dashoffset="-83.27" transform="rotate(-90 50 50)"></circle><circle cx="50" cy="50" r="38" fill="none" stroke="#a3ad63" stroke-width="16" stroke-dasharray="43.88 194.88" stroke-dashoffset="-147.84" transform="rotate(-90 50 50)"></circle><circle cx="50" cy="50" r="38" fill="none" stroke="#c6cd93" stroke-width="16" stroke-dasharray="26.04 212.72" stroke-dashoffset="-193.73" transform="rotate(-90 50 50)"></circle><circle cx="50" cy="50" r="38" fill="none" stroke="#e3e6c4" stroke-width="16" stroke-dasharray="14.99 223.77" stroke-dashoffset="-221.77" transform="rotate(-90 50 50)"></circle></svg>
+        <div style="position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; line-height: 1.2"><span class="tnum" style="font-size: 17px; font-weight: 600">$2,810</span><span style="font-size: 11px; color: #8a8578">this month</span></div>
+      </div>
+      <div style="flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 6px">
+        <div style="display: flex; align-items: center; gap: 8px; font-size: 12px"><span style="width: 10px; height: 10px; border-radius: 3px; background: #5f6a2c; flex: none"></span><span style="flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap">Sourdough</span><span class="tnum" style="font-weight: 600">35%</span></div>
+        <div style="display: flex; align-items: center; gap: 8px; font-size: 12px"><span style="width: 10px; height: 10px; border-radius: 3px; background: #7d8a3c; flex: none"></span><span style="flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap">Babkas</span><span class="tnum" style="font-weight: 600">27%</span></div>
+        <div style="display: flex; align-items: center; gap: 8px; font-size: 12px"><span style="width: 10px; height: 10px; border-radius: 3px; background: #a3ad63; flex: none"></span><span style="flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap">Cookies</span><span class="tnum" style="font-weight: 600">19%</span></div>
+        <div style="display: flex; align-items: center; gap: 8px; font-size: 12px"><span style="width: 10px; height: 10px; border-radius: 3px; background: #c6cd93; flex: none"></span><span style="flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap">Cheddar loaf</span><span class="tnum" style="font-weight: 600">12%</span></div>
+        <div style="display: flex; align-items: center; gap: 8px; font-size: 12px"><span style="width: 10px; height: 10px; border-radius: 3px; background: #e3e6c4; flex: none"></span><span style="flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap">Frosting cups</span><span class="tnum" style="font-weight: 600">7%</span></div>
+      </div>
+    </div>
+    <div style="flex: none; display: flex; flex-direction: column; gap: 10px">
+      <div style="display: flex; align-items: baseline; justify-content: space-between; padding: 0 2px">
+        <h6 style="margin: 0; font-size: 15px; font-weight: 700; line-height: 1.3">Products</h6>
+        <span class="tnum" style="font-size: 12px; color: #8a8578">sold · share · earned</span>
+      </div>
+      <div style="background: #ffffff; border-radius: 22px; padding: 0 16px; box-shadow: 0 2px 10px rgba(60,55,30,.07); display: flex; flex-direction: column">
+        <a href="ProductDetail.dc.html" style="display: flex; align-items: center; gap: 12px; min-height: 52px; color: #33301f">
+          <span style="width: 10px; height: 10px; border-radius: 3px; background: #5f6a2c; flex: none"></span>
+          <div style="flex: 1; min-width: 0; display: flex; flex-direction: column"><span style="font-size: 14px; font-weight: 500; line-height: 1.3">Sourdough</span><span class="tnum" style="font-size: 12px; color: #8a8578">52 sold · 35% of the month</span></div>
+          <span class="tnum" style="font-size: 13px; font-weight: 600">$980</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#c9c2b2" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"></path></svg>
+        </a>
+        <a href="ProductDetail.dc.html" style="display: flex; align-items: center; gap: 12px; min-height: 52px; border-top: 1px solid #eee7d9; color: #33301f">
+          <span style="width: 10px; height: 10px; border-radius: 3px; background: #7d8a3c; flex: none"></span>
+          <div style="flex: 1; min-width: 0; display: flex; flex-direction: column"><span style="font-size: 14px; font-weight: 500; line-height: 1.3">Babkas</span><span class="tnum" style="font-size: 12px; color: #8a8578">84 sold · 27% of the month</span></div>
+          <span class="tnum" style="font-size: 13px; font-weight: 600">$760</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#c9c2b2" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"></path></svg>
+        </a>
+        <a href="ProductDetail.dc.html" style="display: flex; align-items: center; gap: 12px; min-height: 52px; border-top: 1px solid #eee7d9; color: #33301f">
+          <span style="width: 10px; height: 10px; border-radius: 3px; background: #a3ad63; flex: none"></span>
+          <div style="flex: 1; min-width: 0; display: flex; flex-direction: column"><span style="font-size: 14px; font-weight: 500; line-height: 1.3">Cookies</span><span class="tnum" style="font-size: 12px; color: #8a8578">62 sold · 19% of the month</span></div>
+          <span class="tnum" style="font-size: 13px; font-weight: 600">$540</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#c9c2b2" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"></path></svg>
+        </a>
+        <a href="ProductDetail.dc.html" style="display: flex; align-items: center; gap: 12px; min-height: 52px; border-top: 1px solid #eee7d9; color: #33301f">
+          <span style="width: 10px; height: 10px; border-radius: 3px; background: #c6cd93; flex: none"></span>
+          <div style="flex: 1; min-width: 0; display: flex; flex-direction: column"><span style="font-size: 14px; font-weight: 500; line-height: 1.3">Cheddar loaf</span><span class="tnum" style="font-size: 12px; color: #8a8578">16 sold · 12% of the month</span></div>
+          <span class="tnum" style="font-size: 13px; font-weight: 600">$330</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#c9c2b2" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"></path></svg>
+        </a>
+        <a href="ProductDetail.dc.html" style="display: flex; align-items: center; gap: 12px; min-height: 52px; border-top: 1px solid #eee7d9; color: #33301f">
+          <span style="width: 10px; height: 10px; border-radius: 3px; background: #e3e6c4; flex: none"></span>
+          <div style="flex: 1; min-width: 0; display: flex; flex-direction: column"><span style="font-size: 14px; font-weight: 500; line-height: 1.3">Frosting cups</span><span class="tnum" style="font-size: 12px; color: #8a8578">40 sold · 7% of the month</span></div>
+          <span class="tnum" style="font-size: 13px; font-weight: 600">$200</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#c9c2b2" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"></path></svg>
+        </a>
+      </div>
+    </div>
+        </div>
+        <div style="flex: none; width: 390px; height: 100%; box-sizing: border-box; padding: 0 20px; display: flex; flex-direction: column; gap: 14px; overflow: hidden">
+    <div style="flex: none; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px">
+      <div style="background: #ffffff; border-radius: 18px; padding: 14px 16px; box-shadow: 0 2px 10px rgba(60,55,30,.07); display: flex; flex-direction: column; gap: 2px"><span style="font-size: 10px; letter-spacing: 0.06em; text-transform: uppercase; color: #7a7464">Best market</span><span class="tnum" style="font-size: 22px; font-weight: 600; line-height: 1.2; color: #5f6a2c">Saturday Market</span><span class="tnum" style="font-size: 11px; color: #8a8578">$748 earned · 81% margin</span></div>
+      <div style="background: #ffffff; border-radius: 18px; padding: 14px 16px; box-shadow: 0 2px 10px rgba(60,55,30,.07); display: flex; flex-direction: column; gap: 2px"><span style="font-size: 10px; letter-spacing: 0.06em; text-transform: uppercase; color: #7a7464">Per event</span><span class="tnum" style="font-size: 22px; font-weight: 600; line-height: 1.2; color: #33301f">$485</span><span class="tnum" style="font-size: 11px; color: #8a8578">earned on average</span></div>
+    </div>
+    <div style="flex: none; display: flex; flex-direction: column; gap: 10px">
+      <div style="display: flex; align-items: baseline; justify-content: space-between; padding: 0 2px">
+        <h6 style="margin: 0; font-size: 15px; font-weight: 700; line-height: 1.3">Earned by event</h6>
+        <span class="tnum" style="font-size: 12px; color: #8a8578">October</span>
+      </div>
+      <div style="background: #ffffff; border-radius: 22px; padding: 16px 16px 14px; box-shadow: 0 2px 10px rgba(60,55,30,.07); display: flex; flex-direction: column; gap: 8px">
+        <div style="display: flex; align-items: flex-end; gap: 10px; height: 100px; border-bottom: 1px solid #eee7d9">
+          <div style="flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; gap: 6px; height: 100%"><span class="tnum" style="font-size: 11px; font-weight: 600; color: #33301f">$506</span><div style="width: 100%; max-width: 44px; height: 62px; border-radius: 4px 4px 0 0; background: #c6cd93"></div></div>
+          <div style="flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; gap: 6px; height: 100%"><span class="tnum" style="font-size: 11px; font-weight: 600; color: #33301f">$748</span><div style="width: 100%; max-width: 44px; height: 92px; border-radius: 4px 4px 0 0; background: #7d8a3c"></div></div>
+          <div style="flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; gap: 6px; height: 100%"><span class="tnum" style="font-size: 11px; font-weight: 600; color: #33301f">$286</span><div style="width: 100%; max-width: 44px; height: 35px; border-radius: 4px 4px 0 0; background: #c6cd93"></div></div>
+          <div style="flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; gap: 6px; height: 100%"><span class="tnum" style="font-size: 11px; font-weight: 600; color: #8a8578">$441</span><div style="width: 100%; max-width: 44px; height: 54px; border-radius: 4px 4px 0 0; background: #ffffff; border: 1.5px dashed #c6cd93; box-sizing: border-box"></div></div>
+        </div>
+        <div style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; font-size: 11px; color: #7a7464; text-align: center"><span style="display: flex; flex-direction: column; align-items: center; line-height: 1.3"><span style="font-weight: 600; color: #33301f">Oct 3</span><span>Riverside</span></span><span style="display: flex; flex-direction: column; align-items: center; line-height: 1.3"><span style="font-weight: 600; color: #33301f">Oct 10</span><span>Saturday</span></span><span style="display: flex; flex-direction: column; align-items: center; line-height: 1.3"><span style="font-weight: 600; color: #33301f">Oct 17</span><span>Pop-up</span></span><span style="display: flex; flex-direction: column; align-items: center; line-height: 1.3"><span style="font-weight: 600; color: #33301f">Oct 24</span><span>projected</span></span></div>
+      </div>
+    </div>
+    <div style="flex: none; display: flex; flex-direction: column; gap: 10px">
+      <div style="display: flex; align-items: baseline; justify-content: space-between; padding: 0 2px">
+        <h6 style="margin: 0; font-size: 15px; font-weight: 700; line-height: 1.3">Past events</h6>
+        <span class="tnum" style="font-size: 12px; color: #8a8578">4 this month</span>
+      </div>
+      <div style="background: #ffffff; border-radius: 22px; padding: 2px 16px; box-shadow: 0 2px 10px rgba(60,55,30,.07); display: flex; flex-direction: column">
+        <a href="EventOverview.dc.html" style="display: flex; align-items: center; gap: 12px; min-height: 50px; color: #33301f"><div style="flex: 1; min-width: 0; display: flex; flex-direction: column"><span style="font-size: 14px; font-weight: 500; line-height: 1.3">Saturday Market · Oct 10</span><span class="tnum" style="font-size: 12px; color: #8a8578">took $920 · $85 fee · 81% margin</span></div><span class="tnum" style="font-size: 13px; font-weight: 600; color: #5f6a2c">$748</span></a>
+        <a href="EventOverview.dc.html" style="display: flex; align-items: center; gap: 12px; min-height: 50px; border-top: 1px solid #eee7d9; color: #33301f"><div style="flex: 1; min-width: 0; display: flex; flex-direction: column"><span style="font-size: 14px; font-weight: 500; line-height: 1.3">Riverside Market · Oct 3</span><span class="tnum" style="font-size: 12px; color: #8a8578">took $640 · $60 fee · 79% margin</span></div><span class="tnum" style="font-size: 13px; font-weight: 600; color: #5f6a2c">$506</span></a>
+        <a href="EventOverview.dc.html" style="display: flex; align-items: center; gap: 12px; min-height: 50px; border-top: 1px solid #eee7d9; color: #33301f"><div style="flex: 1; min-width: 0; display: flex; flex-direction: column"><span style="font-size: 14px; font-weight: 500; line-height: 1.3">Pop-up at Base Street · Oct 17</span><span class="tnum" style="font-size: 12px; color: #8a8578">took $380 · no fee · 75% margin</span></div><span class="tnum" style="font-size: 13px; font-weight: 600; color: #5f6a2c">$286</span></a>
+      </div>
+    </div>
+    <div style="flex: none; display: flex; flex-direction: column; gap: 6px; padding: 14px 16px; background: #ffffff; border-radius: 22px; box-shadow: 0 2px 10px rgba(60,55,30,.07)">
+      <span style="font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; font-weight: 600; color: #c9a24a">Baketly noticed</span>
+      <div style="font-size: 13px; line-height: 1.55">Saturday Market earns about $240 more per event than Riverside, mostly from sourdough. Worth booking the Saturday slot first when they clash.</div>
+    </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <nav aria-label="Main" style="flex: none; display: flex; align-items: stretch; padding: 6px 8px 24px; background: #ffffff; border-top: 1px solid #eee7d9">
+    <a href="Main.dc.html" style="flex: 1; min-height: 50px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; color: #9a947f; font-size: 10px"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"></path></svg>Home</a>
+    <a href="PantryIngredients.dc.html" style="flex: 1; min-height: 50px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; color: #9a947f; font-size: 10px"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 8l-9-5-9 5v8l9 5 9-5z"></path><path d="M3 8l9 5 9-5"></path></svg>Pantry</a>
+    <a href="SaleChooser.dc.html" aria-label="Pay" style="flex: 1; min-height: 50px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; color: #7d8a3c; font-size: 10px; font-weight: 600"><span style="width: 36px; height: 36px; border-radius: 50%; background: #7d8a3c; color: #ffffff; display: grid; place-items: center; box-shadow: 0 6px 18px rgba(60,55,30,.10)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 7a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v1H3z"></path><path d="M3 8h17a1 1 0 0 1 1 1v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><path d="M16 14h2"></path></svg></span></a>
+    <a href="Markets.dc.html" style="flex: 1; min-height: 50px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; color: #9a947f; font-size: 10px"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"></rect><path d="M3 10h18M8 3v4M16 3v4"></path></svg>Events</a>
+    <a href="Analytics.dc.html" aria-current="page" style="flex: 1; min-height: 50px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; color: #7d8a3c; font-size: 10px"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20V10M10 20V4M16 20v-8M22 20H2"></path></svg>Analytics</a>
+  </nav>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+constructor(props) {
+super(props);
+// Opens mid-swipe from Overview toward Products so the canvas shows both pages at once.
+this.state = { page: 0, drag: -150, dragging: false, startX: 0, startDrag: 0 };
+}
+renderVals() {
+const st = this.state;
+const W = 390;
+const x = -st.page * W + st.drag;
+const seg = i => ({ bg: i === st.page ? '#7d8a3c' : 'transparent', fg: i === st.page ? '#ffffff' : '#8a8578' });
+const s0 = seg(0), s1 = seg(1), s2 = seg(2);
+return {
+trackTransform: 'translateX(' + x + 'px)',
+trackTransition: st.dragging ? 'none' : 'transform 260ms cubic-bezier(.2,.8,.2,1)',
+seg0bg: s0.bg, seg0fg: s0.fg, seg1bg: s1.bg, seg1fg: s1.fg, seg2bg: s2.bg, seg2fg: s2.fg,
+go0: () => this.setState({ page: 0, drag: 0, dragging: false }),
+go1: () => this.setState({ page: 1, drag: 0, dragging: false }),
+go2: () => this.setState({ page: 2, drag: 0, dragging: false }),
+down: e => { if (e.currentTarget.setPointerCapture) e.currentTarget.setPointerCapture(e.pointerId); this.setState({ dragging: true, startX: e.clientX, startDrag: 0, drag: 0 }); },
+move: e => {
+if (!this.state.dragging) return;
+let d = e.clientX - this.state.startX;
+if ((this.state.page === 0 && d > 0) || (this.state.page === 2 && d < 0)) d = d / 3;
+this.setState({ drag: d });
+},
+up: e => {
+if (!this.state.dragging) return;
+const d = this.state.drag;
+let page = this.state.page;
+if (d < -W / 4 && page < 2) page += 1;
+else if (d > W / 4 && page > 0) page -= 1;
+this.setState({ page, drag: 0, dragging: false });
+}
+};
+}
+}
+</script>
+</body>
+</html>

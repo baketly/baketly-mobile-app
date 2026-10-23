@@ -569,3 +569,10 @@ Submitted, held for information, and meanwhile: the scrolling calendar, the micr
 - `3698690` 2026-10-03 — Recipes: a new one starts in no group
 - `4d2ad63` 2026-10-04 — A handover, for picking the work up on the other machine
 
+
+## The October redesign
+
+The look the app is moving to lives in `design/mobile-redesign/`: one
+`.dc.html` per screen with every style inline, a `README.md` that maps each
+screen to its template and spells out the gestures, and the design tokens.
+Build from those files, screen by screen, in the order the README gives.
