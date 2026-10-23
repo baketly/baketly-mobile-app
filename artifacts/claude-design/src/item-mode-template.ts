@@ -304,8 +304,8 @@ const recipePreview =
   `</sc-for></div>` +
 
   // the editor asks for it in this position, so the preview answers there
-  `<div class="field" style="margin-bottom:20px"><label>Active cooking time (min)</label>` +
-  `<div style="font-size:15px;padding:8px 0 0">{{ recipeMinutesLabel }}</div></div>` +
+  `<h6 style="margin-bottom:8px">Active cooking time (min)</h6>` +
+  `<div style="font-size:15px;margin-bottom:20px">{{ recipeMinutesLabel }}</div>` +
 
   // the cost block reads the same in both modes
   `<div style="border-top:2px solid var(--color-text);padding-top:12px;display:flex;justify-content:space-between;align-items:baseline">` +

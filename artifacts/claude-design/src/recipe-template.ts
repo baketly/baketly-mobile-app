@@ -896,7 +896,8 @@ function renameRecipeFields(template: string): string {
   return out.replace(
     time,
     () =>
-      '<div class="field" style="margin-bottom:20px"><label>Active cooking time (min)</label>' +
+      '<h6 style="margin-bottom:8px">Active cooking time (min)</h6>' +
+      '<div class="field" style="margin-bottom:20px">' +
       '<input class="input" value="{{ recipeMinutes }}" sc-camel-on-change="{{ setRecipeMinutes }}" ' +
       'aria-label="Active cooking time in minutes" inputmode="numeric" placeholder="not set"></div>',
   );
