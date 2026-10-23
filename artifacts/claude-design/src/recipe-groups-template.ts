@@ -188,6 +188,24 @@ function groupRecipeEditor(template: string): string {
               color: on ? '#fff' : '#8a8578'
             };
           }),
+          // Making a group used to mean leaving the recipe for Settings and
+          // finding your way back. Both screens read one list, so a group made
+          // here is in Settings the moment it exists.
+          groupAddOpen: this.state.groupAddOpen === true,
+          newGroupName: String(this.state.newGroupName || ''),
+          setNewGroupName: e => this.setState({ newGroupName: String(e.target.value || '').slice(0, 40) }),
+          openAddGroup: () => this.setState({ groupAddOpen: true, newGroupName: '' }),
+          cancelAddGroup: () => this.setState({ groupAddOpen: false, newGroupName: '' }),
+          confirmAddGroup: () => {
+            const name = String(this.state.newGroupName || '').trim();
+            if (!name) return;
+            const current = this.recipeGroupList();
+            if (current.length >= 50) { this.setState({ groupAddOpen: false, newGroupName: '' }); return; }
+            const id = 'g-' + Date.now().toString(36);
+            this.setState({ recipeGroups: [...current, { id, name }], groupAddOpen: false, newGroupName: '' });
+            // a group made from a recipe is one that recipe belongs in
+            updateRecipe({ type: id });
+          },
 `,
     "editor bindings",
   );
@@ -201,7 +219,22 @@ function groupRecipeEditor(template: string): string {
     '<div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:2px">' +
     '<sc-for list="{{ recipeGroupOpts }}" as="g" hint-placeholder-count="4">' +
     '<button sc-camel-on-click="{{ g.pick }}" style="height:30px;padding:0 11px;font-family:var(--font-body);font-size:11px;font-weight:600;border-radius:999px;cursor:pointer;border:1px solid {{ g.border }};background:{{ g.bg }};color:{{ g.color }}">{{ g.label }}</button>' +
-    "</sc-for></div></div>";
+    "</sc-for>" +
+    // dashed, so it reads as "make one" rather than one more group to pick
+    '<button sc-camel-on-click="{{ openAddGroup }}" aria-label="Add a group" ' +
+    'style="height:30px;width:30px;padding:0;font-size:17px;line-height:1;border-radius:999px;cursor:pointer;' +
+    'border:1px dashed var(--color-neutral-300);background:#fff;color:var(--color-accent);display:grid;place-items:center">+</button>' +
+    "</div></div>" +
+    '<sc-if value="{{ groupAddOpen }}" hint-placeholder-val="{{ false }}">' +
+    '<div role="dialog" aria-modal="true" aria-label="Add a group" style="position:fixed;inset:0;z-index:40;background:rgba(30,27,22,.42);display:flex;align-items:center;justify-content:center;padding:20px">' +
+    '<div class="card" style="width:min(100%,340px);padding:22px;gap:12px">' +
+    '<h3 style="margin:0">New group</h3>' +
+    '<div class="field"><label>Group name</label>' +
+    '<input class="input" value="{{ newGroupName }}" sc-camel-on-change="{{ setNewGroupName }}" aria-label="New group name" placeholder="e.g. Pastries"></div>' +
+    '<div style="display:flex;justify-content:flex-end;gap:10px;margin-top:6px">' +
+    '<button class="btn btn-secondary" sc-camel-on-click="{{ cancelAddGroup }}">Cancel</button>' +
+    '<button class="btn btn-primary" sc-camel-on-click="{{ confirmAddGroup }}">Add group</button>' +
+    '</div></div></div></sc-if>';
   out = out.slice(0, fieldEnd) + chooser + out.slice(fieldEnd);
 
   // the preview's title, settled, with its group beneath
