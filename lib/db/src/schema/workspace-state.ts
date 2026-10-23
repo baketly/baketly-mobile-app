@@ -33,6 +33,26 @@ const recipeRecordSchema = z
     yield: z.number().int().min(1).max(10_000),
     activeMinutes: z.number().int().min(0).max(10_000).optional(),
     ingredientKeys: z.array(z.string().min(1).max(80)).max(100),
+    // Parts of the bake -- dough, filling, topping -- that the ingredient list
+    // is shown under. Both are optional and additive: ingredientKeys stays the
+    // whole list and the only thing cost, macros and the shopping list read,
+    // so a recipe with no sections behaves exactly as it did, and an ingredient
+    // whose section was deleted simply falls back to the unsectioned list.
+    ingredientSections: z
+      .array(
+        z
+          .object({
+            id: z.string().min(1).max(60),
+            name: z.string().min(1).max(40),
+          })
+          .strict(),
+      )
+      .max(20)
+      .optional(),
+    // ingredient key -> section id
+    ingredientSectionOf: z
+      .record(z.string().min(1).max(80), z.string().max(60))
+      .optional(),
     packagingKeys: z.array(z.string().min(1).max(80)).max(100),
     amounts: quantityRecordSchema,
     // a small square photo of the bake, shrunk on the phone before saving

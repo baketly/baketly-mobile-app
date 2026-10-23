@@ -516,6 +516,61 @@ function replaceRecipeEditorLogic(template: string): string {
           const id = this.state.activeRecipeId;
           this.setState(st => ({ recipeRecords: (st.recipeRecords || []).filter(recipe => recipe.id !== id), activeRecipeId: null, recipeDraft: null, recipeDeleteOpen: false, screen: 'ingredients', pantryTab: 'rec', stack: [], recipeSaveError: '' }));
         };
+        // ---- ingredient sections ----------------------------------
+        //
+        // A cake is a dough, a filling and a topping, and one flat list of
+        // nineteen things does not say which is which. Sections are a view
+        // over ingredientKeys, never a replacement for it: the keys stay one
+        // list, so cost, macros, the shopping list and Ask Baketly never
+        // learn about any of this. An ingredient whose section was deleted
+        // falls back to the unsectioned list rather than disappearing.
+        const ingSections = Array.isArray(recipe.ingredientSections)
+          ? recipe.ingredientSections.filter(s => s && s.id) : [];
+        const sectionOf = (recipe.ingredientSectionOf && typeof recipe.ingredientSectionOf === 'object')
+          ? recipe.ingredientSectionOf : {};
+        const openIngPicker = sectionId => this.setState({
+          ingPickerOpen: true, ingSearch: '', ingPickerSelected: [], ingPickerCategory: 'all',
+          ingPickerSection: sectionId || ''
+        });
+        const ingRows = keys.map(k => {
+            const m = this.ING_META[k];
+            const pulled = swipe.id === k ? Math.max(0, Number(swipe.dx) || 0) : 0;
+            return {
+              key: k,
+              name: m.name, unit: m.unit, amt: String(amt(k)), costStr: CUR + (amt(k) * m.per).toFixed(2),
+              swipeX: Math.min(96, pulled) + 'px',
+              swipeOpacity: String(Math.min(1, pulled / PULL)),
+              // no easing under a finger, or the row lags behind it
+              swipeEase: swipe.id === k && swipe.dragging ? 'none' : 'transform 170ms ease',
+              swipeStart: e => {
+                // a drag inside the amount box is typing, not swiping
+                if (e && e.target && String(e.target.tagName).toLowerCase() === 'input') return;
+                const from = e && typeof e.clientX === 'number' ? e.clientX : 0;
+                if (e && e.currentTarget && e.currentTarget.setPointerCapture && e.pointerId != null) {
+                  try { e.currentTarget.setPointerCapture(e.pointerId); } catch (err) {}
+                }
+                this.setState({ recSwipe: { id: k, dx: 0, from, dragging: true } });
+              },
+              swipeMove: e => {
+                const now = this.state.recSwipe;
+                if (!now || !now.dragging || now.id !== k) return;
+                const dx = (typeof e.clientX === 'number' ? e.clientX : 0) - now.from;
+                this.setState({ recSwipe: { ...now, dx: Math.max(0, dx) } });
+              },
+              swipeEnd: () => {
+                const now = this.state.recSwipe;
+                if (!now || now.id !== k) return;
+                if ((Number(now.dx) || 0) >= PULL) {
+                  this.setState({ recSwipe: null });
+                  updateRecipe({ ingredientKeys: keys.filter(x => x !== k) });
+                  return;
+                }
+                this.setState({ recSwipe: { ...now, dx: 0, dragging: false } });
+              },
+              set: e => { const value = parseFloat(e.target.value); updateRecipe({ amounts: { ...amounts, [k]: isNaN(value) || value < 0 ? 0 : value } }); },
+              remove: () => updateRecipe({ ingredientKeys: keys.filter(x => x !== k) })
+            };
+        });
         return {
           recipeTitle: recipe.name,
           setRecipeTitle: e => updateRecipe({ name: e.target.value.slice(0, 160) }),
@@ -608,46 +663,58 @@ function replaceRecipeEditorLogic(template: string): string {
               ? 'and ' + CUR + (labourPer * y).toFixed(2) + ' of your time'
               : 'your time not costed — set an hourly rate in settings')
             : 'labor not set',
-          recipeIngs: keys.map(k => {
-            const m = this.ING_META[k];
-            const pulled = swipe.id === k ? Math.max(0, Number(swipe.dx) || 0) : 0;
-            return {
-              name: m.name, unit: m.unit, amt: String(amt(k)), costStr: CUR + (amt(k) * m.per).toFixed(2),
-              swipeX: Math.min(96, pulled) + 'px',
-              swipeOpacity: String(Math.min(1, pulled / PULL)),
-              // no easing under a finger, or the row lags behind it
-              swipeEase: swipe.id === k && swipe.dragging ? 'none' : 'transform 170ms ease',
-              swipeStart: e => {
-                // a drag inside the amount box is typing, not swiping
-                if (e && e.target && String(e.target.tagName).toLowerCase() === 'input') return;
-                const from = e && typeof e.clientX === 'number' ? e.clientX : 0;
-                if (e && e.currentTarget && e.currentTarget.setPointerCapture && e.pointerId != null) {
-                  try { e.currentTarget.setPointerCapture(e.pointerId); } catch (err) {}
+          recipeIngs: ingRows,
+          recipeIngGroups: (() => {
+            const known = {};
+            ingSections.forEach(sec => { known[sec.id] = true; });
+            const loose = ingRows.filter(r => !known[sectionOf[r.key]]);
+            const groups = [];
+            // the unsectioned list keeps the plain title, and disappears once
+            // every ingredient has a home -- which is what makes the heading
+            // read "Ingredients" again when the last section is removed
+            if (loose.length > 0 || ingSections.length === 0) {
+              groups.push({
+                title: 'Ingredients', isSection: false, rows: loose,
+                hasRows: loose.length > 0,
+                addHere: () => openIngPicker(''),
+                removeSection: () => {}
+              });
+            }
+            ingSections.forEach(sec => {
+              groups.push({
+                title: 'Ingredients \u00b7 ' + (String(sec.name || '').trim() || 'Untitled'),
+                isSection: true,
+                rows: ingRows.filter(r => sectionOf[r.key] === sec.id),
+                hasRows: ingRows.some(r => sectionOf[r.key] === sec.id),
+                addHere: () => openIngPicker(sec.id),
+                // removing a section keeps its ingredients, as unsectioned
+                removeSection: () => {
+                  const nextOf = { ...sectionOf };
+                  Object.keys(nextOf).forEach(key => { if (nextOf[key] === sec.id) delete nextOf[key]; });
+                  updateRecipe({
+                    ingredientSections: ingSections.filter(x => x.id !== sec.id),
+                    ingredientSectionOf: nextOf
+                  });
                 }
-                this.setState({ recSwipe: { id: k, dx: 0, from, dragging: true } });
-              },
-              swipeMove: e => {
-                const now = this.state.recSwipe;
-                if (!now || !now.dragging || now.id !== k) return;
-                const dx = (typeof e.clientX === 'number' ? e.clientX : 0) - now.from;
-                this.setState({ recSwipe: { ...now, dx: Math.max(0, dx) } });
-              },
-              swipeEnd: () => {
-                const now = this.state.recSwipe;
-                if (!now || now.id !== k) return;
-                if ((Number(now.dx) || 0) >= PULL) {
-                  this.setState({ recSwipe: null });
-                  updateRecipe({ ingredientKeys: keys.filter(x => x !== k) });
-                  return;
-                }
-                this.setState({ recSwipe: { ...now, dx: 0, dragging: false } });
-              },
-              set: e => { const value = parseFloat(e.target.value); updateRecipe({ amounts: { ...amounts, [k]: isNaN(value) || value < 0 ? 0 : value } }); },
-              remove: () => updateRecipe({ ingredientKeys: keys.filter(x => x !== k) })
-            };
-          }),
+              });
+            });
+            // one plus, on the first heading, so it always means the same thing
+            return groups.map((g, i) => ({ ...g, showAddSection: i === 0 }));
+          })(),
+          ingSectionAddOpen: this.state.ingSectionAddOpen === true,
+          newIngSectionName: String(this.state.newIngSectionName || ''),
+          setNewIngSectionName: e => this.setState({ newIngSectionName: String(e.target.value || '').slice(0, 40) }),
+          openAddIngSection: () => this.setState({ ingSectionAddOpen: true, newIngSectionName: '' }),
+          cancelAddIngSection: () => this.setState({ ingSectionAddOpen: false, newIngSectionName: '' }),
+          confirmAddIngSection: () => {
+            const name = String(this.state.newIngSectionName || '').trim();
+            if (!name) return;
+            if (ingSections.length >= 20) { this.setState({ ingSectionAddOpen: false, newIngSectionName: '' }); return; }
+            updateRecipe({ ingredientSections: [...ingSections, { id: 's-' + Date.now().toString(36), name }] });
+            this.setState({ ingSectionAddOpen: false, newIngSectionName: '' });
+          },
           ingPickerOpen: this.state.ingPickerOpen === true,
-          toggleIngPicker: () => this.setState(st => ({ ingPickerOpen: !st.ingPickerOpen, ingSearch: '', ingPickerSelected: [], ingPickerCategory: 'all' })),
+          toggleIngPicker: () => this.setState(st => ({ ingPickerOpen: !st.ingPickerOpen, ingSearch: '', ingPickerSelected: [], ingPickerCategory: 'all', ingPickerSection: '' })),
           cancelIngPicker: e => { if (!e || e.target === e.currentTarget) this.setState({ ingPickerOpen: false, ingSearch: '', ingPickerSelected: [], ingPickerCategory: 'all' }); },
           closeIngPicker: () => this.setState({ ingPickerOpen: false, ingSearch: '', ingPickerSelected: [], ingPickerCategory: 'all' }),
           ingSearch: this.state.ingSearch || '',
@@ -656,8 +723,16 @@ function replaceRecipeEditorLogic(template: string): string {
             const selected = this.state.ingPickerSelected || [];
             const nextAmounts = { ...amounts };
             selected.forEach(k => { if (nextAmounts[k] == null) nextAmounts[k] = this.ING_META[k].unit ? 100 : 1; });
-            updateRecipe({ ingredientKeys: [...keys, ...selected.filter(k => !keys.includes(k))], amounts: nextAmounts });
-            this.setState({ ingPickerOpen: false, ingSearch: '', ingPickerSelected: [], ingPickerCategory: 'all' });
+            const target = String(this.state.ingPickerSection || '');
+            const update = { ingredientKeys: [...keys, ...selected.filter(k => !keys.includes(k))], amounts: nextAmounts };
+            // opened from a section's own button, so that is where they land
+            if (target) {
+              const nextOf = { ...sectionOf };
+              selected.forEach(k => { nextOf[k] = target; });
+              update.ingredientSectionOf = nextOf;
+            }
+            updateRecipe(update);
+            this.setState({ ingPickerOpen: false, ingSearch: '', ingPickerSelected: [], ingPickerCategory: 'all', ingPickerSection: '' });
           },
           ...(() => {
             const query = (this.state.ingSearch || '').toLowerCase();
@@ -930,6 +1005,74 @@ function swipeToRemoveIngredient(template: string): string {
     );
 }
 
+/**
+ * The ingredient list, shown in parts.
+ *
+ * A cake is a dough, a filling and a topping, and a flat list of nineteen
+ * things does not say which is which. The list is wrapped in a loop over the
+ * sections the baker made; the row inside is left exactly as it was, so the
+ * swipe-to-remove patch that runs after this still finds it.
+ *
+ * The plus sits on the first heading only -- one button that always means
+ * "make a section" -- and each section carries the minus that removes it.
+ */
+function sectionIngredients(template: string): string {
+  const head =
+    '  <h6 style="margin-bottom:8px">Ingredients</h6>\n' +
+    '  <div style="display:flex;flex-direction:column;font-size:14px;margin-bottom:10px;border-bottom:1px solid var(--color-divider)">\n' +
+    '    <sc-for list="{{ recipeIngs }}" as="ing" hint-placeholder-count="5">';
+  const tail =
+    '    </sc-for>\n' +
+    '  </div>\n' +
+    '  <button class="btn btn-secondary" sc-camel-on-click="{{ toggleIngPicker }}" style="min-height:44px;margin-bottom:12px">+ Add from pantry</button>';
+  if (!template.includes(head)) throw new Error("Missing ingredient section head anchor");
+  if (!template.includes(tail)) throw new Error("Missing ingredient section tail anchor");
+
+  const round =
+    'flex:none;width:26px;height:26px;padding:0;border-radius:50%;cursor:pointer;' +
+    'background:#fff;display:grid;place-items:center;font-size:15px;line-height:1';
+
+  return template
+    .replace(
+      head,
+      () =>
+        '  <sc-for list="{{ recipeIngGroups }}" as="sec" hint-placeholder-count="2">\n' +
+        '  <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">' +
+        '<h6 style="margin:0;flex:1">{{ sec.title }}</h6>' +
+        '<sc-if value="{{ sec.showAddSection }}" hint-placeholder-val="{{ true }}">' +
+        '<button sc-camel-on-click="{{ openAddIngSection }}" aria-label="Add an ingredient section" ' +
+        'style="' + round + ';border:1px dashed var(--color-neutral-300);color:var(--color-accent)">+</button>' +
+        '</sc-if>' +
+        '<sc-if value="{{ sec.isSection }}" hint-placeholder-val="{{ false }}">' +
+        '<button sc-camel-on-click="{{ sec.removeSection }}" aria-label="Remove this section" ' +
+        'style="' + round + ';border:1px solid var(--color-neutral-300);color:#8a8578">−</button>' +
+        '</sc-if></div>\n' +
+        '  <div style="display:flex;flex-direction:column;font-size:14px;margin-bottom:10px;border-bottom:1px solid var(--color-divider)">\n' +
+        '    <sc-for list="{{ sec.rows }}" as="ing" hint-placeholder-count="3">',
+    )
+    .replace(
+      tail,
+      () =>
+        '    </sc-for>\n' +
+        '  </div>\n' +
+        '  <button class="btn btn-secondary" sc-camel-on-click="{{ sec.addHere }}" style="min-height:44px;margin-bottom:12px">+ Add from pantry</button>\n' +
+        '  </sc-for>\n' +
+        '  <sc-if value="{{ ingSectionAddOpen }}" hint-placeholder-val="{{ false }}">' +
+        '<div role="dialog" aria-modal="true" aria-label="Add an ingredient section" ' +
+        'style="position:fixed;inset:0;z-index:40;background:rgba(30,27,22,.42);display:flex;align-items:center;justify-content:center;padding:20px">' +
+        '<div class="card" style="width:min(100%,340px);padding:22px;gap:12px">' +
+        '<h3 style="margin:0">New section</h3>' +
+        '<p class="text-muted" style="font-size:13px;margin:0">A part of the bake, like Dough, Filling or Topping.</p>' +
+        '<div class="field"><label>Section name</label>' +
+        '<input class="input" value="{{ newIngSectionName }}" sc-camel-on-change="{{ setNewIngSectionName }}" ' +
+        'aria-label="New section name" placeholder="e.g. Filling"></div>' +
+        '<div style="display:flex;justify-content:flex-end;gap:10px;margin-top:6px">' +
+        '<button class="btn btn-secondary" sc-camel-on-click="{{ cancelAddIngSection }}">Cancel</button>' +
+        '<button class="btn btn-primary" sc-camel-on-click="{{ confirmAddIngSection }}">Add section</button>' +
+        '</div></div></div></sc-if>',
+    );
+}
+
 export function applyRecipeRecordBehavior(template: string): string {
   template = addSugarBox(macrosPerUnit(template));
   const base = replaceRecipeEditorMarkup(
@@ -952,6 +1095,7 @@ export function applyRecipeRecordBehavior(template: string): string {
   );
 
   return swipeToRemoveIngredient(
+    sectionIngredients(
     renameRecipeFields(
     safelyApplyPackagingSection(
       "packaging dialogs",
@@ -959,6 +1103,7 @@ export function applyRecipeRecordBehavior(template: string): string {
       value => replacePackagingDeleteDialog(replacePackagingPicker(value)),
       usePackagingPickerFallback,
       ),
+    ),
     ),
   );
 }
