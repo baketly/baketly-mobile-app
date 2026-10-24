@@ -341,92 +341,60 @@ window.__baketlyApplyRecipeRecords = (template) => {
     recipeTemplate = removeKnownPackagingPlaceholders(template);
   }
 
-  // Outermost, so it rewrites the text that actually reaches the screen.
-  return applyWordingBehavior(
-    applyLayoutBehavior(
-    applyReminderRoutingBehavior(
-    applySaleDoneBehavior(
-    applyReceiptBehavior(
-    applyContactScreenBehavior(
-    applyContactBehavior(
-    applySaleChargeBehavior(
-    applyCardPaymentBehavior(
-    applySwipeBackBehavior(
-    applyPantrySwipeBehavior(
-    applySwipeRemoveBehavior(
-    applyOnboardingScreenBehavior(
-    applyAskBaketlyScreenBehavior(
-    applySettingsScreenBehavior(
-    applyNearbyPricesBehavior(
-    applyProductDetailBehavior(
-    applyAnalyticsSwipeBehavior(
-    applyAnalyticsScreenBehavior(
-    applySaleFinishBehavior(
-    applySaleTillBehavior(
-    applyEventEditorBehavior(
-    applyEventOverviewBehavior(
-    applyPackagingOverviewBehavior(
-    applyIngredientOverviewBehavior(
-    applyRecipeOverviewBehavior(
-    applyRecipeEditorBehavior(
-    applyRecipeGroupsBehavior(
-    applyItemModeBehavior(
-    applyNavBehavior(
-      applyCurrencyBehavior(
-        applySettingsBehavior(
-          applyOnboardingBehavior(
-          applyCalculatorBehavior(
-            applyHomeBehavior(
-            applyWatchBehavior(
-              applyChatBehavior(
-                applySingleSalesBehavior(
-                  applySaleBehavior(
-                    applyEventBehavior(
-                      applyEventInsightsBehavior(
-                        applyProductAnalyticsBehavior(
-                          applyAnalyticsBehavior(applyIngredientRecordBehavior(recipeTemplate)),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ),
-            ),
-          ),
-          ),
-        ),
-      ),
-    ),
-    ),
-    ),
-    ),
-    ),
-    ),
-    ),
-    ),
-    ),
-    ),
-    ),
-    ),
-    ),
-    ),
-    ),
-    ),
-    ),
-    ),
-    ),
-    ),
-    ),
-    ),
-    ),
-    ),
-    ),
-    ),
-    ),
-    ),
-    ),
-  );
+  // Every pass in the order it runs: each takes the template the one before
+  // it left. They were one expression of calls nested inside calls, forty
+  // deep, and the bundler's tree-shaking does twice the work for every level
+  // of that nesting -- the production build went from twenty seconds to
+  // never finishing as passes were added. A list costs the same at any length.
+  // Wording stays last, so it rewrites the text that actually reaches the
+  // screen.
+  const passes: Array<(template: string) => string> = [
+    applyIngredientRecordBehavior,
+    applyAnalyticsBehavior,
+    applyProductAnalyticsBehavior,
+    applyEventInsightsBehavior,
+    applyEventBehavior,
+    applySaleBehavior,
+    applySingleSalesBehavior,
+    applyChatBehavior,
+    applyWatchBehavior,
+    applyHomeBehavior,
+    applyCalculatorBehavior,
+    applyOnboardingBehavior,
+    applySettingsBehavior,
+    applyCurrencyBehavior,
+    applyNavBehavior,
+    applyItemModeBehavior,
+    applyRecipeGroupsBehavior,
+    applyRecipeEditorBehavior,
+    applyRecipeOverviewBehavior,
+    applyIngredientOverviewBehavior,
+    applyPackagingOverviewBehavior,
+    applyEventOverviewBehavior,
+    applyEventEditorBehavior,
+    applySaleTillBehavior,
+    applySaleFinishBehavior,
+    applyAnalyticsScreenBehavior,
+    applyAnalyticsSwipeBehavior,
+    applyProductDetailBehavior,
+    applyNearbyPricesBehavior,
+    applySettingsScreenBehavior,
+    applyAskBaketlyScreenBehavior,
+    applyOnboardingScreenBehavior,
+    applySwipeRemoveBehavior,
+    applyPantrySwipeBehavior,
+    applySwipeBackBehavior,
+    applyCardPaymentBehavior,
+    applySaleChargeBehavior,
+    applyContactBehavior,
+    applyContactScreenBehavior,
+    applyReceiptBehavior,
+    applySaleDoneBehavior,
+    applyReminderRoutingBehavior,
+    applyLayoutBehavior,
+    applyWordingBehavior,
+  ];
+  return passes.reduce((current, pass) => pass(current), recipeTemplate);
 };
 window.__baketlyScanIngredientLabel = scanIngredientLabel;
 window.__baketlyMarketCheck = runMarketCheck;
