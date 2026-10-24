@@ -8,7 +8,7 @@
 // read in an order that means something: everything broken first, suggestions
 // when there is time for them.
 
-const TOPICS = [
+export const TOPICS = [
   { value: "suggestion", label: "A suggestion" },
   { value: "problem", label: "Something is not working" },
   { value: "question", label: "A question" },
