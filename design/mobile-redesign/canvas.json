@@ -563,6 +563,38 @@
       "title": "Pack and label \u00b7 the PDF",
       "print": "flow",
       "paper": "letter"
+    },
+    "Calculator.dc.html": {
+      "x": 0,
+      "y": 14548,
+      "w": 390,
+      "h": 844,
+      "title": "Calculator \u00b7 from Home",
+      "radius": 44
+    },
+    "CalculatorScrolled.dc.html": {
+      "x": 470,
+      "y": 14548,
+      "w": 390,
+      "h": 844,
+      "title": "Calculator \u00b7 scrolled",
+      "radius": 44
+    },
+    "CalcRecipePicker.dc.html": {
+      "x": 940,
+      "y": 14548,
+      "w": 390,
+      "h": 844,
+      "title": "Calculator \u00b7 choose a recipe",
+      "radius": 44
+    },
+    "CalculatorEvent.dc.html": {
+      "x": 1410,
+      "y": 14548,
+      "w": 390,
+      "h": 844,
+      "title": "Calculator \u00b7 opened from Bake",
+      "radius": 44
     }
   },
   "createdOnFiles": {
@@ -668,6 +700,13 @@
       "text": "Onboarding \u00b7 first run, four screens",
       "kind": "title1",
       "maxW": 1800
+    },
+    "t13": {
+      "x": 0,
+      "y": 14288,
+      "text": "Recipe calculator \u00b7 from Home, scrolled, choose a recipe, opened from an event's bake plan",
+      "kind": "title1",
+      "maxW": 1800
     }
   },
   "order": [
@@ -739,7 +778,11 @@
     "BakePlan.dc.html",
     "PackPlan.dc.html",
     "BakePlanPrint.dc.html",
-    "PackPlanPrint.dc.html"
+    "PackPlanPrint.dc.html",
+    "Calculator.dc.html",
+    "CalculatorScrolled.dc.html",
+    "CalcRecipePicker.dc.html",
+    "CalculatorEvent.dc.html"
   ],
   "pages": [],
   "title": "Baketly mobile"

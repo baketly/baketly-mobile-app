@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Recipe calculator</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:#5f6a2c;text-decoration:none}a:hover{color:#6a7532}
+.tnum{font-feature-settings:'tnum'}
+</style>
+</helmet>
+<div style="width: 390px; height: 844px; box-sizing: border-box; overflow: hidden; position: relative; background: #faf6f0; color: #33301f; font-family: 'Poppins', sans-serif; font-size: 14px; line-height: 1.6; display: flex; flex-direction: column">
+
+  <div style="flex: 1 1 auto; min-height: 0; overflow: hidden">
+  <div style="padding: 54px 20px 24px; display: flex; flex-direction: column; gap: 18px; transform: translateY(0px)">
+
+    <div style="flex: none; display: flex; align-items: center; justify-content: space-between; gap: 12px">
+      <a href="Main.dc.html" style="display: flex; align-items: center; gap: 4px; min-height: 44px; font-size: 13px; font-weight: 600; color: #5f6a2c; margin-left: -4px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 6l-6 6 6 6"></path></svg>Home</a>
+      <span style="font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; font-weight: 600; color: #c9a24a">Calculator</span>
+      <a href="RecipeOverview.dc.html" aria-label="Open this recipe" style="width: 40px; height: 40px; border-radius: 50%; background: #ffffff; color: #33301f; display: grid; place-items: center"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17L17 7M9 7h8v8"></path></svg></a>
+    </div>
+
+    <div style="flex: none; display: flex; align-items: center; gap: 14px">
+      <div style="flex: none; width: 56px; height: 56px; border-radius: 16px; background: #eef0dd; color: #5f6a2c; display: grid; place-items: center"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="3" width="14" height="18" rx="2"></rect><path d="M8 7h8M8 12h2M12 12h2M16 12h2M8 16h2M12 16h2M16 16h2"></path></svg></div>
+      <div style="min-width: 0; display: flex; flex-direction: column">
+        <h1 style="margin: 0; font-size: 22px; font-weight: 600; line-height: 1.25">Recipe calculator</h1>
+        <div style="font-size: 12px; color: #8a8578">Scale a recipe to what you need</div>
+      </div>
+    </div>
+
+    <div style="flex: none; display: flex; flex-direction: column; gap: 10px">
+      <a href="CalcRecipePicker.dc.html" style="display: flex; align-items: center; justify-content: space-between; gap: 8px; height: 48px; padding: 0 14px; border: 1px solid #e5dfd2; border-radius: 16px; background: #ffffff; color: #33301f">
+        <span style="font-size: 12px; color: #7a7464">Recipe</span>
+        <span style="display: flex; align-items: center; gap: 4px; font-size: 14px; font-weight: 600">Mini Chocolate Babka<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#8a8578" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg></span>
+      </a>
+      <div style="display: flex; align-items: center; justify-content: space-between; gap: 8px; height: 56px; padding: 0 6px 0 14px; border: 1px solid #e5dfd2; border-radius: 16px; background: #ffffff">
+        <label for="calc-units" style="font-size: 12px; color: #7a7464">How many?</label>
+        <div style="display: flex; align-items: center; gap: 8px">
+          <input id="calc-units" type="text" value="40" inputmode="decimal" class="tnum" style="width: 64px; height: 40px; box-sizing: border-box; border: 0; background: none; color: #33301f; font-family: inherit; font-weight: 700; font-size: 22px; text-align: right">
+          <span style="height: 32px; padding: 0 10px; border-radius: 10px; background: #eef0dd; color: #5f6a2c; font-size: 12px; font-weight: 600; display: flex; align-items: center">babka</span>
+        </div>
+      </div>
+      <div class="tnum" style="font-size: 12px; color: #8a8578; padding: 0 2px">about 3⅓ batches of 12</div>
+    </div>
+
+    <div style="flex: none; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border: 1px solid #eee7d9; border-radius: 18px; background: #ffffff; overflow: hidden">
+      <div style="padding: 11px 12px; display: flex; flex-direction: column; gap: 3px"><div style="font-size: 10px; letter-spacing: 0.06em; text-transform: uppercase; color: #7a7464">Ingredients</div><div class="tnum" style="font-weight: 600; font-size: 16px; line-height: 1.2">$26.46</div></div><div style="padding: 11px 12px; border-left: 1px solid #eee7d9; display: flex; flex-direction: column; gap: 3px"><div style="font-size: 10px; letter-spacing: 0.06em; text-transform: uppercase; color: #7a7464">Packaging</div><div class="tnum" style="font-weight: 600; font-size: 16px; line-height: 1.2">$6.40</div></div><div style="padding: 11px 12px; border-left: 1px solid #eee7d9; display: flex; flex-direction: column; gap: 3px"><div style="font-size: 10px; letter-spacing: 0.06em; text-transform: uppercase; color: #7a7464">Your time</div><div class="tnum" style="font-weight: 600; font-size: 16px; line-height: 1.2">$44.44</div></div>
+    </div>
+
+    <div style="flex: none; display: flex; flex-direction: column; gap: 10px">
+      <div style="display: flex; align-items: baseline; justify-content: space-between; padding: 0 2px"><h6 style="margin: 0; font-size: 15px; font-weight: 700; line-height: 1.3">Ingredients</h6><span style="font-size: 12px; color: #8a8578">for 40 babka</span></div>
+      <div style="background: #ffffff; border-radius: 22px; padding: 4px 16px 10px; box-shadow: 0 2px 10px rgba(60,55,30,.07); display: flex; flex-direction: column">
+        <div style="display: flex; flex-direction: column; ">
+          <div style="display: flex; justify-content: space-between; align-items: baseline; padding: 8px 0 6px"><span style="font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; font-weight: 600; color: #7d8a3c">Dough</span><span class="tnum" style="font-size: 11px; color: #8a8578">$12.70</span></div>
+          <div style="display: flex; align-items: center; gap: 12px; min-height: 40px; border-top: 1px solid #eee7d9"><span style="flex: 1; min-width: 0; font-size: 14px">Bread flour</span><span class="tnum" style="font-size: 14px; font-weight: 600">1.67 kg</span><span class="tnum" style="width: 52px; text-align: right; font-size: 12px; color: #8a8578">$3.17</span></div>
+          <div style="display: flex; align-items: center; gap: 12px; min-height: 40px; border-top: 1px solid #eee7d9"><span style="flex: 1; min-width: 0; font-size: 14px">Whole milk</span><span class="tnum" style="font-size: 14px; font-weight: 600">400 ml</span><span class="tnum" style="width: 52px; text-align: right; font-size: 12px; color: #8a8578">$0.64</span></div>
+          <div style="display: flex; align-items: center; gap: 12px; min-height: 40px; border-top: 1px solid #eee7d9"><span style="flex: 1; min-width: 0; font-size: 14px">Butter, unsalted</span><span class="tnum" style="font-size: 14px; font-weight: 600">333 g</span><span class="tnum" style="width: 52px; text-align: right; font-size: 12px; color: #8a8578">$4.00</span></div>
+          <div style="display: flex; align-items: center; gap: 12px; min-height: 40px; border-top: 1px solid #eee7d9"><span style="flex: 1; min-width: 0; font-size: 14px">Caster sugar</span><span class="tnum" style="font-size: 14px; font-weight: 600">200 g</span><span class="tnum" style="width: 52px; text-align: right; font-size: 12px; color: #8a8578">$0.48</span></div>
+          <div style="display: flex; align-items: center; gap: 12px; min-height: 40px; border-top: 1px solid #eee7d9"><span style="flex: 1; min-width: 0; font-size: 14px">Eggs, large</span><span class="tnum" style="font-size: 14px; font-weight: 600">6.67</span><span class="tnum" style="width: 52px; text-align: right; font-size: 12px; color: #8a8578">$3.00</span></div>
+          <div style="display: flex; align-items: center; gap: 12px; min-height: 40px; border-top: 1px solid #eee7d9"><span style="flex: 1; min-width: 0; font-size: 14px">Instant yeast</span><span class="tnum" style="font-size: 14px; font-weight: 600">23 g</span><span class="tnum" style="width: 52px; text-align: right; font-size: 12px; color: #8a8578">$1.40</span></div>
+          <div style="display: flex; align-items: center; gap: 12px; min-height: 40px; border-top: 1px solid #eee7d9"><span style="flex: 1; min-width: 0; font-size: 14px">Salt</span><span class="tnum" style="font-size: 14px; font-weight: 600">17 g</span><span class="tnum" style="width: 52px; text-align: right; font-size: 12px; color: #8a8578">$0.01</span></div>
+        </div>
+        <div style="display: flex; flex-direction: column; margin-top: 10px;">
+          <div style="display: flex; justify-content: space-between; align-items: baseline; padding: 8px 0 6px"><span style="font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; font-weight: 600; color: #7d8a3c">Filling</span><span class="tnum" style="font-size: 11px; color: #8a8578">$13.12</span></div>
+          <div style="display: flex; align-items: center; gap: 12px; min-height: 40px; border-top: 1px solid #eee7d9"><span style="flex: 1; min-width: 0; font-size: 14px">Dark chocolate 70%</span><span class="tnum" style="font-size: 14px; font-weight: 600">600 g</span><span class="tnum" style="width: 52px; text-align: right; font-size: 12px; color: #8a8578">$10.80</span></div>
+          <div style="display: flex; align-items: center; gap: 12px; min-height: 40px; border-top: 1px solid #eee7d9"><span style="flex: 1; min-width: 0; font-size: 14px">Butter, unsalted</span><span class="tnum" style="font-size: 14px; font-weight: 600">167 g</span><span class="tnum" style="width: 52px; text-align: right; font-size: 12px; color: #8a8578">$2.00</span></div>
+          <div style="display: flex; align-items: center; gap: 12px; min-height: 40px; border-top: 1px solid #eee7d9"><span style="flex: 1; min-width: 0; font-size: 14px">Caster sugar</span><span class="tnum" style="font-size: 14px; font-weight: 600">133 g</span><span class="tnum" style="width: 52px; text-align: right; font-size: 12px; color: #8a8578">$0.32</span></div>
+        </div>
+        <div style="display: flex; flex-direction: column; margin-top: 10px;">
+          <div style="display: flex; justify-content: space-between; align-items: baseline; padding: 8px 0 6px"><span style="font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; font-weight: 600; color: #7d8a3c">Syrup</span><span class="tnum" style="font-size: 11px; color: #8a8578">$0.64</span></div>
+          <div style="display: flex; align-items: center; gap: 12px; min-height: 40px; border-top: 1px solid #eee7d9"><span style="flex: 1; min-width: 0; font-size: 14px">Caster sugar</span><span class="tnum" style="font-size: 14px; font-weight: 600">267 g</span><span class="tnum" style="width: 52px; text-align: right; font-size: 12px; color: #8a8578">$0.64</span></div>
+          <div style="display: flex; align-items: center; gap: 12px; min-height: 40px; border-top: 1px solid #eee7d9"><span style="flex: 1; min-width: 0; font-size: 14px">Water</span><span class="tnum" style="font-size: 14px; font-weight: 600">267 ml</span><span class="tnum" style="width: 52px; text-align: right; font-size: 12px; color: #8a8578">$0.00</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div style="flex: none; display: flex; flex-direction: column; gap: 10px">
+      <div style="display: flex; align-items: baseline; justify-content: space-between; padding: 0 2px"><h6 style="margin: 0; font-size: 15px; font-weight: 700; line-height: 1.3">Packaging</h6><span style="font-size: 12px; color: #8a8578">one each</span></div>
+      <div style="background: #ffffff; border-radius: 22px; padding: 0 16px; box-shadow: 0 2px 10px rgba(60,55,30,.07); display: flex; flex-direction: column">
+        <div style="display: flex; align-items: center; gap: 12px; min-height: 44px;"><span style="flex: 1; font-size: 14px">Kraft box · small</span><span class="tnum" style="font-size: 14px; font-weight: 600">× 40</span><span class="tnum" style="width: 52px; text-align: right; font-size: 12px; color: #8a8578">$6.40</span></div>
+      </div>
+    </div>
+
+  </div>
+  </div>
+
+  <div style="flex: none; background: #ffffff; border-radius: 22px 22px 0 0; box-shadow: 0 -8px 30px rgba(60,55,30,.10); padding: 18px 20px 30px; display: flex; align-items: center; justify-content: space-between; gap: 16px">
+    <div style="display: flex; flex-direction: column; gap: 2px"><span style="font-size: 11px; color: #8a8578">Costs to make</span><span class="tnum" style="font-size: 22px; font-weight: 600; line-height: 1.2">$77.30</span></div>
+    <div style="display: flex; flex-direction: column; align-items: flex-end; gap: 2px; text-align: right"><span style="font-size: 11px; color: #8a8578">Each</span><span class="tnum" style="font-size: 15px; font-weight: 600; color: #5f6a2c">$1.93</span></div>
+  </div>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+renderVals() {
+return {};
+}
+}
+</script>
+</body>
+</html>

@@ -102,7 +102,8 @@ Paste these one at a time.
 > time × its batches, summed). One card per lineup recipe: tick box, name,
 > "2 batches of 9 · makes 18 loaves", "Active 30 min per batch · 1 h for
 > both", and the calculator button. Batches = lineup quantity ÷ the recipe's
-> yield, rounded up. No rest, bake or oven times — the app doesn't store them.
+> yield, exact — bake exactly what's planned, never round up to whole
+> batches; when it isn't whole write "about 2¼ batches", never decimals. No rest, bake or oven times — the app doesn't store them.
 > Show me.
 
 > The calculator button on each Bake card opens the existing recipe
@@ -187,10 +188,37 @@ This one adds plugins.
 
 ---
 
+## 7b — Recipe calculator
+
+> Restyle the recipe calculator (`calculator-template.ts`) to
+> `screens/Calculator.dc.html` and `screens/CalculatorScrolled.dc.html`. Keep
+> the controller. Header ‹ back, kicker "CALCULATOR", a round ↗ button that
+> opens the recipe. Hero tile. A Recipe pill that opens the sheet in
+> `screens/CalcRecipePicker.dc.html` (search, group chips, each recipe with
+> "Group · makes N", current one ticked) instead of the select. A big "How
+> many?" field with the unit word beside it. Under it the batches line,
+> written as "about 3⅓ batches of 12" (nearest ¼ or ⅓) when not whole, never
+> decimals. Strip: Ingredients / Packaging / Your time. Ingredients card
+> grouped by recipe part with each part's subtotal (one plain list if the
+> recipe has no parts). Packaging card. Dock: Costs to make, and Each
+> (total ÷ how many). Amounts: **whole grams and millilitres above 10**
+> (keep two decimals below 10, kg/l above 1000 as today). It always scales to
+> exactly the number typed; nothing is rounded to whole batches. Show me.
+
+> When the calculator is opened from an event's Bake screen, match
+> `screens/CalculatorEvent.dc.html`: "‹ Bake", the recipe already chosen, How
+> many already set to the planned quantity (18 loaves, not a batch count),
+> and the olive bar "For <event> · 18 loaves planned". Check that 20 loaves
+> with a batch of 9 shows "about 2¼ batches of 9" and amounts for exactly 20.
+> Show me.
+
+---
+
 ## 8 — Check
 
 > Go through `design/mobile-redesign/README.md`'s "What is new" list and tell
 > me which items from this update are built and which aren't. Then commit.
 
 Then build for the phone as usual and try: share the shopping list to
-WhatsApp, print the bake plan, open a past event.
+WhatsApp, print the bake plan, open a past event, open the calculator from
+Bake.

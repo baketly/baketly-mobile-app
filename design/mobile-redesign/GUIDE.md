@@ -21,7 +21,8 @@ the parts in `[brackets]` are the only things you change.
 
 **Updated 24 Oct:** added ingredient categories (Stage 3b), the Getting ready
 screens and the three PDFs (Stage 5b), and the finished-event overview
-(Stage 5c). If you already finished a stage, only the new ones are new work.
+(Stage 5c), and the recipe calculator (Stage 7b). If you already finished a
+stage, only the new ones are new work.
 
 Two rules for every stage:
 - **One screen per prompt.** Don't ask for "the whole pantry"; ask for one file.
@@ -197,7 +198,8 @@ Then the row swipe:
 > "2 batches of 9 · makes 18 loaves", "Active 30 min per batch · 1 h for both",
 > and the calculator button. The calculator button opens the existing recipe
 > calculator **already set to this event's batches**, so every amount is
-> scaled. Batches = lineup quantity ÷ the recipe's yield, rounded up. No
+> scaled. Batches = lineup quantity ÷ the recipe's yield,
+> exact, not rounded ("about 2¼ batches" when not whole). No
 > rest or oven times. Show me.
 
 > Build the Pack and label screen from `screens/PackPlan.dc.html`, opened
@@ -274,6 +276,28 @@ In order: `SaleChooser`, `SaleTill`, `SaleTillEvent`, `SaleCharge`
 > with Open ↗) and `screens/NearbyProduct.dc.html` (your price vs median, the
 > range bar, the three suggested prices, who sells it). Its entry point is the
 > pin button next to the + on the Recipes tab. Show me.
+
+## Stage 7b — Recipe calculator
+
+> Restyle the recipe calculator (`calculator-template.ts`) to
+> `screens/Calculator.dc.html` and `screens/CalculatorScrolled.dc.html`. Keep
+> the controller. Header ‹ back, kicker "CALCULATOR", a round ↗ button that
+> opens the recipe. Hero tile. A Recipe pill that opens the sheet in
+> `screens/CalcRecipePicker.dc.html` (search, group chips, each recipe with
+> "Group · makes N", current one ticked) instead of the select. A big "How
+> many?" field with the unit word beside it. Under it the batches line,
+> written as "about 3⅓ batches of 12" (nearest ¼ or ⅓) when not whole, never
+> decimals. Strip: Ingredients / Packaging / Your time. Ingredients card
+> grouped by recipe part with each part's subtotal (one plain list if the
+> recipe has no parts). Packaging card. Dock: Costs to make, and Each
+> (total ÷ how many). Amounts: **whole grams and millilitres above 10**
+> (keep two decimals below 10, kg/l above 1000 as today). It always scales to
+> exactly the number typed; nothing is rounded to whole batches. Show me.
+
+> When the calculator is opened from an event's Bake screen, match
+> `screens/CalculatorEvent.dc.html`: "‹ Bake", the recipe already chosen, How
+> many already set to the planned quantity (18 loaves, not a batch count),
+> and the olive bar "For <event> · 18 loaves planned". Show me.
 
 ## Stage 8 — Settings, Ask, Contact
 
