@@ -398,7 +398,8 @@ const data =
 
 /* ----------------------------------------------------------- currency sheet */
 
-const currencySheet =
+/** Also opened from the last step of onboarding (onboarding-screen-template.ts). */
+export const currencySheet =
   '<sc-if value="{{ setCurrencyOpen }}" hint-placeholder-val="{{ false }}">' +
   `<div sc-camel-on-click="{{ closeCurrencySheet }}" style="position:fixed;inset:0;z-index:40;background:rgba(250,246,240,.45)">` +
   sheet({

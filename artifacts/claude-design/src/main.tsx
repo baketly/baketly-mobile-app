@@ -55,6 +55,7 @@ import { applyNearbyPricesBehavior } from "./nearby-prices-template";
 import { applySettingsScreenBehavior } from "./settings-screen-template";
 import { applyAskBaketlyScreenBehavior } from "./ask-baketly-screen-template";
 import { applyContactScreenBehavior } from "./contact-screen-template";
+import { applyOnboardingScreenBehavior } from "./onboarding-screen-template";
 import { applySwipeRemoveBehavior } from "./swipe-remove-template";
 import { marketCheckIsDue, runMarketCheck, suggestPlaces } from "./market-check";
 import { askBaketly, buildAskContext } from "./ask-baketly";
@@ -352,6 +353,7 @@ window.__baketlyApplyRecipeRecords = (template) => {
     applySwipeBackBehavior(
     applyPantrySwipeBehavior(
     applySwipeRemoveBehavior(
+    applyOnboardingScreenBehavior(
     applyAskBaketlyScreenBehavior(
     applySettingsScreenBehavior(
     applyNearbyPricesBehavior(
@@ -394,6 +396,7 @@ window.__baketlyApplyRecipeRecords = (template) => {
           ),
         ),
       ),
+    ),
     ),
     ),
     ),
