@@ -85,7 +85,9 @@ Paste these one at a time.
 
 ## 3 — Shopping list
 
-> Restyle the event shopping list to `screens/ShoppingList.dc.html`: hero,
+> Restyle the event shopping list to `screens/ShoppingList.dc.html`: hero
+> with the sub-line "Sat 24 Oct · 3 products, 52 pieces" (counts only, never
+> the product names, so a long lineup fits),
 > the Items / Bought / About strip with the progress bar ("4 of 11 bought ·
 > 2 days until the market"), Ingredients and Packaging cards (tick box, name
 > struck through when bought, the package line like "3 packs of 454 g", the
@@ -140,7 +142,8 @@ This one adds plugins.
 
 > Make the shopping-list PDF match `screens/ShoppingListPrint.dc.html`:
 > US-letter, white, no app chrome. Header: gold "SHOPPING LIST" kicker, event
-> name, the date + "for 24 babka, 18 sourdough, 10 buns · about $78" line, the
+> name, the date + "3 products, 52 pieces · about $78" line (counts, never the
+> product names — a long lineup would not fit), the
 > app icon (`public/icon-512.png`) with "Baketly" and the bakery name on the
 > right. Ingredients and Packaging tables: tick box · name · amount (bold) ·
 > what to buy. Footer "Made with Baketly · baketly.com". Show me the PDF, then

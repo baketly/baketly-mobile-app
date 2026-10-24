@@ -185,7 +185,9 @@ Then the row swipe:
 
 ## Stage 5b — Getting ready: shopping list, bake, pack and label, PDFs
 
-> Restyle the event shopping list to `screens/ShoppingList.dc.html`: hero,
+> Restyle the event shopping list to `screens/ShoppingList.dc.html`: hero
+> with the sub-line "Sat 24 Oct · 3 products, 52 pieces" (counts only, never
+> the product names, so a long lineup fits),
 > the Items / Bought / About strip with the progress bar, Ingredients and
 > Packaging cards (tick box, name struck through when bought, the package line
 > like "3 packs of 454 g", the editable
