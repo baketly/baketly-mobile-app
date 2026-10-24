@@ -188,8 +188,9 @@ Then the row swipe:
 > Restyle the event shopping list to `screens/ShoppingList.dc.html`: hero,
 > the Items / Bought / About strip with the progress bar, Ingredients and
 > Packaging cards (tick box, name struck through when bought, the package line
-> like "3 packs of 454 g", the amber "Need 16 · you have 6" when short, the
-> editable amount + unit), and "Reset amounts to the lineup". Keep the existing
+> like "3 packs of 454 g", the editable
+> amount + unit; no "you have" stock line — the app doesn't track what's in
+> the pantry), and "Reset amounts to the lineup". Keep the existing
 > `shopNeed` logic. Show me.
 
 > Build the Bake screen from `screens/BakePlan.dc.html`, opened from Getting

@@ -89,7 +89,8 @@ Paste these one at a time.
 > the Items / Bought / About strip with the progress bar ("4 of 11 bought ·
 > 2 days until the market"), Ingredients and Packaging cards (tick box, name
 > struck through when bought, the package line like "3 packs of 454 g", the
-> amber "Need 16 · you have 6" when short, the editable amount + unit), and
+> editable amount + unit; no "you have" stock line — the app doesn't track
+> what's in the pantry), and
 > "Reset amounts to the lineup" at the bottom. Keep the existing `shopNeed`
 > logic. Leave the share button in the header for step 6. Show me.
 
