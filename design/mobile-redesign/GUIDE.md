@@ -19,6 +19,10 @@ the parts in `[brackets]` are the only things you change.
    screen as it lands. The web build: `cd artifacts/claude-design && pnpm run dev`.
 4. Keep this canvas open beside you: https://claude.ai/code/artifact/daafb0ce-9b3e-4485-abde-6901876e4eb6
 
+**Updated 24 Oct:** added ingredient categories (Stage 3b), the Getting ready
+screens and the three PDFs (Stage 5b), and the finished-event overview
+(Stage 5c). If you already finished a stage, only the new ones are new work.
+
 Two rules for every stage:
 - **One screen per prompt.** Don't ask for "the whole pantry"; ask for one file.
 - **Look before you say yes.** After each screen, compare it to the artboard.
@@ -112,6 +116,17 @@ Then parts (this one adds data):
 > (the ↕ on a row). Batch cost is unchanged by parts. Show me a recipe with
 > three parts.
 
+## Stage 3b — New ingredient and ingredient categories
+
+> Restyle the ingredient editor to match `screens/PantryIngredient.dc.html`
+> (scan tile + name, Package / Size+unit, Category / Supplier, nutrition card
+> with sugar, dock with cost per unit). Then make ingredient categories an
+> editable list that works exactly like recipe groups: the Category pill opens
+> the sheet in `screens/CategoryPicker.dc.html` (each category with its
+> ingredient count, "Other", "Add new category"), and "Add new category" opens
+> the dialog in `screens/NewCategory.dc.html`. Reuse the recipe-group picker
+> code rather than writing a second one. Show me.
+
 ## Stage 4 — Overviews and delete
 
 One prompt per file: `IngredientOverview`, `PackagingOverview`,
@@ -124,11 +139,23 @@ One prompt per file: `IngredientOverview`, `PackagingOverview`,
 > `screens/DeleteConfirm.dc.html` with copy that states the consequence for
 > this item type. Show me.
 
+For the ingredient overview add:
+
+> The sub-line under the name is plain text, `Category · Supplier`, with no
+> picker on the overview.
+
+For the recipe overview add:
+
+> The gold kicker reads "Recipe", not the group name.
+
 For the event overview add:
 
 > "Overview of costs ▾" expands in place to the list in
 > `screens/EventCostsOpen.dc.html`; the lineup rows carry the calculator
-> button; "Enter what actually sold" opens `screens/SoldSheet.dc.html`.
+> button; "Enter what actually sold" opens `screens/SoldSheet.dc.html`. The
+> three Getting ready rows have olive chevrons and short sub-lines exactly as
+> in the file; for now route Bake and Pack and label to placeholders, they get
+> built in Stage 5b.
 
 Then the row swipe:
 
@@ -153,6 +180,62 @@ Then the row swipe:
 > `screens/Markets.dc.html`: next event as a full card with Projected /
 > You'd earn / Ready, later ones slim, then past events with earned and
 > margin. Show me.
+
+## Stage 5b — Getting ready: shopping list, bake, pack and label, PDFs
+
+> Restyle the event shopping list to `screens/ShoppingList.dc.html`: hero,
+> the Items / Bought / About strip with the progress bar, Ingredients and
+> Packaging cards (tick box, name struck through when bought, the package line
+> like "3 packs of 454 g", the amber "Need 16 · you have 6" when short, the
+> editable amount + unit), and "Reset amounts to the lineup". Keep the existing
+> `shopNeed` logic. Show me.
+
+> Build the Bake screen from `screens/BakePlan.dc.html`, opened from Getting
+> ready › Bake. Strip: Batches, Recipes, Active time (each recipe's active time
+> × its batches, summed). One card per lineup recipe: tick box, name,
+> "2 batches of 9 · makes 18 loaves", "Active 30 min per batch · 1 h for both",
+> and the calculator button. The calculator button opens the existing recipe
+> calculator **already set to this event's batches**, so every amount is
+> scaled. Batches = lineup quantity ÷ the recipe's yield, rounded up. No
+> rest or oven times. Show me.
+
+> Build the Pack and label screen from `screens/PackPlan.dc.html`, opened
+> from Getting ready › Pack and label. Strip: boxes, bags, labels (totals).
+> One list card, a row per lineup product: tick box, name, "24 pieces · 24
+> small boxes · 24 labels". Counts are the recipe's packaging lines × the
+> lineup quantity. Show me.
+
+Then sharing (this adds a plugin):
+
+> Add `@capacitor/share` (and run `npx cap sync ios`). The share button on
+> the shopping list, Bake and Pack and label generates a PDF and opens the iOS
+> share sheet, as shown in `screens/ShareSheet.dc.html`. Pass the PDF as a
+> file in the app's cache directory (`@capacitor/filesystem`) plus a plain-text
+> version as `text`, so Messages and Copy get a clean list. The three PDFs are
+> `screens/ShoppingListPrint.dc.html`, `screens/BakePlanPrint.dc.html` and
+> `screens/PackPlanPrint.dc.html`: US-letter, white, render that HTML with the
+> live data, then turn it into a PDF (pick the simplest approach that works
+> offline in the Capacitor webview and tell me which you chose). The bake PDF
+> shows each recipe with "18 loaves · 2 batches", "One batch makes 9 loaves ·
+> active 30 min", and the saved recipe **for one batch**, split into its parts
+> side by side. The app icon in the header is `public/icon-512.png`. Show me
+> each PDF, then try Print and WhatsApp on the phone.
+
+## Stage 5c — Finished event
+
+> Past events (Events tab and Analytics › Events) open a new finished-event
+> overview built from `screens/EventDone.dc.html`, `EventDoneCosts.dc.html`
+> (costs expanded) and `EventDoneScrolled.dc.html` (bottom half). Reuse the
+> numbers the analytics event breakdown already computes. Header: ‹ Events,
+> kicker "MARKET · DONE", share and delete (no edit). Strip: **Sold** (full
+> list-price value of what sold), **Costs**, **You earned**, then the margin
+> and ROI line and "See costs ▾". Discounts given at the till are a **cost
+> line** ("Discounts · on 3 sales"), so Sold − Costs = Earned. Then the
+> "46 sold of 52 made" card, the Sold card (list price per product, bar red
+> under 70%, earned per product) ending with "Discounts given · on N sales
+> −$X" in amber, the Next time advice, and "Reopen this event" (the existing
+> `uncompleteEvent`). If sales don't store the discount amount yet, add it to
+> the sale record (list total − charged total) and tell me. Show me.
 
 ## Stage 6 — Sale flow
 
@@ -197,7 +280,9 @@ In order: `SaleChooser`, `SaleTill`, `SaleTillEvent`, `SaleCharge`
 > `screens/SettingsScrolled.dc.html`: the three chips stay; rows are the real
 > fields (tap the value, type, blur saves — see the script block); currency is
 > a dropdown opening `screens/CurrencySheet.dc.html`; reminders show the time
-> chip beside the toggle; groups are chips. Account and Billing from
+> chip beside the toggle; recipe groups are chips, and ingredient categories
+> are a second chip box right under them (same add field, removing a category
+> moves its ingredients to Other). Account and Billing from
 > `screens/SettingsAccount.dc.html` and `screens/SettingsBilling.dc.html`;
 > "What Baketly keeps" is the new page in `screens/SettingsData.dc.html`.
 > Show me.

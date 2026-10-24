@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Add a new category</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:#5f6a2c;text-decoration:none}a:hover{color:#6a7532}
+input::placeholder{color:#b9b4a8}
+</style>
+</helmet>
+<div style="width: 390px; height: 844px; box-sizing: border-box; overflow: hidden; position: relative; background: #faf6f0; color: #33301f; font-family: 'Poppins', sans-serif; font-size: 14px; line-height: 1.6; display: flex; flex-direction: column">
+
+  <div aria-hidden="true" style="padding: 54px 20px 0; display: flex; flex-direction: column; gap: 14px; opacity: 0.35">
+    <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 14px">
+      <span style="display: flex; align-items: center; gap: 4px; min-height: 44px; font-size: 13px; font-weight: 600; color: #5f6a2c">‹ Pantry</span>
+      <span style="font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; font-weight: 600; color: #c9a24a">New ingredient</span>
+      <span style="width: 64px"></span>
+    </div>
+    <div style="display: flex; align-items: center; gap: 12px">
+      <span style="flex: none; width: 56px; height: 56px; border-radius: 16px; border: 1.5px dashed #c9c2b2; background: #ffffff"></span>
+      <span style="flex: 1; height: 56px; padding: 0 16px; border: 1px solid #e5dfd2; border-radius: 16px; background: #ffffff; display: flex; align-items: center; font-weight: 600; font-size: 20px">Dark chocolate 70%</span>
+    </div>
+    <div style="display: flex; gap: 10px">
+      <span style="flex: 1; height: 48px; border: 1px solid #e5dfd2; border-radius: 16px; background: #ffffff"></span>
+      <span style="flex: 1; height: 48px; border: 1px solid #e5dfd2; border-radius: 16px; background: #ffffff"></span>
+    </div>
+    <span style="height: 48px; border: 1px solid #e5dfd2; border-radius: 16px; background: #ffffff"></span>
+  </div>
+
+  <div style="position: absolute; inset: 0; background: rgba(30,27,22,.42); display: flex; align-items: center; justify-content: center; padding: 20px">
+    <div role="dialog" aria-modal="true" aria-label="Add a new category" style="width: 100%; max-width: 340px; background: #faf6f0; border-radius: 22px; padding: 22px; box-shadow: 0 6px 18px rgba(60,55,30,.10); display: flex; flex-direction: column; gap: 16px; box-sizing: border-box">
+      <div style="display: flex; flex-direction: column; gap: 4px">
+        <h2 style="margin: 0; font-size: 20px; font-weight: 600; line-height: 1.3">New category</h2>
+        <p style="margin: 0; font-size: 13px; line-height: 1.5; color: #7a7464">This ingredient goes in it right away. You can edit categories in Settings.</p>
+      </div>
+
+      <div style="display: flex; flex-direction: column; gap: 6px">
+        <label for="cat-name" style="font-size: 11px; font-weight: 600">Category name</label>
+        <input id="cat-name" type="text" placeholder="Enter category name" style="width: 100%; box-sizing: border-box; height: 52px; padding: 0 16px; border: 1px solid #e5dfd2; border-radius: 16px; background: #ffffff; color: #33301f; font-family: inherit; font-weight: 600; font-size: 18px; outline: 2px solid #7d8a3c; outline-offset: 2px">
+      </div>
+
+      <div style="display: flex; flex-wrap: wrap; gap: 8px; align-items: center">
+        <span style="font-size: 11px; color: #8a8578; width: 100%">Suggestions</span>
+        <button type="button" style="height: 32px; padding: 0 12px; border: 1px solid #e5dfd2; border-radius: 999px; background: #ffffff; color: #33301f; font-family: inherit; font-size: 12px; font-weight: 600; cursor: pointer">Nuts</button>
+        <button type="button" style="height: 32px; padding: 0 12px; border: 1px solid #e5dfd2; border-radius: 999px; background: #ffffff; color: #33301f; font-family: inherit; font-size: 12px; font-weight: 600; cursor: pointer">Fruit</button>
+        <button type="button" style="height: 32px; padding: 0 12px; border: 1px solid #e5dfd2; border-radius: 999px; background: #ffffff; color: #33301f; font-family: inherit; font-size: 12px; font-weight: 600; cursor: pointer">Leavening</button>
+        <button type="button" style="height: 32px; padding: 0 12px; border: 1px solid #e5dfd2; border-radius: 999px; background: #ffffff; color: #33301f; font-family: inherit; font-size: 12px; font-weight: 600; cursor: pointer">Packaging-grade</button>
+      </div>
+
+      <div style="display: flex; gap: 10px; margin-top: 4px">
+        <a href="CategoryPicker.dc.html" style="flex: 1; display: flex; align-items: center; justify-content: center; height: 48px; border: 1px solid #e5dfd2; border-radius: 14px; background: #ffffff; color: #33301f; font-size: 13px; font-weight: 600">Cancel</a>
+        <a href="PantryIngredient.dc.html" style="flex: 1; display: flex; align-items: center; justify-content: center; height: 48px; border-radius: 14px; background: #7d8a3c; color: #ffffff; font-size: 13px; font-weight: 600">Create category</a>
+      </div>
+    </div>
+  </div>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+renderVals() {
+return {};
+}
+}
+</script>
+</body>
+</html>

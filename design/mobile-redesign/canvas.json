@@ -464,6 +464,105 @@
       "h": 844,
       "title": "Onboarding \u00b7 your bakery",
       "radius": 44
+    },
+    "CategoryPicker.dc.html": {
+      "x": 1410,
+      "y": 2600,
+      "w": 390,
+      "h": 844,
+      "title": "Pantry \u00b7 ingredient category dropdown",
+      "radius": 44
+    },
+    "NewCategory.dc.html": {
+      "x": 1880,
+      "y": 2600,
+      "w": 390,
+      "h": 844,
+      "title": "Pantry \u00b7 add new category",
+      "radius": 44
+    },
+    "ShoppingList.dc.html": {
+      "x": 1880,
+      "y": 6500,
+      "w": 390,
+      "h": 844,
+      "title": "Event \u00b7 shopping list",
+      "radius": 44
+    },
+    "ShareSheet.dc.html": {
+      "x": 2350,
+      "y": 6500,
+      "w": 390,
+      "h": 844,
+      "title": "Shopping list \u00b7 share sheet",
+      "radius": 44
+    },
+    "ShoppingListPrint.dc.html": {
+      "x": 2820,
+      "y": 6500,
+      "w": 816,
+      "h": 1056,
+      "title": "Shopping list \u00b7 the PDF (print / send)",
+      "print": "flow",
+      "paper": "letter"
+    },
+    "EventDone.dc.html": {
+      "x": 3720,
+      "y": 6500,
+      "w": 390,
+      "h": 844,
+      "title": "Overview \u00b7 finished event",
+      "radius": 44
+    },
+    "EventDoneCosts.dc.html": {
+      "x": 4190,
+      "y": 6500,
+      "w": 390,
+      "h": 844,
+      "title": "Finished event \u00b7 costs expanded",
+      "radius": 44
+    },
+    "EventDoneScrolled.dc.html": {
+      "x": 4660,
+      "y": 6500,
+      "w": 390,
+      "h": 844,
+      "title": "Finished event \u00b7 scrolled",
+      "radius": 44
+    },
+    "BakePlan.dc.html": {
+      "x": 5130,
+      "y": 6500,
+      "w": 390,
+      "h": 844,
+      "title": "Event \u00b7 bake plan",
+      "radius": 44
+    },
+    "PackPlan.dc.html": {
+      "x": 5600,
+      "y": 6500,
+      "w": 390,
+      "h": 844,
+      "title": "Event \u00b7 pack and label",
+      "radius": 44
+    },
+    "BakePlanPrint.dc.html": {
+      "x": 6070,
+      "y": 6500,
+      "w": 816,
+      "h": 1056,
+      "title": "Bake plan \u00b7 the PDF",
+      "print": "flow",
+      "paper": "letter"
+    },
+    "PackPlanPrint.dc.html": {
+      "x": 6966,
+      "y": 6500,
+      "w": 816,
+      "h": 1056,
+      "title": "Pack and label \u00b7 the PDF",
+      "print": "flow",
+      "paper": "letter"
     }
   },
   "createdOnFiles": {
@@ -517,8 +616,8 @@
     },
     "t3": {
       "kind": "title1",
-      "maxW": 1330,
-      "text": "Pantry \u00b7 new ingredient, new packaging, swiping between tabs",
+      "maxW": 2270,
+      "text": "Pantry \u00b7 new ingredient, new packaging, swiping between tabs, categories",
       "w": 240,
       "x": 0,
       "y": 2340
@@ -541,8 +640,8 @@
     },
     "t6": {
       "kind": "title1",
-      "maxW": 1800,
-      "text": "Event overview \u00b7 costs expanded, what actually sold \u00b7 drag a sheet down to dismiss",
+      "maxW": 7700,
+      "text": "Event overview \u00b7 costs expanded, what actually sold \u00b7 drag a sheet down to dismiss \u00b7 shopping list \u00b7 finished event \u00b7 bake plan \u00b7 pack and label",
       "w": 240,
       "x": 0,
       "y": 6240
@@ -628,7 +727,19 @@
     "Onboarding1.dc.html",
     "Onboarding2.dc.html",
     "OnboardingBakery.dc.html",
-    "Onboarding4.dc.html"
+    "Onboarding4.dc.html",
+    "CategoryPicker.dc.html",
+    "NewCategory.dc.html",
+    "ShoppingList.dc.html",
+    "ShareSheet.dc.html",
+    "ShoppingListPrint.dc.html",
+    "EventDone.dc.html",
+    "EventDoneCosts.dc.html",
+    "EventDoneScrolled.dc.html",
+    "BakePlan.dc.html",
+    "PackPlan.dc.html",
+    "BakePlanPrint.dc.html",
+    "PackPlanPrint.dc.html"
   ],
   "pages": [],
   "title": "Baketly mobile"
