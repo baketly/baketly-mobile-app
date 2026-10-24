@@ -120,8 +120,12 @@ export const defaultRecipes = [
 // open in Treats, which is a guess about what they bake and a wrong one often
 // enough: a loaf filed under Treats sorts wrongly everywhere it appears, and
 // nothing on the screen says it was Baketly that chose.
+//
+// It makes none until the baker says how many. Twelve was a guess too, and a
+// cost per piece worked out from a guessed batch looks exactly like one
+// worked out from a real one.
 const blankRecipeSource =
-  "{ name: '', type: '', icon: 'cake', price: 0, yield: 12, activeMinutes: 0, ingredientKeys: [], packagingKeys: [], amounts: {} }";
+  "{ name: '', type: '', icon: 'cake', price: 0, yield: 0, activeMinutes: 0, ingredientKeys: [], packagingKeys: [], amounts: {} }";
 
 export const packagingDefaults = {
   babkabag: { name: "Mini babka bag", supplier: "Uline", packPrice: 11, unitsPerPack: 50 },
@@ -526,6 +530,11 @@ function replaceRecipeEditorLogic(template: string): string {
         const packs = recipe.packagingKeys || [];
         const amounts = recipe.amounts || {};
         const y = Math.max(1, parseInt(recipe.yield, 10) || 1);
+        // What the Makes box holds. A recipe still being written may make
+        // none yet; a saved one always makes at least one, because everything
+        // that reads a saved recipe divides by it. y stays the divisor here.
+        const made = isNewRecipe ? Math.max(0, parseInt(recipe.yield, 10) || 0) : y;
+        const fewestMade = isNewRecipe ? 0 : 1;
         const amt = k => amounts[k] ?? 0;
         const ingTotal = keys.reduce((sum, key) => sum + amt(key) * (this.ING_META[key] ? this.ING_META[key].per : 0), 0);
         const packPer = packs.reduce((sum, key) => sum + (this.PACK_META[key] ? this.PACK_META[key].per : 0), 0);
@@ -697,12 +706,12 @@ function replaceRecipeEditorLogic(template: string): string {
           removeRecipePhoto: () => { this.setState({ recipePhotoError: '' }); updateRecipe({ photo: undefined }); },
           // the same for the two beside it: clearing the box to type a new
           // figure put the old clamp back before the first digit landed
-          recipeYield: typing('yield', y, String(y), 1),
+          recipeYield: typing('yield', made, String(made), fewestMade),
           setRecipeYield: e => {
             const raw = e.target.value;
             setTyped('yield', raw);
             const value = parseInt(raw, 10);
-            updateRecipe({ yield: isNaN(value) || value < 1 ? 1 : value });
+            updateRecipe({ yield: isNaN(value) || value < fewestMade ? fewestMade : value });
           },
           recipeMinutes: typing('minutes', minutes, minutes > 0 ? String(minutes) : '', 0),
           setRecipeMinutes: e => {
@@ -915,6 +924,10 @@ function replaceRecipeEditorLogic(template: string): string {
             const name = recipe.name.trim();
             if (!name) {
               this.setState({ recipeSaveError: 'Enter a recipe name before saving.' });
+              return;
+            }
+            if (made < 1) {
+              this.setState({ recipeSaveError: 'Enter how many it makes before saving.' });
               return;
             }
             const id = 'recipe-' + Date.now().toString(36);
