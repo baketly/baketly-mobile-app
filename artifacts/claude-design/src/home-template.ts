@@ -95,7 +95,17 @@ const homeController = `      ...(() => {
           const isToday = offset === 0;
           const isPast = offset < 0;
           const isPicked = offset === selected;
+          const hasEvent = (eventsByDay[key] || []).length > 0;
+          const hasTodo = (openTodosByDay[key] || 0) > 0;
           week.push({
+            // the redesign's tile: white, olive when picked, a ring on today,
+            // one dot that says what the day holds
+            tileBg: isPicked ? '#7d8a3c' : '#ffffff',
+            tileColor: isPicked ? '#ffffff' : (isPast ? '#9a947f' : '#33301f'),
+            tileRing: isToday && !isPicked ? 'inset 0 0 0 1px #c6cd93' : 'none',
+            letterStyle: isPicked ? 'opacity:0.8' : 'color:#7a7464',
+            dotBg: isPicked ? '#f5d58f' : (hasEvent ? '#7d8a3c' : '#d4953a'),
+            dotOpacity: hasEvent || hasTodo ? '1' : '0',
             letter: date.toLocaleDateString('en-US', { weekday: 'short' }).slice(0, 2),
             number: String(date.getDate()),
             key,
@@ -233,6 +243,9 @@ const homeController = `      ...(() => {
           tick: item && item.done ? '#fff' : 'transparent',
           textColor: item && item.done ? '#9a947f' : 'var(--color-text)',
           strike: item && item.done ? 'line-through' : 'none',
+          tickBorder: item && item.done ? '#7d8a3c' : '#e5dfd2',
+          tickBg: item && item.done ? '#7d8a3c' : '#ffffff',
+          textHex: item && item.done ? '#8a8578' : '#33301f',
           toggle: () => this.setState(s => ({
             todoItems: (s.todoItems || []).map((entry, i) => i === index ? { ...entry, done: !entry.done } : entry)
           })),
@@ -248,6 +261,35 @@ const homeController = `      ...(() => {
           const forDay = new Date(today.getFullYear(), today.getMonth(), today.getDate() + at);
           return { todoItems: [...(s.todoItems || []), { text, done: false, day: dayKey(forDay) }], todoDraft: '' };
         });
+
+        // ---- how ready the next market is ----------------------------------
+        // Three steps get a market ready: shop, bake, pack -- the "Getting
+        // ready" checklist in design/mobile-redesign/README.md.
+        // TODO: bake and pack do not exist yet; they arrive with the event
+        // window and replace the two falses below. Until then only shopping
+        // can be done, and it counts as done when every row of the market's
+        // shopping list is ticked. shopChecked is kept by row index for the
+        // market last opened, so ticks made on another market do not count.
+        const shoppingRows = (() => {
+          if (!nextEvent) return 0;
+          const ing = {}; const pack = {};
+          (nextEvent.event.plannedItems || []).forEach(item => {
+            const recipe = recipes.find(r => r.id === item.productId);
+            if (!recipe || !(Number(item.quantity) > 0)) return;
+            (recipe.ingredientKeys || []).forEach(k => { ing[k] = true; });
+            (recipe.packagingKeys || []).forEach(k => { pack[k] = true; });
+          });
+          return Object.keys(ing).length + Object.keys(pack).length;
+        })();
+        const ticked = st.shopChecked || {};
+        let shoppingTicked = 0;
+        for (let i = 0; i < shoppingRows; i++) if (ticked[i]) shoppingTicked++;
+        const readySteps = [
+          shoppingRows > 0 && shoppingTicked === shoppingRows, // shopping
+          false, // bake -- TODO
+          false  // pack -- TODO
+        ];
+        const readyDone = readySteps.filter(Boolean).length;
 
         // ---- what changed nearby -------------------------------------------
         const check = st.marketCheck || null;
@@ -289,6 +331,14 @@ const homeController = `      ...(() => {
               + ' ' + nextEvent.day.toLocaleDateString('en-US', { month: 'long' })
             : '',
           openNextEvent: nextEvent ? openEvent(nextEvent.event) : () => {},
+          homeNextWeekday: nextEvent ? nextEvent.day.toLocaleDateString('en-US', { weekday: 'short' }) : '',
+          homeNextDayNum: nextEvent ? String(nextEvent.day.getDate()) : '',
+          homeNextWhen: daysToNext === 0 ? 'Today' : (daysToNext === 1 ? 'Tomorrow'
+            : (nextEvent ? nextEvent.day.toLocaleDateString('en-US', { weekday: 'long' }) + ', '
+              + nextEvent.day.getDate() + ' ' + nextEvent.day.toLocaleDateString('en-US', { month: 'short' }) : '')),
+          // a market with nothing planned has nothing to get ready
+          homeHasReady: shoppingRows > 0,
+          homeReadyStr: readyDone + ' of ' + readySteps.length,
 
           homeSummary,
           homeStarter: starter,
@@ -301,6 +351,11 @@ const homeController = `      ...(() => {
           todoDraft: st.todoDraft || '',
           setTodoDraft: e => this.setState({ todoDraft: e.target.value.slice(0, 120) }),
           addTodo,
+          // the add row is an input with no button beside it, so Enter adds
+          addTodoOnEnter: e => { if (e && e.key === 'Enter') addTodo(); },
+          homeTodoMeta: todoRows.length
+            ? pickedLabel + ' \u00b7 ' + todoRows.filter(r => r.done).length + ' of ' + todoRows.length + ' done'
+            : pickedLabel,
 
           homeNearby: nearbyLine,
           homeNearbyWhen: checkedWhen && !isNaN(checkedWhen.getTime())
@@ -334,144 +389,118 @@ const ENVELOPE =
   '<rect x="3" y="5" width="18" height="14" rx="2"></rect>' +
   '<path d="M3 7l9 6 9-6"></path>';
 
-const iconButton = (handler: string, label: string, path: string) =>
-  `<button class="btn btn-icon btn-secondary" sc-camel-on-click="{{ ${handler} }}" aria-label="${label}" style="width:40px;height:40px">` +
-  `<svg width="17" height="17" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">${path}</svg></button>`;
+const ICON = (size: number, stroke: string, width: string, path: string) =>
+  `<svg width="${size}" height="${size}" sc-camel-view-box="0 0 24 24" fill="none" stroke="${stroke}" stroke-width="${width}" stroke-linecap="round" stroke-linejoin="round">${path}</svg>`;
 
-const quickAction = (handler: string, label: string, path: string) =>
-  `      <button class="btn btn-secondary" sc-camel-on-click="{{ ${handler} }}" style="flex:1;min-width:0;min-height:66px;flex-direction:column;gap:5px;padding:10px 4px;border-radius:16px">` +
-  `<svg width="18" height="18" sc-camel-view-box="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">${path}</svg>` +
-  `<span style="font-size:9.5px;font-weight:600;line-height:1.2;text-align:center;letter-spacing:-0.01em">${label}</span></button>`;
+/** The three round buttons at the top right of the band. */
+const roundButton = (handler: string, label: string, path: string) =>
+  `<button sc-camel-on-click="{{ ${handler} }}" aria-label="${label}" style="width:40px;height:40px;border-radius:50%;border:0;padding:0;cursor:pointer;background:#ffffff;color:#33301f;display:grid;place-items:center">` +
+  ICON(17, "currentColor", "1.75", path) + `</button>`;
 
+/** One of the five quick tiles: an olive line icon over a one-word label. */
+const quickTile = (handler: string, label: string, path: string) =>
+  `<button sc-camel-on-click="{{ ${handler} }}" style="flex:1;min-width:0;min-height:54px;border:0;border-radius:14px;background:#ffffff;color:#33301f;font-family:inherit;font-size:10px;font-weight:600;line-height:1.2;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;text-align:center;padding:8px 2px;cursor:pointer">` +
+  ICON(18, "#7d8a3c", "1.75", path) + label + `</button>`;
+
+// design/mobile-redesign/screens/Main.dc.html, bound to the controller above.
+// The band is drawn full-bleed by undoing the screen's side padding; its top
+// padding is the app's, not the design file's 54px, which is the status bar
+// the native shell already leaves room for.
 const homeMarkup = `
-<div style="padding:0 20px 28px">
+<div style="padding:0 20px 28px;display:flex;flex-direction:column;gap:16px">
 
-  <!-- Everything a baker looks at first shares one ground: the greeting, the
-       week, the next market when there is one, and the five things they might
-       want to make. It runs the full width of the screen, so opening the app
-       lands on something that looks like a morning rather than a list. The
-       negative margins undo the screen's side padding; the rounded bottom
-       keeps it from reading as a bar. -->
-  <div style="margin:0 -20px 22px;padding:22px 20px 20px;background:var(--color-accent-100);border-radius:0 0 26px 26px">
+  <div style="margin:0 -20px;padding:22px 20px 16px;background:#eef0dd;border-radius:0 0 26px 26px;display:flex;flex-direction:column;gap:14px">
 
-  <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px">
-    <div style="min-width:0">
-      <h2 style="font-size:31px;line-height:1.15;margin:0 0 6px;letter-spacing:-0.01em">{{ homeGreeting }}</h2>
-      <div class="text-muted" style="font-size:13.5px">{{ homeToday }}</div>
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px">
+      <div style="min-width:0;display:flex;flex-direction:column">
+        <h1 style="margin:0;font-size:26px;font-weight:700;line-height:1.2;letter-spacing:-0.01em">{{ homeGreeting }}</h1>
+        <span style="font-size:12px;color:#8a8578">{{ homeToday }}</span>
+      </div>
+      <div style="display:flex;gap:6px;flex:none">
+        ${roundButton("goChat", "Ask Baketly", '<path d="M12 3l1.9 5.6L19.5 10l-5.6 1.9L12 17.5l-1.9-5.6L4.5 10l5.6-1.4z"></path>')}
+        ${roundButton("goContact", "Send a message", ENVELOPE)}
+        ${roundButton("goSettings", "Settings", SETTINGS_GEAR)}
+      </div>
     </div>
-    <div style="display:flex;gap:6px;flex:none">
-      ${iconButton("goChat", "Ask Baketly", '<path d="M12 3l1.9 5.6L19.5 10l-5.6 1.9L12 17.5l-1.9-5.6L4.5 10l5.6-1.4z"></path>')}
-      ${iconButton("goContact", "Send a message", ENVELOPE)}
-      ${iconButton("goSettings", "Settings", SETTINGS_GEAR)}
+
+    <div style="font-size:14px;line-height:1.45">{{ homeSummary }}</div>
+
+    <div style="display:flex;gap:6px">
+      ${quickTile("goIngredientNew", "Ingredient", '<path d="M21 8l-9-5-9 5v8l9 5 9-5z"></path><path d="M3 8l9 5 9-5"></path>')}
+      ${quickTile("goPackagingNew", "Packaging", '<rect x="3" y="7" width="18" height="13" rx="2"></rect><path d="M3 11h18M12 7v13"></path>')}
+      ${quickTile("goNewRecipe", "Recipe", '<path d="M6 3h9l4 4v14H6z"></path><path d="M9 12h7M9 16h5"></path>')}
+      ${quickTile("startNewEvent", "Event", '<rect x="3" y="5" width="18" height="16" rx="2"></rect><path d="M3 10h18M8 3v4M16 3v4M12 14v4M10 16h4"></path>')}
+      ${quickTile("goCalculator", "Calculator", '<rect x="5" y="3" width="14" height="18" rx="2"></rect><path d="M8 7h8M8 12h2M12 12h2M16 12h2M8 16h2M12 16h2M16 16h2"></path>')}
     </div>
+
+    <sc-if value="{{ homeHasNext }}" hint-placeholder-val="{{ false }}">
+      <div sc-camel-on-click="{{ openNextEvent }}" style="display:flex;align-items:center;gap:12px;padding:10px 14px;background:#faf6f0;border-radius:18px;color:#33301f;cursor:pointer">
+        <div style="flex:none;width:46px;height:46px;border-radius:13px;background:#7d8a3c;color:#ffffff;display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1.1"><span style="font-size:9px;letter-spacing:0.08em;text-transform:uppercase;opacity:0.85">{{ homeNextWeekday }}</span><span style="font-size:19px;font-weight:600;font-feature-settings:'tnum'">{{ homeNextDayNum }}</span></div>
+        <div style="flex:1;min-width:0;display:flex;flex-direction:column"><span style="font-size:10px;letter-spacing:0.1em;text-transform:uppercase;font-weight:600;color:#c9a24a">Next market</span><span style="font-size:15px;font-weight:600;line-height:1.3;overflow-wrap:anywhere">{{ homeNextName }}</span><span style="font-size:12px;color:#8a8578;font-feature-settings:'tnum'">{{ homeNextWhen }}</span></div>
+        <sc-if value="{{ homeHasReady }}" hint-placeholder-val="{{ false }}"><div style="flex:none;display:flex;flex-direction:column;align-items:flex-end;line-height:1.2"><span style="font-size:10px;letter-spacing:0.06em;text-transform:uppercase;color:#7a7464">Ready</span><span style="font-size:14px;font-weight:600;color:#b07a1f;font-feature-settings:'tnum'">{{ homeReadyStr }}</span></div></sc-if>
+        ${ICON(16, "#8a8578", "1.75", '<path d="M9 6l6 6-6 6"></path>')}
+      </div>
+    </sc-if>
+
   </div>
 
-  <div style="font-size:14.5px;line-height:1.45;margin:14px 0 18px;max-width:30ch">{{ homeSummary }}</div>
-
-  <div style="display:flex;gap:5px">
-${quickAction("goIngredientNew", "New<br>ingredient", '<path d="M21 8l-9-5-9 5v8l9 5 9-5z"></path><path d="M3 8l9 5 9-5"></path>')}
-${quickAction("goPackagingNew", "New<br>packaging", '<rect x="3" y="7" width="18" height="13" rx="2"></rect><path d="M3 11h18M12 7v13"></path>')}
-${quickAction("goNewRecipe", "New<br>recipe", '<path d="M6 3h9l4 4v14H6z"></path><path d="M9 12h7M9 16h5"></path>')}
-${quickAction("startNewEvent", "New<br>event", '<rect x="3" y="5" width="18" height="16" rx="2"></rect><path d="M3 10h18M8 3v4M16 3v4M12 14v4M10 16h4"></path>')}
-  </div>
-
-  <sc-if value="{{ homeHasNext }}" hint-placeholder-val="{{ false }}">
-    <div sc-camel-on-click="{{ openNextEvent }}" style="display:flex;flex-direction:row;align-items:center;gap:14px;padding:12px 14px;margin:16px 0 0;cursor:pointer;background:var(--color-bg);border-radius:18px">
-      <div style="flex:none;min-width:58px;text-align:center;padding:7px 9px;border-radius:13px;background:var(--color-accent-100)">
-        <div style="font-family:var(--font-heading);font-weight:600;font-size:21px;line-height:1.1;color:var(--color-accent-700);font-feature-settings:'tnum'">{{ homeNextCount }}</div>
-        <div style="font-size:10px;color:var(--color-accent-700)">{{ homeNextUnit }}</div>
+  <!-- A brand-new account has nothing to show below the band; the design is
+       drawn for a baker already set up. The three first steps stay here, in
+       the design's card, and each disappears the moment it is done. -->
+  <sc-if value="{{ homeHasStarter }}" hint-placeholder-val="{{ false }}">
+    <div style="display:flex;flex-direction:column;gap:10px">
+      <div style="display:flex;align-items:baseline;justify-content:space-between;padding:0 2px"><h6 style="margin:0;font-size:15px;font-weight:700;line-height:1.3">Getting set up</h6></div>
+      <div style="background:#ffffff;border-radius:22px;padding:0 16px;box-shadow:0 2px 10px rgba(60,55,30,.07);display:flex;flex-direction:column">
+        <sc-for list="{{ homeStarter }}" as="step" hint-placeholder-count="3">
+          <div class="bk-row" sc-camel-on-click="{{ step.go }}" style="display:flex;align-items:center;gap:12px;min-height:44px;border-top:1px solid #eee7d9;cursor:pointer">
+            <span style="width:22px;height:22px;flex:none;border-radius:7px;border:1.5px solid #e5dfd2;background:#ffffff"></span>
+            <span style="flex:1;font-size:14px">{{ step.label }}</span>
+            ${ICON(16, "#8a8578", "1.75", '<path d="M9 6l6 6-6 6"></path>')}
+          </div>
+        </sc-for>
       </div>
-      <div style="flex:1;min-width:0">
-        <span class="card-kicker">Next market</span>
-        <div style="font-size:15px;font-weight:600;margin-top:2px;overflow-wrap:anywhere">{{ homeNextName }}</div>
-        <div class="text-muted" style="font-size:12px">{{ homeNextDate }}</div>
-      </div>
-      <span class="text-muted" style="flex:none;font-size:17px">›</span>
     </div>
   </sc-if>
 
-  <sc-if value="{{ homeHasStarter }}" hint-placeholder-val="{{ false }}">
-    <h6 style="margin:18px 0 8px">Getting set up</h6>
-    <div style="display:flex;flex-direction:column;margin-bottom:0">
-      <sc-for list="{{ homeStarter }}" as="step" hint-placeholder-count="3">
-        <div class="bk-row" sc-camel-on-click="{{ step.go }}" style="display:flex;align-items:center;gap:12px;padding:13px 2px;border-top:1px solid var(--color-divider);cursor:pointer;min-height:44px">
-          <span style="width:22px;height:22px;flex:none;border-radius:7px;border:1.5px solid var(--color-neutral-300);background:#fff"></span>
-          <span style="flex:1;font-size:14px">{{ step.label }}</span>
-          <span class="text-muted" style="flex:none;font-size:17px">›</span>
+  <div data-bk-days style="display:flex;gap:6px;overflow-x:auto;overscroll-behavior-x:contain;scroll-snap-type:x mandatory;scrollbar-width:none;-webkit-overflow-scrolling:touch">
+    <sc-for list="{{ homeWeek }}" as="day" hint-placeholder-count="7">
+      <div sc-camel-on-click="{{ day.pick }}" style="flex:0 0 calc((100% - 36px) / 7);min-width:0;scroll-snap-align:start;display:flex;flex-direction:column;align-items:center;gap:3px;padding:10px 0 8px;border-radius:14px;cursor:pointer;background:{{ day.tileBg }};color:{{ day.tileColor }};box-shadow:{{ day.tileRing }};font-feature-settings:'tnum';box-sizing:border-box">
+        <span style="font-size:14px;font-weight:600;line-height:1.1">{{ day.number }}</span>
+        <span style="font-size:9px;letter-spacing:0.06em;text-transform:uppercase;{{ day.letterStyle }}">{{ day.letter }}</span>
+        <span style="width:4px;height:4px;border-radius:50%;background:{{ day.dotBg }};opacity:{{ day.dotOpacity }}"></span>
+      </div>
+    </sc-for>
+  </div>
+
+  <div style="display:flex;flex-direction:column;gap:10px">
+    <div style="display:flex;align-items:baseline;justify-content:space-between;padding:0 2px">
+      <h6 style="margin:0;font-size:15px;font-weight:700;line-height:1.3">To do</h6>
+      <span style="font-size:12px;color:#8a8578">{{ homeTodoMeta }}</span>
+    </div>
+    <div style="background:#ffffff;border-radius:22px;padding:0 16px;box-shadow:0 2px 10px rgba(60,55,30,.07);display:flex;flex-direction:column">
+      <sc-for list="{{ homeTodos }}" as="todo" hint-placeholder-count="2">
+        <div style="display:flex;align-items:center;gap:12px;min-height:44px;border-bottom:1px solid #eee7d9">
+          <button sc-camel-on-click="{{ todo.toggle }}" aria-label="Done" style="width:22px;height:22px;flex:none;border-radius:7px;border:1.5px solid {{ todo.tickBorder }};background:{{ todo.tickBg }};cursor:pointer;display:grid;place-items:center;padding:0">
+            <svg width="12" height="12" sc-camel-view-box="0 0 24 24" fill="none" stroke="{{ todo.tick }}" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"></path></svg>
+          </button>
+          <span style="flex:1;font-size:14px;color:{{ todo.textHex }};text-decoration:{{ todo.strike }}">{{ todo.text }}</span>
+          <button sc-camel-on-click="{{ todo.remove }}" aria-label="Remove" style="flex:none;width:30px;height:30px;border:0;background:none;cursor:pointer;color:#c9c2b2;font-size:18px;line-height:1;margin-right:-8px">×</button>
         </div>
       </sc-for>
-    </div>
-  </sc-if>
-
-  </div>
-
-  <div data-bk-days style="display:flex;gap:6px;margin-bottom:20px;overflow-x:auto;overscroll-behavior-x:contain;scroll-snap-type:x mandatory;scrollbar-width:none;-webkit-overflow-scrolling:touch">
-    <sc-for list="{{ homeWeek }}" as="day" hint-placeholder-count="7">
-      <div sc-camel-on-click="{{ day.pick }}" style="flex:0 0 calc((100% - 36px) / 7);min-width:0;scroll-snap-align:start;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;padding:30px 0 26px;border-radius:22px;cursor:pointer;background:{{ day.bg }};color:{{ day.color }};border:{{ day.border }};box-sizing:border-box">
-        <span style="font-size:17px;font-weight:600;line-height:1.1;font-feature-settings:'tnum'">{{ day.number }}</span>
-        <span style="font-size:9.5px;letter-spacing:0.06em;text-transform:uppercase;opacity:0.7">{{ day.letter }}</span>
-        <span style="display:flex;gap:3px"><span style="width:4px;height:4px;border-radius:50%;background:{{ day.dotColor }};opacity:{{ day.dotOpacity }}"></span><span style="width:4px;height:4px;border-radius:50%;background:{{ day.todoDotColor }};opacity:{{ day.todoDotOpacity }}"></span></span>
+      <div style="display:flex;align-items:center;gap:12px;min-height:44px">
+        <!-- the plus is the button: the design has no separate Add, and Enter
+             adds as well, for a keyboard that shows a return key -->
+        <button sc-camel-on-click="{{ addTodo }}" aria-label="Add this to-do" style="flex:none;width:22px;height:22px;border:0;background:none;padding:0;cursor:pointer;display:grid;place-items:center">${ICON(16, "#7d8a3c", "2", '<path d="M12 5v14M5 12h14"></path>')}</button>
+        <input value="{{ todoDraft }}" sc-camel-on-change="{{ setTodoDraft }}" sc-camel-on-key-down="{{ addTodoOnEnter }}" aria-label="Add a to-do" placeholder="{{ homeTodoPlaceholder }}" style="flex:1;min-width:0;height:36px;border:0;background:none;font-family:inherit;font-size:13px;color:#33301f;outline:none">
       </div>
-    </sc-for>
-  </div>
-
-
-  <div style="display:flex;align-items:baseline;justify-content:space-between;gap:10px;margin:0 0 8px">
-    <h6 style="margin:0">{{ homeDayLabel }}</h6>
-    <sc-if value="{{ homeDayAway }}" hint-placeholder-val="{{ false }}"><button sc-camel-on-click="{{ goToday }}" style="border:0;background:none;padding:4px 0;cursor:pointer;color:var(--color-accent);font-size:12px;font-weight:600;letter-spacing:0.02em">Back to today</button></sc-if>
-  </div>
-  <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:24px">
-    <sc-for list="{{ homeDayItems }}" as="item" hint-placeholder-count="1">
-      <div class="card" sc-camel-on-click="{{ item.open }}" style="gap:4px;padding:15px 16px;cursor:pointer">
-        <div style="font-size:15px;font-weight:600">{{ item.name }}</div>
-        <div class="text-muted" style="font-size:12px">{{ item.detail }}</div>
-      </div>
-    </sc-for>
-    <sc-if value="{{ homeDayEmpty }}" hint-placeholder-val="{{ true }}">
-      <div class="text-muted" style="font-size:13px;line-height:1.5;padding:16px 2px;border-top:1px solid var(--color-divider);border-bottom:1px solid var(--color-divider)">Nothing booked for this day. Markets you plan will show up here.</div>
-    </sc-if>
-  </div>
-
-  <h6 style="margin:0 0 8px">To do</h6>
-  <div style="display:flex;flex-direction:column;margin-bottom:10px">
-    <sc-for list="{{ homeTodos }}" as="todo" hint-placeholder-count="2">
-      <div style="display:flex;align-items:center;gap:12px;padding:11px 2px;border-top:1px solid var(--color-divider);min-height:44px">
-        <button sc-camel-on-click="{{ todo.toggle }}" aria-label="Done" style="width:22px;height:22px;flex:none;border-radius:7px;border:1.5px solid {{ todo.boxBorder }};background:{{ todo.boxBg }};cursor:pointer;display:grid;place-items:center;padding:0">
-          <svg width="12" height="12" sc-camel-view-box="0 0 24 24" fill="none" stroke="{{ todo.tick }}" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"></path></svg>
-        </button>
-        <span style="flex:1;font-size:14px;color:{{ todo.textColor }};text-decoration:{{ todo.strike }}">{{ todo.text }}</span>
-        <button sc-camel-on-click="{{ todo.remove }}" aria-label="Remove" style="flex:none;width:30px;height:30px;border:0;background:none;cursor:pointer;color:var(--color-neutral-400);font-size:18px;line-height:1">×</button>
-      </div>
-    </sc-for>
-  </div>
-  <div style="display:flex;gap:8px;align-items:center;margin-bottom:24px">
-    <input class="input" value="{{ todoDraft }}" sc-camel-on-change="{{ setTodoDraft }}" aria-label="Add a to-do" placeholder="{{ homeTodoPlaceholder }}" style="flex:1;min-width:0;padding:11px 14px;font-size:13px">
-    <button class="btn btn-secondary" sc-camel-on-click="{{ addTodo }}" style="flex:none;min-height:44px;padding:0 16px">Add</button>
-  </div>
-
-  <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));border:1px solid var(--color-divider);border-radius:var(--radius-md);background:#fff;margin-bottom:24px">
-    <div style="padding:11px 12px">
-      <div class="text-muted" style="font-size:10px;letter-spacing:0.06em;text-transform:uppercase;margin-bottom:3px">Projected</div>
-      <div style="font-family:var(--font-heading);font-weight:600;font-size:18px;font-feature-settings:'tnum';overflow-wrap:anywhere">{{ homeProjectedStr }}</div>
     </div>
-    <div style="padding:11px 12px;border-left:1px solid var(--color-divider)">
-      <div class="text-muted" style="font-size:10px;letter-spacing:0.06em;text-transform:uppercase;margin-bottom:3px">Made</div>
-      <div style="font-family:var(--font-heading);font-weight:600;font-size:18px;font-feature-settings:'tnum';overflow-wrap:anywhere">{{ homeMadeStr }}</div>
-    </div>
-    <div style="padding:11px 12px;border-left:1px solid var(--color-divider)">
-      <div class="text-muted" style="font-size:10px;letter-spacing:0.06em;text-transform:uppercase;margin-bottom:3px">Events</div>
-      <div style="font-family:var(--font-heading);font-weight:600;font-size:18px;font-feature-settings:'tnum'">{{ homeEventsStr }}</div>
-    </div>
-    <div class="text-muted" style="grid-column:1 / -1;border-top:1px solid var(--color-divider);padding:7px 12px;font-size:11px">{{ homeMonthLabel }} · projected adds markets to come</div>
   </div>
 
-  <div class="card" sc-camel-on-click="{{ goAlerts }}" style="gap:7px;margin-bottom:22px;cursor:pointer">
-    <span class="card-kicker">What changed nearby</span>
-    <div style="font-size:14px;line-height:1.55">{{ homeNearby }}</div>
-    <div style="display:flex;align-items:center;justify-content:space-between;gap:10px">
-      <span class="text-muted" style="font-size:11px">{{ homeNearbyWhen }}</span>
-      <span style="font-size:12px;font-weight:600;color:var(--color-accent-700)">See what changed ›</span>
-    </div>
+  <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));border:1px solid #eee7d9;border-radius:18px;background:#ffffff;overflow:hidden">
+    <div style="padding:11px 12px;display:flex;flex-direction:column;gap:3px"><div style="font-size:10px;letter-spacing:0.06em;text-transform:uppercase;color:#7a7464">Projected</div><div style="font-weight:600;font-size:16px;line-height:1.2;font-feature-settings:'tnum';overflow-wrap:anywhere">{{ homeProjectedStr }}</div></div>
+    <div style="padding:11px 12px;border-left:1px solid #eee7d9;display:flex;flex-direction:column;gap:3px"><div style="font-size:10px;letter-spacing:0.06em;text-transform:uppercase;color:#7a7464">Made</div><div style="font-weight:600;font-size:16px;line-height:1.2;font-feature-settings:'tnum';overflow-wrap:anywhere">{{ homeMadeStr }}</div></div>
+    <div style="padding:11px 12px;border-left:1px solid #eee7d9;display:flex;flex-direction:column;gap:3px"><div style="font-size:10px;letter-spacing:0.06em;text-transform:uppercase;color:#7a7464">Events</div><div style="font-weight:600;font-size:16px;line-height:1.2;font-feature-settings:'tnum'">{{ homeEventsStr }}</div></div>
+    <div style="grid-column:1 / -1;border-top:1px solid #eee7d9;padding:7px 12px;font-size:11px;color:#7a7464">{{ homeMonthLabel }} · projected includes markets to come</div>
   </div>
 
 </div>
