@@ -1,3 +1,5 @@
+import { card } from "./design/pieces";
+import { searchBox, lookRows, itemRows, quietLine } from "./design/pantry-rows";
 import { INGREDIENT_CATEGORIES } from "./ingredient-template";
 import { currencySymbolExpr } from "./currency";
 
@@ -248,14 +250,21 @@ function usePackagingPickerFallback(template: string): string {
   }
 }
 
+// design/mobile-redesign/screens/PantryPackagingList.dc.html, below the
+// segmented control: search, "Needs a look" when something cannot be costed,
+// then every item. No category chips -- the design has none, and packaging
+// carries no category to filter on.
 const packagingListMarkup = `<sc-if value="{{ pantryOnPack }}" hint-placeholder-val="{{ false }}">
-  <div style="display:flex;flex-direction:column;border-bottom:1px solid var(--color-divider)">
-    <sc-for list="{{ packagingItems }}" as="item" hint-placeholder-count="6">
-      <div class="bk-row" sc-camel-on-click="{{ item.open }}" style="display:flex;align-items:center;gap:12px;padding:13px 0;border-top:1px solid var(--color-divider);cursor:pointer">
-        <div style="flex:1;min-width:0"><div style="font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ item.name }}</div><div class="text-muted" style="font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ item.packageLine }}</div></div>
-        <div style="text-align:right;font-feature-settings:'tnum';font-size:14px;flex:none">{{ item.costLine }}</div>
-      </div>
-    </sc-for>
+  <div style="display:flex;flex-direction:column;gap:14px">
+    ${searchBox({ value: "packSearch", onChange: "setPackSearch", placeholder: "Search packaging" })}
+    <sc-if value="{{ packHasLook }}" hint-placeholder-val="{{ false }}">
+      ${card({ title: "Needs a look", meta: "{{ packLookMeta }}", loop: lookRows("packLook") })}
+    </sc-if>
+    <sc-if value="{{ packHasRows }}" hint-placeholder-val="{{ true }}">
+      ${card({ title: "All packaging", meta: "{{ packAllMeta }}", loop: itemRows("packRows") })}
+    </sc-if>
+    ${quietLine("packNoMatch", "No packaging matches that.")}
+    ${quietLine("packIsEmpty", "No packaging yet. Tap + to add a box, bag or sticker.")}
   </div>
   </sc-if>`;
 
@@ -352,6 +361,51 @@ function addPackagingController(template: string): string {
           return { packagingRecords, removedPackagingKeys: [...new Set([...(st.removedPackagingKeys || []), key])], recipeRecords: (st.recipeRecords || []).map(recipe => ({ ...recipe, packagingKeys: (recipe.packagingKeys || []).filter(packagingKey => packagingKey !== key) })), screen: previous, stack, activePackagingKey: null, packagingDraft: null, packagingDeleteOpen: false, packagingSaveError: '' };
         });
         return {
+          // ---- the list as the redesign draws it -------------------------
+          // "Needs a look" holds what cannot be costed: no pack price, or no
+          // units per pack to divide it by. Saving refuses zero units, so the
+          // second only turns up in records saved before that check existed.
+          // TODO: the README's margin-change trigger is not wired yet.
+          ...(() => {
+            const query = String(this.state.packSearch || '').trim().toLowerCase();
+            const visible = keys.filter(key => defaults[key]?.visible !== false);
+            const all = visible.map(key => {
+              const item = normalize(key);
+              const priced = item.packPrice > 0;
+              const counted = item.unitsPerPack > 0;
+              const per = priced && counted ? item.packPrice / item.unitsPerPack : 0;
+              const supplier = String(item.supplier || '').trim();
+              const priceBit = priced ? CUR + item.packPrice.toFixed(2) + (counted ? ' / ' + item.unitsPerPack : '') : '';
+              const parts = [supplier, priceBit].filter(Boolean);
+              return {
+                key, supplier,
+                name: item.name || 'New packaging',
+                reason: !priced ? 'No pack price yet' : (!counted ? 'Units per pack not set' : ''),
+                sub: parts.length ? parts.join(' · ') : 'No supplier or price yet',
+                // with a price but no count, what is known is the whole pack
+                price: priced && counted ? CUR + per.toFixed(per < 0.01 ? 4 : 2) : (priced ? CUR + item.packPrice.toFixed(2) + ' pack' : '—'),
+                perUnit: 'each',
+                open: () => this.setState(st => ({ screen: 'packagingEdit', stack: [...st.stack, st.screen], activePackagingKey: key, packagingDraft: normalize(key), packagingDeleteOpen: false, packagingSaveError: '' }))
+              };
+            });
+            const shown = all.filter(r => !query || r.name.toLowerCase().indexOf(query) !== -1 || r.supplier.toLowerCase().indexOf(query) !== -1);
+            const withSep = rows => rows.map((r, i) => ({ ...r, sep: i === 0 ? 'none' : '1px solid #eee7d9' }));
+            const look = shown.filter(r => r.reason);
+            const items = n => n + (n === 1 ? ' item' : ' items');
+            return {
+              packSearch: String(this.state.packSearch || ''),
+              setPackSearch: e => this.setState({ packSearch: String(e.target.value || '').slice(0, 60) }),
+              packLook: withSep(look),
+              packHasLook: look.length > 0,
+              packLookMeta: items(look.length),
+              packRows: withSep(shown),
+              packHasRows: shown.length > 0,
+              packNoMatch: all.length > 0 && shown.length === 0,
+              packIsEmpty: all.length === 0,
+              packAllMeta: shown.length + ' · priced per unit',
+              pantryPackCountLine: items(all.length) + ' · priced per unit'
+            };
+          })(),
           packagingItems: keys.filter(key => defaults[key]?.visible !== false).map(key => {
             const item = normalize(key); const per = item.unitsPerPack > 0 ? item.packPrice / item.unitsPerPack : 0;
              return { key, name: item.name || 'Unnamed packaging', packageLine: (item.supplier || 'No supplier') + (' · ' + CUR) + item.packPrice.toFixed(2) + ' / ' + item.unitsPerPack + ' pcs', costLine: CUR + per.toFixed(2) + '/pc', open: () => this.setState(st => ({ screen: 'packagingEdit', stack: [...st.stack, st.screen], activePackagingKey: key, packagingDraft: normalize(key), packagingDeleteOpen: false, packagingSaveError: '' })), remove: () => deletePackaging(key) };

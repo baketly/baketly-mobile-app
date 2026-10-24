@@ -14,6 +14,9 @@
 // The Recipes list is ordered by group, in the order the groups were added,
 // with each group's name above its recipes. A–Z and Price are still a tap away.
 
+import { card } from "./design/pieces";
+import { searchBox, lookRows, itemRows, quietLine } from "./design/pantry-rows";
+
 function swapOnce(template: string, from: string, to: string, label: string): string {
   const count = template.split(from).length - 1;
   if (count !== 1) throw new Error(`Recipe groups ${label}: expected 1 anchor, found ${count}`);
@@ -46,6 +49,87 @@ const groupMethods = `  recipeGroupList() {
 function addGroupMethods(template: string): string {
   return swapOnce(template, "  REC_ICONS = {", groupMethods + "  REC_ICONS = {", "methods");
 }
+
+/**
+ * The Recipes tab as the redesign draws it: a card per group, in the baker's
+ * own group order, with "Needs a look" above them when a recipe cannot be
+ * priced. Built beside recipeList rather than from it, so the sort and the
+ * chips that drive recipeList keep working for anything else that reads it.
+ *
+ * "Needs a look" today means no selling price -- the README's other trigger
+ * for recipes needs margins compared over time.
+ * TODO: the margin-change trigger (an ingredient price move that shifted a
+ * recipe's margin) is not wired yet.
+ */
+const recipeSectionBindings = `          ...(() => {
+            const query = String(this.state.recSearch || '').trim().toLowerCase();
+            const money = n => CUR + (Number(n) || 0).toFixed(2);
+            const rowOf = r => {
+              const cost = recipeUnitCost(r);
+              const price = Number(r.price) || 0;
+              const margin = price > 0 ? Math.round((price - cost) / price * 100) : null;
+              return {
+                group: this.recipeGroupOf(r),
+                name: String(r.name || '').trim() || 'Untitled recipe',
+                hasPhoto: !!r.photo, noPhoto: !r.photo, photo: r.photo || '',
+                // the same icon the recipe has always shown; a new recipe is a cake
+                iconEl: React.createElement('span', { style: { display: 'grid' }, dangerouslySetInnerHTML: { __html: this.REC_ICONS[r.icon] || this.REC_ICONS.cake || '' } }),
+                reason: price > 0 ? '' : 'No selling price yet',
+                sub: 'makes ' + Math.max(1, Number(r.yield) || 1) + ' \\u00b7 costs ' + money(cost),
+                price: price > 0 ? money(price) : '\\u2014',
+                perUnit: margin === null ? 'no price yet' : margin + '% margin',
+                open: () => this.setState(st => ({ screen: 'recipeEditor', stack: [...st.stack, st.screen], activeRecipeId: r.id, recipeDraft: null, recipeDeleteOpen: false, ingPickerOpen: false, packPickerOpen: false }))
+              };
+            };
+            const withSep = rows => rows.map((x, i) => ({ ...x, sep: i === 0 ? 'none' : '1px solid #eee7d9' }));
+            const all = records.map(rowOf);
+            const shown = all.filter(x => (recPick === 'all' || x.group === recPick)
+              && (!query || x.name.toLowerCase().indexOf(query) !== -1));
+            const look = shown.filter(x => x.reason);
+            const count = n => n + (n === 1 ? ' recipe' : ' recipes');
+            // the baker's groups in their own order, recipes with no group last
+            const sections = [...this.recipeGroupList().map(g => g.id), 'none']
+              .map(id => {
+                const rows = shown.filter(x => x.group === id);
+                return { title: this.recipeGroupName(id), meta: count(rows.length), rows: withSep(rows), size: rows.length };
+              })
+              .filter(section => section.size > 0);
+
+            // what a market check found, for the row above the search
+            const check = this.state.marketCheck || null;
+            const checked = check && check.checkedAt ? new Date(check.checkedAt) : null;
+            const checkedOk = !!checked && !isNaN(checked.getTime());
+            const daysAgo = checkedOk ? (Date.now() - checked.getTime()) / 86400000 : 0;
+            const outOfStep = check && Array.isArray(check.products)
+              ? check.products.filter(p => p && (p.verdict === 'under' || p.verdict === 'over')).length : 0;
+
+            return {
+              recSearch: String(this.state.recSearch || ''),
+              setRecSearch: e => this.setState({ recSearch: String(e.target.value || '').slice(0, 60) }),
+              recChips: recChoices.map(([k, label]) => ({
+                label, pick: () => this.setState({ recFilter: k }),
+                bg: recPick === k ? '#7d8a3c' : '#ffffff',
+                color: recPick === k ? '#ffffff' : '#33301f',
+                border: recPick === k ? '#7d8a3c' : '#e5dfd2'
+              })),
+              recLook: withSep(look),
+              recHasLook: look.length > 0,
+              recLookMeta: count(look.length),
+              recSections: sections,
+              recNoMatch: all.length > 0 && shown.length === 0,
+              recIsEmpty: all.length === 0,
+              pantryRecCountLine: count(all.length) + ' \\u00b7 priced from your pantry',
+              // a weekday reads well inside a week; past that it is ambiguous.
+              // Short, so "Checked Thu \u00b7 5 recipes out of range" fits one line.
+              recNearbyWhen: !checkedOk ? 'Not checked yet'
+                : 'Checked ' + (daysAgo < 6
+                  ? checked.toLocaleDateString('en-US', { weekday: 'short' })
+                  : checked.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })),
+              recNearbyHasOut: outOfStep > 0,
+              recNearbyOut: outOfStep + (outOfStep === 1 ? ' recipe out of range' : ' recipes out of range')
+            };
+          })(),
+`;
 
 /** Recipes list: chips are the groups, and the list is ordered by them. */
 function groupRecipeList(template: string): string {
@@ -102,18 +186,59 @@ function groupRecipeList(template: string): string {
     "recSortLabel: rs === 'az' ? 'A–Z' : (rs === 'price' ? 'Price ↓' : 'Sort'),\n" +
       "          toggleRecSort: () => this.setState({ recSort: rs === 'default' ? 'az' : (rs === 'az' ? 'price' : 'default') }),",
     "recSortLabel: sortMode === 'az' ? 'A–Z' : (sortMode === 'price' ? 'Price ↓' : 'Group'),\n" +
-      "          toggleRecSort: () => this.setState({ recSort: sortMode === 'group' ? 'az' : (sortMode === 'az' ? 'price' : 'group') }),",
+      "          toggleRecSort: () => this.setState({ recSort: sortMode === 'group' ? 'az' : (sortMode === 'az' ? 'price' : 'group') }),\n" +
+      recipeSectionBindings,
     "list sort",
   );
 
-  return swapOnce(
-    out,
-    '<sc-for list="{{ recipeList }}" as="r" hint-placeholder-count="6">',
-    '<sc-for list="{{ recipeList }}" as="r" hint-placeholder-count="6">' +
-      '<sc-if value="{{ r.groupHeaderShow }}" hint-placeholder-val="{{ false }}">' +
-      '<div class="text-muted" style="font-size:10px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;padding:14px 0 6px;border-top:1px solid var(--color-divider)">{{ r.groupHeader }}</div></sc-if>',
-    "list headers",
-  );
+  return replaceRecipesTab(out);
+}
+
+const NEARBY_ROW =
+  '<div class="bk-row" sc-camel-on-click="{{ goAlerts }}" style="display:flex;align-items:center;gap:12px;padding:0 16px;min-height:56px;' +
+  'background:#ffffff;border-radius:16px;box-shadow:0 2px 10px rgba(60,55,30,.07);color:#33301f;cursor:pointer">' +
+  '<span style="flex:none;width:36px;height:36px;border-radius:10px;background:#eef0dd;color:#5f6a2c;display:grid;place-items:center">' +
+  '<svg width="18" height="18" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">' +
+  '<circle cx="12" cy="10" r="3"></circle><path d="M12 21s-7-6-7-11a7 7 0 0 1 14 0c0 5-7 11-7 11z"></path></svg></span>' +
+  '<span style="flex:1;min-width:0;display:flex;flex-direction:column">' +
+  '<span style="font-size:14px;font-weight:500;line-height:1.3">Nearby prices</span>' +
+  '<span style="font-size:12px;color:#8a8578;font-feature-settings:\'tnum\'">{{ recNearbyWhen }}' +
+  '<sc-if value="{{ recNearbyHasOut }}" hint-placeholder-val="{{ false }}"> \u00b7 <span style="color:#b07a1f;font-weight:600">{{ recNearbyOut }}</span></sc-if>' +
+  '</span></span>' +
+  '<svg width="16" height="16" sc-camel-view-box="0 0 24 24" fill="none" stroke="#8a8578" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" style="flex:none"><path d="M9 6l6 6-6 6"></path></svg>' +
+  '</div>';
+
+/**
+ * design/mobile-redesign/screens/PantryRecipes.dc.html, below the segmented
+ * control: Nearby prices, search, the group chips, "Needs a look", then a
+ * card per group. The sort button is gone -- the design orders by group and
+ * nothing else -- though its state is left for anything that reads it.
+ */
+function replaceRecipesTab(template: string): string {
+  const open = '<sc-if value="{{ pantryOnRec }}" hint-placeholder-val="{{ true }}">';
+  const start = template.indexOf(open);
+  if (start === -1 || template.indexOf(open, start + 1) !== -1) throw new Error("Recipes tab: expected 1 anchor");
+  const next = template.indexOf('<sc-if value="{{ pantryOnIng }}"', start);
+  if (next === -1) throw new Error("Recipes tab: missing the Ingredients tab after it");
+  const body =
+    open +
+    '\n  <div style="display:flex;flex-direction:column;gap:14px">' +
+    NEARBY_ROW +
+    searchBox({ value: "recSearch", onChange: "setRecSearch", placeholder: "Search recipes" }) +
+    '<div style="display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;margin:0 -20px;padding:0 20px">' +
+    '<sc-for list="{{ recChips }}" as="c" hint-placeholder-count="5">' +
+    '<button sc-camel-on-click="{{ c.pick }}" style="height:30px;padding:0 11px;flex:none;border:1px solid {{ c.border }};background:{{ c.bg }};color:{{ c.color }};border-radius:999px;font-family:inherit;font-size:11px;font-weight:600;cursor:pointer">{{ c.label }}</button>' +
+    '</sc-for></div>' +
+    '<sc-if value="{{ recHasLook }}" hint-placeholder-val="{{ false }}">' +
+    card({ title: "Needs a look", meta: "{{ recLookMeta }}", loop: lookRows("recLook", { tile: true }) }) +
+    '</sc-if>' +
+    '<sc-for list="{{ recSections }}" as="sec" hint-placeholder-count="2">' +
+    card({ title: "{{ sec.title }}", meta: "{{ sec.meta }}", loop: itemRows("sec.rows", { tile: true }) }) +
+    '</sc-for>' +
+    quietLine("recNoMatch", "No recipes match that.") +
+    quietLine("recIsEmpty", "No recipes yet. Tap + to write the first one.") +
+    '</div>\n  </sc-if>\n  ';
+  return template.slice(0, start) + body + template.slice(next);
 }
 
 /** The till's category chips and filter. */

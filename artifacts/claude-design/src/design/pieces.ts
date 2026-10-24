@@ -136,7 +136,7 @@ export function card(opts: {
   const head = opts.title
     ? `<div style="display:flex;align-items:baseline;justify-content:space-between;padding:0 2px">` +
       `<h6 style="margin:0;font-size:15px;font-weight:700;line-height:1.3">${opts.title}</h6>` +
-      (opts.meta ? `<span style="font-size:12px;color:${MUTED}">${opts.meta}</span>` : "") +
+      (opts.meta ? `<span style="font-size:12px;color:${MUTED};${TNUM}">${opts.meta}</span>` : "") +
       `</div>`
     : "";
 

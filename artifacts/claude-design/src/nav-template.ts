@@ -72,11 +72,25 @@ function reorderPantryTabs(template: string): string {
     '<button sc-camel-on-click="{{ setPantryIng }}" style="flex:1;border:0;cursor:pointer;font-family:var(--font-body);font-size:12px;font-weight:600;padding:9px 0;border-radius:10px;background:{{ segIngBg }};color:{{ segIngColor }}">Ingredients</button>';
   const packaging =
     '<button sc-camel-on-click="{{ setPantryPack }}" style="flex:1;border:0;cursor:pointer;font-family:var(--font-body);font-size:12px;font-weight:600;padding:9px 0;border-radius:10px;background:{{ segPackBg }};color:{{ segPackColor }}">Packaging</button>';
-  const before = `    ${recipes}\n    ${ingredients}\n    ${packaging}`;
+  const before = `  <div class="seg" style="margin-bottom:16px">\n    ${recipes}\n    ${ingredients}\n    ${packaging}\n  </div>`;
   if (!template.includes(before)) throw new Error("Missing pantry tab strip anchor");
+
+  // design/mobile-redesign: a white shell with a hairline border, segments
+  // 36px tall; the selected one olive. The colours still come from seg()
+  // in the page, which already gives the design's olive and grey. A tap lands
+  // through pantry-swipe-template.ts, so the track slides as a swipe would.
+  const segment = (handler: string, bg: string, color: string, label: string) =>
+    `<button sc-camel-on-click="{{ ${handler} }}" style="flex:1;height:36px;border:0;border-radius:10px;cursor:pointer;` +
+    `font-family:inherit;font-size:12px;font-weight:600;background:{{ ${bg} }};color:{{ ${color} }}">${label}</button>`;
   return template.replace(
     before,
-    () => `    ${ingredients}\n    ${packaging}\n    ${recipes}`,
+    () =>
+      `  <div role="group" aria-label="Pantry section" style="display:flex;gap:4px;padding:4px;margin-bottom:14px;` +
+      `border:1px solid #e5dfd2;border-radius:14px;background:#ffffff">` +
+      segment("pantryGoIng", "segIngBg", "segIngColor", "Ingredients") +
+      segment("pantryGoPack", "segPackBg", "segPackColor", "Packaging") +
+      segment("pantryGoRec", "segRecBg", "segRecColor", "Recipes") +
+      `</div>`,
   );
 }
 

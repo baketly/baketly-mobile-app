@@ -1,5 +1,7 @@
 // Shared with the recipe ingredient picker, which offers these as filters.
 import { currencySymbolExpr } from "./currency";
+import { card } from "./design/pieces";
+import { searchBox, lookRows, itemRows, quietLine } from "./design/pantry-rows";
 
 export const INGREDIENT_CATEGORIES: ReadonlyArray<readonly [string, string]> = [
   ["flour", "Flour"],
@@ -27,14 +29,26 @@ export const defaultIngredientDetails = {
   cheddar: { supplier: "Costco", category: "dairy", packagePrice: 10.99, packageSize: 907, unit: "g", kcal: 403, protein: 24.9, carbs: 1.3, fat: 33.1 },
 } as const;
 
+// design/mobile-redesign/screens/PantryIngredients.dc.html, below the
+// segmented control: search, category chips, "Needs a look" when there is
+// anything to look at, then every ingredient. The rows are shared with the
+// Packaging list (design/pantry-rows.ts).
 const ingredientListMarkup = `<sc-if value="{{ pantryOnIng }}" hint-placeholder-val="{{ false }}">
-  <div style="display:flex;flex-direction:column;border-bottom:1px solid var(--color-divider)">
-    <sc-for list="{{ ingredientItems }}" as="item" hint-placeholder-count="8">
-      <div class="bk-row" sc-camel-on-click="{{ item.open }}" style="display:flex;align-items:center;gap:12px;padding:13px 0;border-top:1px solid var(--color-divider);cursor:pointer">
-        <div style="flex:1;min-width:0"><div style="font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ item.name }}</div><div class="text-muted" style="font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ item.packageLine }}</div></div>
-        <div style="text-align:right;font-feature-settings:'tnum';font-size:14px;flex:none">{{ item.costLine }}</div>
-      </div>
-    </sc-for>
+  <div style="display:flex;flex-direction:column;gap:14px">
+    ${searchBox({ value: "pantryIngSearch", onChange: "setPantryIngSearch", placeholder: "Search ingredients" })}
+    <div style="display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;margin:0 -20px;padding:0 20px">
+      <sc-for list="{{ ingChips }}" as="c" hint-placeholder-count="5">
+        <button sc-camel-on-click="{{ c.pick }}" style="height:30px;padding:0 11px;flex:none;border:1px solid {{ c.border }};background:{{ c.bg }};color:{{ c.color }};border-radius:999px;font-family:inherit;font-size:11px;font-weight:600;cursor:pointer">{{ c.label }}</button>
+      </sc-for>
+    </div>
+    <sc-if value="{{ ingHasLook }}" hint-placeholder-val="{{ false }}">
+      ${card({ title: "Needs a look", meta: "{{ ingLookMeta }}", loop: lookRows("ingLook") })}
+    </sc-if>
+    <sc-if value="{{ ingHasRows }}" hint-placeholder-val="{{ true }}">
+      ${card({ title: "All ingredients", meta: "{{ ingAllMeta }}", loop: itemRows("ingRows") })}
+    </sc-if>
+    ${quietLine("ingNoMatch", "No ingredients match that.")}
+    ${quietLine("ingIsEmpty", "Nothing in your pantry yet. Tap + to add the first ingredient.")}
   </div>
   </sc-if>`;
 
@@ -80,6 +94,34 @@ function addIngredientState(template: string): string {
     /activeRecipeId: 'mini-chocolate-babka', recipeDraft: null,\n\s*packagingRecords: \{\},\n\s*removedPackagingKeys: \[\],\n\s*evQty:/,
     () =>
       "activeRecipeId: 'mini-chocolate-babka', recipeDraft: null,\n    packagingRecords: {},\n    removedPackagingKeys: [],\n    ingredientRecords: {}, removedIngredientKeys: [], activeIngredientKey: 'butter', ingredientDraft: null, ingredientSaveError: '', ingredientScanRequest: 0, ingredientScanLoading: false, ingredientScanError: '', ingredientScanComplete: false,\n    evQty:",
+  );
+}
+
+/**
+ * The pantry's title row: "Pantry" with a count under it, and a round olive
+ * plus that makes whichever kind of thing the tab is showing. The count line
+ * is the redesign's on all three tabs.
+ */
+function restylePantryHeader(template: string): string {
+  const head =
+    '  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:2px"><h2 style="font-size:28px;margin:0">Pantry</h2><button class="btn btn-primary" sc-camel-on-click="{{ pantryAdd }}" style="min-height:44px">{{ pantryAddLabel }}</button></div>\n' +
+    '  <p class="text-muted" style="font-size:13px;margin-bottom:14px">{{ pantrySubtitle }}</p>';
+  if (!template.includes(head)) throw new Error("Missing pantry header anchor");
+  const sub = (value: string, binding: string) =>
+    `<sc-if value="{{ ${value} }}" hint-placeholder-val="{{ false }}"><span style="font-size:12px;color:#8a8578;font-feature-settings:'tnum'">{{ ${binding} }}</span></sc-if>`;
+  return template.replace(
+    head,
+    () =>
+      '  <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px">' +
+      '<div style="display:flex;flex-direction:column;min-width:0">' +
+      '<h1 style="margin:0;font-size:22px;font-weight:600;line-height:1.25">Pantry</h1>' +
+      sub("pantryOnIng", "pantryCountLine") +
+      sub("pantryOnPack", "pantryPackCountLine") +
+      sub("pantryOnRec", "pantryRecCountLine") +
+      '</div>' +
+      '<button sc-camel-on-click="{{ pantryAdd }}" aria-label="{{ pantryAddAria }}" style="flex:none;width:40px;height:40px;border-radius:50%;border:0;padding:0;cursor:pointer;background:#7d8a3c;color:#ffffff;display:grid;place-items:center;box-shadow:0 6px 18px rgba(60,55,30,.10)">' +
+      '<svg width="18" height="18" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"></path></svg>' +
+      '</button></div>',
   );
 }
 
@@ -157,6 +199,70 @@ function addIngredientController(template: string): string {
           return { ingredientRecords, removedIngredientKeys: [...new Set([...(st.removedIngredientKeys || []), key])], recipeRecords, screen: previous, stack, activeIngredientKey: null, ingredientDraft: null, ingredientDeleteOpen: false, ingredientSaveError: '' };
         });
         return {
+          // ---- the list as the redesign draws it -------------------------
+          // Search and the category chips narrow both sections at once.
+          // "Needs a look" holds what cannot be costed yet: today that is an
+          // ingredient with no package price -- size cannot be saved as zero,
+          // so price is the only thing an ingredient can be missing.
+          // TODO: the README's margin-change trigger (an ingredient price move
+          // that shifted a recipe's margin) needs price history compared
+          // against recipe margins; not wired yet.
+          ...(() => {
+            const pt = this.state.pantryTab || 'ing';
+            const query = String(this.state.pantryIngSearch || '').trim().toLowerCase();
+            const picked = String(this.state.pantryIngCategory || 'all');
+            const tidy = n => Number.isInteger(n) ? n.toLocaleString('en-US') : String(Math.round(n * 100) / 100);
+            // 10000 g reads as 10 kg, 2000 ml as 2 l, 12 pc as just 12
+            const sizeStr = (size, unit) => unit === 'g' && size >= 1000 ? tidy(size / 1000) + ' kg'
+              : (unit === 'ml' && size >= 1000 ? tidy(size / 1000) + ' l'
+              : (unit === 'pc' ? tidy(size) : tidy(size) + ' ' + unit));
+            const all = ingredientKeys.map(key => {
+              const item = normalize(key);
+              const per = item.packageSize > 0 ? item.packagePrice / item.packageSize : 0;
+              const priced = item.packagePrice > 0;
+              const parts = [String(item.supplier || '').trim(), priced ? CUR + item.packagePrice.toFixed(2) + ' / ' + sizeStr(item.packageSize, item.unit) : ''].filter(Boolean);
+              return {
+                key, category: item.category, supplier: String(item.supplier || ''),
+                name: item.name,
+                reason: priced ? '' : 'No package price yet',
+                sub: parts.length ? parts.join(' · ') : 'No supplier or price yet',
+                price: priced ? CUR + per.toFixed(per < 0.01 ? 4 : 2) : '—',
+                perUnit: item.unit === 'pc' ? 'each' : 'per ' + item.unit,
+                open: () => this.setState(st => ({ screen: 'ingredientEdit', stack: [...st.stack, st.screen], activeIngredientKey: key, ingredientDraft: normalize(key), ingredientSaveError: '', ingredientDeleteOpen: false, fromScan: false }))
+              };
+            });
+            const shown = all.filter(r => (picked === 'all' || r.category === picked)
+              && (!query || r.name.toLowerCase().indexOf(query) !== -1 || r.supplier.toLowerCase().indexOf(query) !== -1));
+            // the first row of a card has no rule above it
+            const withSep = rows => rows.map((r, i) => ({ ...r, sep: i === 0 ? 'none' : '1px solid #eee7d9' }));
+            const look = shown.filter(r => r.reason);
+            // a chip only for a category the baker actually has something in
+            const present = {};
+            all.forEach(r => { present[r.category] = true; });
+            const chip = (key, label) => ({
+              label,
+              pick: () => this.setState({ pantryIngCategory: key }),
+              bg: picked === key ? '#7d8a3c' : '#ffffff',
+              color: picked === key ? '#ffffff' : '#33301f',
+              border: picked === key ? '#7d8a3c' : '#e5dfd2'
+            });
+            const categories = ${JSON.stringify(INGREDIENT_CATEGORIES)};
+            return {
+              pantryIngSearch: String(this.state.pantryIngSearch || ''),
+              setPantryIngSearch: e => this.setState({ pantryIngSearch: String(e.target.value || '').slice(0, 60) }),
+              ingChips: [chip('all', 'All'), ...categories.filter(c => present[c[0]]).map(c => chip(c[0], c[1]))],
+              ingLook: withSep(look),
+              ingHasLook: look.length > 0,
+              ingLookMeta: look.length + (look.length === 1 ? ' item' : ' items'),
+              ingRows: withSep(shown),
+              ingHasRows: shown.length > 0,
+              ingNoMatch: all.length > 0 && shown.length === 0,
+              ingIsEmpty: all.length === 0,
+              ingAllMeta: shown.length + ' · cost per unit',
+              pantryCountLine: all.length + (all.length === 1 ? ' ingredient' : ' ingredients') + ' · priced per unit',
+              pantryAddAria: pt === 'pack' ? 'New packaging' : (pt === 'rec' ? 'New recipe' : 'New ingredient')
+            };
+          })(),
           ingredientItems: ingredientKeys.map(key => {
             const item = normalize(key);
             const per = item.packageSize > 0 ? item.packagePrice / item.packageSize : 0;
@@ -311,7 +417,7 @@ function addSpinnerStyle(template: string): string {
 export function applyIngredientRecordBehavior(template: string): string {
   return addSpinnerStyle(
     addIngredientController(
-      replaceIngredientEditor(replaceIngredientList(addIngredientState(template))),
+      replaceIngredientEditor(restylePantryHeader(replaceIngredientList(addIngredientState(template)))),
     ),
   );
 }
