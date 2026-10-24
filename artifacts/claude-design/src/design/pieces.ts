@@ -17,7 +17,7 @@
 import {
   BG, SURFACE, INK, MUTED, LABEL, TAB_IDLE,
   OLIVE, OLIVE_700, GOLD, HAIRLINE, BORDER, HANDLE, DANGER,
-  CARD_SHADOW, DOCK_SHADOW, SHEET_SHADOW, PAY_SHADOW,
+  CARD_SHADOW, DOCK_SHADOW, SHEET_SHADOW, PAY_SHADOW, SCRIM, AMBER_SOFT,
   R_CARD, R_STRIP, R_FIELD, R_BUTTON, R_SHEET, TNUM,
 } from "./tokens";
 
@@ -287,6 +287,44 @@ export function swipeRow(opts: { item: string; sep: string; rowStyle: string; in
     `style="position:relative;background:${opts.bg || SURFACE};${opts.rowStyle};` +
     `transform:${b("swTransform")};transition:${b("swTransition")};touch-action:pan-y">` +
     `${opts.inner}</div></div>`
+  );
+}
+
+/* ----------------------------------------------------------- delete dialog */
+
+/**
+ * The one way anything is deleted: a centred card over the dimmed screen,
+ * saying what goes with it, "Keep it" beside a red Delete. Ingredient,
+ * packaging, recipe and event all use this; only the words differ, and the
+ * words are the point -- `body` says what happens to everything that used
+ * the thing, not just that it cannot be undone.
+ */
+export function deleteDialog(opts: {
+  /** The sc-if flag that shows it. */
+  open: string;
+  title: string;
+  body: string;
+  onKeep: string;
+  onDelete: string;
+  label: string;
+}): string {
+  return (
+    `<sc-if value="${opts.open}" hint-placeholder-val="{{ false }}">` +
+    `<div style="position:fixed;inset:0;z-index:40;background:${SCRIM};display:flex;align-items:center;justify-content:center;padding:20px">` +
+    `<div role="dialog" aria-modal="true" aria-label="${opts.label}" style="width:100%;max-width:340px;background:${BG};` +
+    `border-radius:${R_CARD};padding:22px;box-shadow:${PAY_SHADOW};display:flex;flex-direction:column;gap:14px;box-sizing:border-box">` +
+    `<div style="width:48px;height:48px;border-radius:50%;background:${AMBER_SOFT};color:${DANGER};display:grid;place-items:center">` +
+    `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">` +
+    `<path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3"></path></svg></div>` +
+    `<div style="display:flex;flex-direction:column;gap:6px">` +
+    `<h2 style="margin:0;font-size:20px;font-weight:600;line-height:1.3">${opts.title}</h2>` +
+    `<p style="margin:0;font-size:13px;line-height:1.55;color:${LABEL}">${opts.body}</p></div>` +
+    `<div style="display:flex;gap:10px;margin-top:4px">` +
+    `<button type="button" sc-camel-on-click="${opts.onKeep}" style="flex:1;height:48px;border:1px solid ${BORDER};` +
+    `border-radius:${R_BUTTON};background:${SURFACE};color:${INK};font-family:inherit;font-size:13px;font-weight:600;cursor:pointer">Keep it</button>` +
+    `<button type="button" sc-camel-on-click="${opts.onDelete}" style="flex:1;height:48px;border:0;` +
+    `border-radius:${R_BUTTON};background:${DANGER};color:${SURFACE};font-family:inherit;font-size:13px;font-weight:600;cursor:pointer">Delete</button>` +
+    `</div></div></div></sc-if>`
   );
 }
 

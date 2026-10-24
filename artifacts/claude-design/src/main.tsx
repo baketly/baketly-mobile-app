@@ -39,6 +39,7 @@ import { applyReminderRoutingBehavior } from "./reminder-routing-template";
 import { applyRecipeGroupsBehavior } from "./recipe-groups-template";
 import { applyPantrySwipeBehavior } from "./pantry-swipe-template";
 import { applyRecipeEditorBehavior } from "./recipe-editor-template";
+import { applyRecipeOverviewBehavior } from "./recipe-overview-template";
 import { applySwipeRemoveBehavior } from "./swipe-remove-template";
 import { marketCheckIsDue, runMarketCheck, suggestPlaces } from "./market-check";
 import { askBaketly, buildAskContext } from "./ask-baketly";
@@ -333,6 +334,7 @@ window.__baketlyApplyRecipeRecords = (template) => {
     applySwipeBackBehavior(
     applyPantrySwipeBehavior(
     applySwipeRemoveBehavior(
+    applyRecipeOverviewBehavior(
     applyRecipeEditorBehavior(
     applyRecipeGroupsBehavior(
     applyItemModeBehavior(
@@ -362,6 +364,7 @@ window.__baketlyApplyRecipeRecords = (template) => {
           ),
         ),
       ),
+    ),
     ),
     ),
     ),
