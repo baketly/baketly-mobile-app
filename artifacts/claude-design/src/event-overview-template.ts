@@ -36,7 +36,7 @@ const svg = (size: number, paths: string, width = "1.75") =>
   `stroke-width="${width}" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${paths}</svg>`;
 const CHEVRON_RIGHT = svg(16, '<path d="M9 6l6 6-6 6"></path>').replace('stroke="currentColor"', `stroke="${HANDLE}"`);
 
-/** Views over the event controller's own values: picked, recipes, sales, saved, eventId, unitCost, soldEntered, CUR. */
+/** Views over the event controller's own values: picked, recipes, sales, saved, eventId, unitCost, soldEntered, soldAlready, directSaleId, CUR. */
 const overviewBindings = `          ...(() => {
             const border = '1px solid ${HAIRLINE}';
             const sep = i => i ? border : '0';
@@ -83,7 +83,11 @@ const overviewBindings = `          ...(() => {
             // ---- the sold sheet ----------------------------------------
             const soldOf = id => Math.max(0, Math.round(Number((this.state.evSold || {})[id]) || 0));
             const setSold = (id, n) => this.setState(st => ({ evSold: { ...(st.evSold || {}), [id]: Math.max(0, n) } }));
-            const soldRevenue = lineup.reduce((s, r) => s + soldOf(r.id) * (Number(r.price) || 0), 0);
+            // what the till took, discounts and all, and what completing adds on
+            // top of it at the listed price -- what Analytics will count
+            const tillSales = sales.filter(sale => sale && sale.eventId === eventId && sale.id !== directSaleId);
+            const tillTook = tillSales.reduce((s, sale) => s + (Number(sale.total) || 0), 0);
+            const soldRevenue = tillTook + lineup.reduce((s, r) => s + Math.max(0, soldOf(r.id) - (soldAlready[r.id] || 0)) * (Number(r.price) || 0), 0);
             const soldTotal = lineup.reduce((s, r) => s + soldOf(r.id), 0);
             const tookTotal = lineup.reduce((s, r) => s + qtyOf(r.id), 0);
             const earned = soldRevenue - allCosts;
@@ -167,7 +171,7 @@ const overviewBindings = `          ...(() => {
                 ? 'Starts at what the till rang up. Adjust and complete.'
                 : 'Starts at what you planned. Adjust and complete.',
               soldTook: money(soldRevenue),
-              soldCount: soldTotal + ' of ' + tookTotal + ' sold',
+              soldCount: (tillSales.length ? tillSales.length + (tillSales.length === 1 ? ' sale \\u00b7 ' : ' sales \\u00b7 ') : '') + soldTotal + ' of ' + tookTotal + ' sold',
               soldEarned: signed(earned),
               soldEarnedColor: earned < 0 ? '#b07a1f' : '${OLIVE_700}',
               soldAfter: 'after ' + money(allCosts) + ' costs',
@@ -286,14 +290,19 @@ const overview =
 const stepper = (handler: string, label: string, glyph: string) =>
   `<button type="button" sc-camel-on-click="{{ ${handler} }}" aria-label="${label}" style="width:40px;height:40px;border-radius:50%;border:1px solid ${BORDER};background:${SURFACE};color:${INK};font-family:inherit;font-size:18px;cursor:pointer;display:grid;place-items:center;padding:0">${glyph}</button>`;
 
-const soldSheet =
-  '<sc-if value="{{ evEnteringResults }}" hint-placeholder-val="{{ false }}">' +
-  `<div sc-camel-on-click="{{ closeSoldSheet }}" style="position:fixed;inset:0;z-index:40;background:rgba(250,246,240,.45)">` +
+/**
+ * What sold, adjusted and completed. Opened from the overview, and from the
+ * till's ✓ as SaleFinish.dc.html -- the same rows under its own title.
+ */
+export const soldSheet = (o: { open: string; onBackdrop: string; title: string; sub: string; onClose: string; label?: string }) =>
+  `<sc-if value="${o.open}" hint-placeholder-val="{{ false }}">` +
+  `<div sc-camel-on-click="${o.onBackdrop}" style="position:fixed;inset:0;z-index:40;background:rgba(250,246,240,.45)">` +
   sheet({
-    title: "What actually sold?",
-    sub: "{{ soldSheetSub }}",
+    title: o.title,
+    label: o.label,
+    sub: o.sub,
     height: "auto",
-    onClose: "{{ cancelEnteringResults }}",
+    onClose: o.onClose,
     body:
       `<div style="flex:none;max-height:min(360px, 46vh);overflow:auto;background:${SURFACE};border-radius:${R_CARD};padding:0 16px;box-shadow:${CARD_SHADOW};display:flex;flex-direction:column">` +
       '<sc-for list="{{ soldRows }}" as="s" hint-placeholder-count="3">' +
@@ -350,7 +359,15 @@ function replacePreview(template: string): string {
     `<sc-if value="{{ evShowMarketBody }}" hint-placeholder-val="{{ true }}">${overview}</sc-if>`;
   // the sheet sits outside the preview, so it also opens over the till's
   // results-only view
-  return template.slice(0, preview.innerStart) + replaced + template.slice(preview.innerEnd, preview.end) + soldSheet + template.slice(preview.end);
+  return template.slice(0, preview.innerStart) + replaced + template.slice(preview.innerEnd, preview.end) +
+    soldSheet({
+      open: "{{ evEnteringResults }}",
+      onBackdrop: "{{ closeSoldSheet }}",
+      title: "What actually sold?",
+      sub: "{{ soldSheetSub }}",
+      onClose: "{{ cancelEnteringResults }}",
+    }) +
+    template.slice(preview.end);
 }
 
 function replaceDeleteDialog(template: string): string {
