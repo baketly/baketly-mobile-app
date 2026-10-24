@@ -44,6 +44,7 @@ import { applyIngredientOverviewBehavior } from "./ingredient-overview-template"
 import { applyPackagingOverviewBehavior } from "./packaging-overview-template";
 import { applyEventOverviewBehavior } from "./event-overview-template";
 import { applyEventEditorBehavior } from "./event-editor-template";
+import { applySaleTillBehavior } from "./sale-till-template";
 import { applySwipeRemoveBehavior } from "./swipe-remove-template";
 import { marketCheckIsDue, runMarketCheck, suggestPlaces } from "./market-check";
 import { askBaketly, buildAskContext } from "./ask-baketly";
@@ -338,6 +339,7 @@ window.__baketlyApplyRecipeRecords = (template) => {
     applySwipeBackBehavior(
     applyPantrySwipeBehavior(
     applySwipeRemoveBehavior(
+    applySaleTillBehavior(
     applyEventEditorBehavior(
     applyEventOverviewBehavior(
     applyPackagingOverviewBehavior(
@@ -372,6 +374,7 @@ window.__baketlyApplyRecipeRecords = (template) => {
           ),
         ),
       ),
+    ),
     ),
     ),
     ),
