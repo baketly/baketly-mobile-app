@@ -261,6 +261,35 @@ export function primaryButton(opts: { label: string; onTap?: string; disabled?: 
   );
 }
 
+/* ----------------------------------------------------------- swipe to remove */
+
+/**
+ * A row that comes off its list when pulled to the right
+ * (SwipeRemove.dc.html): a red × behind it grows in as it goes, and past
+ * 72px letting go sends it off the edge and closes the gap. No confirmation.
+ *
+ * `item` is the loop's name for the row; its sw* values come from the
+ * component's swipeRow() (swipe-remove-template.ts), which does the counting.
+ * `rowStyle` is the row's own layout; `sep` its top hairline.
+ */
+export function swipeRow(opts: { item: string; sep: string; rowStyle: string; inner: string; bg?: string }): string {
+  const b = (key: string) => `{{ ${opts.item}.${key} }}`;
+  return (
+    `<div style="position:relative;overflow:hidden;max-height:${b("swMaxH")};opacity:${b("swOpacity")};` +
+    `transition:${b("swCollapse")};border-top:${opts.sep}">` +
+    `<div style="position:absolute;left:0;top:0;bottom:0;width:72px;display:flex;align-items:center;justify-content:flex-start;padding-left:4px">` +
+    `<span aria-hidden="true" style="width:36px;height:36px;border-radius:50%;background:${DANGER};color:${SURFACE};` +
+    `display:grid;place-items:center;transform:${b("swDisc")};transition:${b("swDiscTransition")}">` +
+    `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">` +
+    `<path d="M6 6l12 12M18 6L6 18"></path></svg></span></div>` +
+    `<div sc-camel-on-pointer-down="${b("swDown")}" sc-camel-on-pointer-move="${b("swMove")}" ` +
+    `sc-camel-on-pointer-up="${b("swUp")}" sc-camel-on-pointer-cancel="${b("swUp")}" ` +
+    `style="position:relative;background:${opts.bg || SURFACE};${opts.rowStyle};` +
+    `transform:${b("swTransform")};transition:${b("swTransition")};touch-action:pan-y">` +
+    `${opts.inner}</div></div>`
+  );
+}
+
 /* ------------------------------------------------------------------ tab bar */
 
 export type TabKey = "home" | "pantry" | "pay" | "events" | "analytics";

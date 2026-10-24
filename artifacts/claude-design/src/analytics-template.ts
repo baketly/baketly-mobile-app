@@ -1014,12 +1014,7 @@ function addCommerceBehavior(template: string): string {
         const cst = eventProducts.reduce((s, p) => s + (evQty[p.id] || 0) * p.cost, 0);
         const units = eventProducts.reduce((s, p) => s + (evQty[p.id] || 0), 0);
         const numIn = (obj, key) => e => { const v = parseInt(e.target.value, 10); this.setState(st => ({ [obj]: { ...st[obj], [key]: isNaN(v) || v < 0 ? 0 : v } })); };
-        // Dragging a lineup row to the right uncovers a red × behind it and
-        // lets go to remove the product. The offset lives in state so the row
-        // and the icon under it move together; it is never persisted, being a
-        // finger's position rather than anything about the market.
-        const swipe = this.state.evSwipe || {};
-        const PULL = 64;
+        // pulled right, a lineup row comes off it (swipe-remove-template.ts)
         const dropFromLineup = id => this.setState(st => {
           const rest = {};
           Object.keys(st.evQty || {}).forEach(key => {
@@ -1027,8 +1022,7 @@ function addCommerceBehavior(template: string): string {
           });
           return {
             evPicked: (Array.isArray(st.evPicked) ? st.evPicked : []).filter(x => x !== id),
-            evQty: rest,
-            evSwipe: null
+            evQty: rest
           };
         });
         const evLineup = eventProducts.map(p => ({
@@ -1044,33 +1038,7 @@ function addCommerceBehavior(template: string): string {
               stack: [...st.stack, st.screen]
             }));
           },
-          swipeX: (swipe.id === p.id ? Math.max(0, Math.min(96, Number(swipe.dx) || 0)) : 0) + 'px',
-          swipeOpacity: swipe.id === p.id
-            ? String(Math.min(1, Math.max(0, (Number(swipe.dx) || 0) / PULL)))
-            : '0',
-          // no easing while a finger is down, or the row lags behind it
-          swipeEase: swipe.id === p.id && swipe.dragging ? 'none' : 'transform 170ms ease',
-          swipeStart: e => {
-            // dragging inside the quantity box is typing, not swiping
-            if (e && e.target && String(e.target.tagName).toLowerCase() === 'input') return;
-            const from = e && typeof e.clientX === 'number' ? e.clientX : 0;
-            if (e && e.currentTarget && e.currentTarget.setPointerCapture && e.pointerId != null) {
-              try { e.currentTarget.setPointerCapture(e.pointerId); } catch (err) {}
-            }
-            this.setState({ evSwipe: { id: p.id, dx: 0, from, dragging: true } });
-          },
-          swipeMove: e => {
-            const now = this.state.evSwipe;
-            if (!now || !now.dragging || now.id !== p.id) return;
-            const dx = (typeof e.clientX === 'number' ? e.clientX : 0) - now.from;
-            this.setState({ evSwipe: { ...now, dx: Math.max(0, dx) } });
-          },
-          swipeEnd: () => {
-            const now = this.state.evSwipe;
-            if (!now || now.id !== p.id) return;
-            if ((Number(now.dx) || 0) >= PULL) { dropFromLineup(p.id); return; }
-            this.setState({ evSwipe: { ...now, dx: 0, dragging: false } });
-          },`,
+          ...this.swipeRow('ev:' + p.id, () => dropFromLineup(p.id)),`,
   );
   out = out.replaceAll("evQty[p.k]", "evQty[p.id]").replaceAll("evSold[p.k]", "evSold[p.id]").replaceAll("cashQty[p.k]", "cashQty[p.id]");
   out = out.replace(

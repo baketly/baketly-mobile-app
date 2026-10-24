@@ -38,6 +38,7 @@ import { applyReceiptBehavior } from "./receipt-template";
 import { applyReminderRoutingBehavior } from "./reminder-routing-template";
 import { applyRecipeGroupsBehavior } from "./recipe-groups-template";
 import { applyPantrySwipeBehavior } from "./pantry-swipe-template";
+import { applySwipeRemoveBehavior } from "./swipe-remove-template";
 import { marketCheckIsDue, runMarketCheck, suggestPlaces } from "./market-check";
 import { askBaketly, buildAskContext } from "./ask-baketly";
 import { AuthGate, fetchCurrentUser, signOut, type SignedInUser } from "./auth-ui";
@@ -330,6 +331,7 @@ window.__baketlyApplyRecipeRecords = (template) => {
     applyCardPaymentBehavior(
     applySwipeBackBehavior(
     applyPantrySwipeBehavior(
+    applySwipeRemoveBehavior(
     applyRecipeGroupsBehavior(
     applyItemModeBehavior(
     applyNavBehavior(
@@ -358,6 +360,7 @@ window.__baketlyApplyRecipeRecords = (template) => {
           ),
         ),
       ),
+    ),
     ),
     ),
     ),
