@@ -130,10 +130,11 @@ function fieldsCanShrink(template: string): string {
  */
 function reserveScrollbarGutter(template: string): string {
   const anchor = "flex:1;overflow:auto;min-height:0";
-  // Three come from the generated markup; earlier passes add their own screens,
-  // so guard that the anchor still exists rather than pinning an exact count.
+  // The generated markup had three; the redrawn sheets replace their pickers'
+  // lists with their own, so guard that the anchor still exists rather than
+  // pinning a count that each redrawn screen lowers.
   const hits = template.split(anchor).length - 1;
-  if (hits < 3) throw new Error(`Expected at least 3 scroll bodies, found ${hits}`);
+  if (hits < 1) throw new Error(`Expected a scroll body, found ${hits}`);
   return template.split(anchor).join(anchor + ";scrollbar-gutter:stable");
 }
 

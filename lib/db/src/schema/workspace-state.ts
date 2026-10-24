@@ -53,6 +53,26 @@ const recipeRecordSchema = z
     ingredientSectionOf: z
       .record(z.string().min(1).max(80), z.string().max(60))
       .optional(),
+    // The ingredient list line by line, once the recipe has parts: the same
+    // ingredient can be in the dough and the filling with an amount in each.
+    // ingredientKeys and amounts stay the whole recipe -- every key once, its
+    // amounts added up -- so cost, macros and the shopping list read exactly
+    // what they did and a batch costs the same split or not. Only the editor
+    // reads the lines. A recipe without parts does not carry them.
+    ingredientLines: z
+      .array(
+        z
+          .object({
+            id: z.string().min(1).max(60),
+            key: z.string().min(1).max(80),
+            // a section id, or empty for none
+            partId: z.string().max(60),
+            amount: z.number().finite().min(0).max(1_000_000),
+          })
+          .strict(),
+      )
+      .max(200)
+      .optional(),
     packagingKeys: z.array(z.string().min(1).max(80)).max(100),
     amounts: quantityRecordSchema,
     // a small square photo of the bake, shrunk on the phone before saving

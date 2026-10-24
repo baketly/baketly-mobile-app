@@ -191,7 +191,7 @@ export function pillField(opts: {
     `height:48px;padding:${opts.tightRight ? "0 6px 0 14px" : "0 14px"};` +
     `border:1px solid ${BORDER};border-radius:${R_FIELD};background:${SURFACE};` +
     `${opts.onTap ? "cursor:pointer;font-family:inherit;text-align:left;" : ""}">` +
-    `<span style="font-size:12px;color:${MUTED}">${opts.label}</span>` +
+    `<span style="font-size:12px;color:${MUTED};white-space:nowrap">${opts.label}</span>` +
     `<span style="font-size:15px;font-weight:600;color:${INK}">${opts.value}</span>` +
     `</${tag}>`
   );

@@ -192,7 +192,16 @@ function addIngredientController(template: string): string {
           const recipeRecords = (st.recipeRecords || []).map(recipe => {
             const amounts = { ...(recipe.amounts || {}) };
             delete amounts[key];
-            return { ...recipe, ingredientKeys: (recipe.ingredientKeys || []).filter(ingredientKey => ingredientKey !== key), amounts };
+            const next = { ...recipe, ingredientKeys: (recipe.ingredientKeys || []).filter(ingredientKey => ingredientKey !== key), amounts };
+            // a recipe in parts loses the ingredient from every part, so its
+            // lines still add up to its keys and its other splits survive
+            if (Array.isArray(recipe.ingredientLines)) next.ingredientLines = recipe.ingredientLines.filter(line => line && line.key !== key);
+            if (recipe.ingredientSectionOf && typeof recipe.ingredientSectionOf === 'object') {
+              const sectionOf = { ...recipe.ingredientSectionOf };
+              delete sectionOf[key];
+              next.ingredientSectionOf = sectionOf;
+            }
+            return next;
           });
           const stack = [...st.stack];
           const previous = stack.pop() || 'ingredients';
