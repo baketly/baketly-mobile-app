@@ -46,6 +46,7 @@ import { applyEventOverviewBehavior } from "./event-overview-template";
 import { applyEventEditorBehavior } from "./event-editor-template";
 import { applySaleTillBehavior } from "./sale-till-template";
 import { applySaleChargeBehavior } from "./sale-charge-template";
+import { applySaleDoneBehavior } from "./sale-done-template";
 import { applySwipeRemoveBehavior } from "./swipe-remove-template";
 import { marketCheckIsDue, runMarketCheck, suggestPlaces } from "./market-check";
 import { askBaketly, buildAskContext } from "./ask-baketly";
@@ -334,6 +335,7 @@ window.__baketlyApplyRecipeRecords = (template) => {
   return applyWordingBehavior(
     applyLayoutBehavior(
     applyReminderRoutingBehavior(
+    applySaleDoneBehavior(
     applyReceiptBehavior(
     applyContactBehavior(
     applySaleChargeBehavior(
@@ -376,6 +378,7 @@ window.__baketlyApplyRecipeRecords = (template) => {
           ),
         ),
       ),
+    ),
     ),
     ),
     ),
