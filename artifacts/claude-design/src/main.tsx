@@ -45,6 +45,7 @@ import { applyPackagingOverviewBehavior } from "./packaging-overview-template";
 import { applyEventOverviewBehavior } from "./event-overview-template";
 import { applyEventEditorBehavior } from "./event-editor-template";
 import { applySaleTillBehavior } from "./sale-till-template";
+import { applySaleChargeBehavior } from "./sale-charge-template";
 import { applySwipeRemoveBehavior } from "./swipe-remove-template";
 import { marketCheckIsDue, runMarketCheck, suggestPlaces } from "./market-check";
 import { askBaketly, buildAskContext } from "./ask-baketly";
@@ -335,6 +336,7 @@ window.__baketlyApplyRecipeRecords = (template) => {
     applyReminderRoutingBehavior(
     applyReceiptBehavior(
     applyContactBehavior(
+    applySaleChargeBehavior(
     applyCardPaymentBehavior(
     applySwipeBackBehavior(
     applyPantrySwipeBehavior(
@@ -374,6 +376,7 @@ window.__baketlyApplyRecipeRecords = (template) => {
           ),
         ),
       ),
+    ),
     ),
     ),
     ),
