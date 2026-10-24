@@ -192,6 +192,7 @@ const header =
   '<sc-if value="{{ evShowMarketBody }}" hint-placeholder-val="{{ true }}">' +
   `<sc-if value="{{ evPreviewing }}" hint-placeholder-val="{{ true }}">${kicker("{{ evOvKicker }}")}</sc-if>` +
   // the form says what it is: a new event, or one being changed
+  `<sc-if value="{{ evEditing }}" hint-placeholder-val="{{ false }}">${kicker("{{ evFormKicker }}")}</sc-if>` +
   // keeps its width when empty, so the kicker stays centred
   '<div style="display:flex;gap:6px;flex:none;min-width:64px;justify-content:flex-end">' +
   // the form has no delete: delete belongs to the saved event, here

@@ -130,6 +130,19 @@ const REWRITES: readonly Rewrite[] = [
     "Baketly checks if it's worth the table before you book.",
     "Baketly works out whether the table is worth it before you book.",
   ],
+
+  // --- Markets is Events ---------------------------------------------------
+  //
+  // The tab became Events: a pop-up or an order is not a market, and the
+  // screens that send a baker there should call it what the tab calls it.
+  ["‹ Markets<", "‹ Events<"],
+  [">Next market<", ">Next event<"],
+  [">Market by market<", ">Event by event<"],
+  [">Across every market<", ">Across every event<"],
+  [
+    "No markets planned yet. Plan one under Markets and it will show up here.",
+    "No events planned yet. Plan one under Events and it will show up here.",
+  ],
 ];
 
 /**

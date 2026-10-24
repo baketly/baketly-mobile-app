@@ -145,6 +145,12 @@ const eventRecordSchema = z
       .max(20)
       .optional(),
     status: z.enum(["planned", "completed"]).optional(),
+    // what sort of event it is, when it is not a market -- a market is what
+    // an event with no kind has always been
+    kind: z.enum(["market", "popup", "order"]).optional(),
+    // the hours of the stall, "08:00" to "13:00"; either can be left unset
+    startTime: z.string().regex(/^([01]\d|2[0-3]):[0-5]\d$/).optional(),
+    endTime: z.string().regex(/^([01]\d|2[0-3]):[0-5]\d$/).optional(),
     plannedItems: z
       .array(
         z.object({

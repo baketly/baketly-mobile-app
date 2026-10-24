@@ -90,7 +90,7 @@ const modeController = `      ...(() => {
           evPreviewing: evSavedAlready && !evOpenFor,
           editEvent: () => this.setState({ editingKey: 'ev:' + (this.state.eventCurrentId || '') }),
           // the market's back button: to the chat when the chat opened it
-          evBackLabel: (Array.isArray(this.state.stack) && this.state.stack[this.state.stack.length - 1] === 'chat') ? 'Ask Baketly' : 'Markets',
+          evBackLabel: (Array.isArray(this.state.stack) && this.state.stack[this.state.stack.length - 1] === 'chat') ? 'Ask Baketly' : 'Events',
           evBack: () => {
             const stack = Array.isArray(this.state.stack) ? this.state.stack : [];
             if (stack[stack.length - 1] === 'chat') {
