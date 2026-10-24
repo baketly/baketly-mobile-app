@@ -4,12 +4,21 @@
 // on a phone, and a baker who has just opened a recipe expects it to work
 // without hunting for the small arrow at the top of the screen.
 //
-// The screen follows the finger while the drag is happening, rather than
-// nothing happening until the finger lifts. That is most of what makes the
-// gesture feel like the phone's own: you can see how far you have come, you
-// can see it is going to work, and you can change your mind and watch it go
-// back. Letting go past the halfway mark finishes it; letting go short of
-// that returns the screen to where it was.
+// design/mobile-redesign/screens/SwipeBack.dc.html, its script block ported:
+// only a drag that starts in the left 28px; the page follows the finger, and
+// the page below it is there the whole way, moving from -30% to where it
+// sits, under a dim (#1e1b16) that fades from 0.28 to nothing. Let go past a
+// third of the width and it completes in 300ms on cubic-bezier(.2,.8,.2,1);
+// short of that it springs back on the same curve.
+//
+// The app draws one screen at a time, so the page below does not exist while
+// the finger is down. It is a copy: whenever a tap opens a screen, the screen
+// it was opened from is copied as it looked, and a back drag lays that copy
+// underneath. Nothing is navigated until the finger lets go past the third,
+// so a drag that springs back has changed nothing; one that completes goes
+// back under cover of the copies, which then slide away. A screen reached
+// some other way -- opened by Baketly rather than by a tap -- has no copy, and
+// the dim alone is underneath it.
 //
 // On a tab there is nothing to go back to, and the same movement is used to
 // step sideways instead: Analytics has Overview, Products and Events, and a
@@ -39,7 +48,13 @@ const WAKE_PX = 8;
 /** and how much straighter than it is tall, before it is a scroll */
 const DIRECTION_RATIO = 1.2;
 /** past this share of the screen, letting go completes the journey */
-const COMMIT_SHARE = 0.4;
+const COMMIT_SHARE = 1 / 3;
+/** going back, as the design moves it */
+const BACK_MS = 300;
+const BACK_EASE = "cubic-bezier(.2,.8,.2,1)";
+/** where the page below starts, as a share of the width */
+const UNDER_FROM = 0.3;
+const DIM = 0.28;
 /**
  * And this share of the pane, to land on the next tab.
  *
@@ -598,6 +613,142 @@ function finishSettling(): void {
   run();
 }
 
+/* --------------------------------------------------------- the page below */
+
+interface Snapshot {
+  copy: HTMLElement;
+  scrollTop: number;
+}
+
+/** The screen each depth was left from, as it looked; index is the depth it was at. */
+const below: Snapshot[] = [];
+
+function depthNow(): number {
+  return Number(hiddenBack()?.getAttribute("data-depth") || "0");
+}
+
+/**
+ * Copy the screen as a tap lands, and keep the copy if the tap opened
+ * another screen on top of it. Read in the capture phase, before the tap is
+ * handled and the screen is replaced.
+ */
+function rememberScreens(): void {
+  document.addEventListener(
+    "click",
+    (event) => {
+      const body = sliding();
+      if (!body || !event.isTrusted) return;
+      const from = depthNow();
+      const copy = body.cloneNode(true) as HTMLElement;
+      const scrollTop = body.scrollTop;
+      let frames = 0;
+      const watch = () => {
+        const to = depthNow();
+        if (to > from) {
+          below[from] = { copy, scrollTop };
+          below.length = from + 1;
+          return;
+        }
+        // a tab, or back: what lay deeper is gone
+        if (to < from) {
+          below.length = to;
+          return;
+        }
+        if ((frames += 1) < 12) requestAnimationFrame(watch);
+      };
+      requestAnimationFrame(watch);
+    },
+    true,
+  );
+}
+
+interface Stage {
+  top: HTMLElement;
+  under: HTMLElement | null;
+  dim: HTMLElement;
+  width: number;
+  snapshot: Snapshot | null;
+}
+
+/** A layer over the scrolling body, exactly where it is. */
+function layer(rect: DOMRect, z: number): HTMLElement {
+  const el = document.createElement("div");
+  el.setAttribute("data-bk-stage", "1");
+  el.style.cssText =
+    `position:fixed;left:${rect.left}px;top:${rect.top}px;width:${rect.width}px;height:${rect.height}px;` +
+    `margin:0;z-index:${z};pointer-events:none;overflow:hidden;will-change:transform,opacity`;
+  return el;
+}
+
+function openStage(el: HTMLElement): Stage {
+  const rect = el.getBoundingClientRect();
+  const width = rect.width || window.innerWidth;
+  const snapshot = below[depthNow() - 1] || null;
+  let under: HTMLElement | null = null;
+  if (snapshot) {
+    under = layer(rect, 9997);
+    under.style.background = opaqueBackgroundBehind(el);
+    const copy = snapshot.copy.cloneNode(true) as HTMLElement;
+    copy.removeAttribute("id");
+    for (const node of Array.from(copy.querySelectorAll("[id]"))) node.removeAttribute("id");
+    copy.style.width = "100%";
+    copy.style.height = "100%";
+    copy.style.overflow = "hidden";
+    copy.style.transform = "";
+    under.appendChild(copy);
+    document.body.appendChild(under);
+    copy.scrollTop = snapshot.scrollTop;
+  }
+  const dim = layer(rect, 9998);
+  dim.style.background = "#1e1b16";
+  document.body.appendChild(dim);
+  const top = ghostOf(el, 0);
+  top.setAttribute("data-bk-stage", "1");
+  top.style.boxShadow = "-6px 0 24px rgba(30,27,22,.18)";
+  const stage = { top, under, dim, width, snapshot };
+  moveStage(stage, 0, 0);
+  return stage;
+}
+
+function moveStage(stage: Stage, x: number, ms: number): void {
+  const p = Math.max(0, Math.min(1, x / stage.width));
+  const ease = ms > 0 ? `${ms}ms ${BACK_EASE}` : "";
+  stage.top.style.transition = ms > 0 ? `transform ${ease}` : "none";
+  stage.top.style.transform = `translateX(${Math.max(0, x)}px)`;
+  if (stage.under) {
+    stage.under.style.transition = ms > 0 ? `transform ${ease}` : "none";
+    stage.under.style.transform = `translateX(${Math.round(-stage.width * UNDER_FROM * (1 - p))}px)`;
+  }
+  stage.dim.style.transition = ms > 0 ? `opacity ${ease}` : "none";
+  stage.dim.style.opacity = (DIM * (1 - p)).toFixed(3);
+}
+
+function takeDown(stage: Stage): void {
+  stage.top.remove();
+  stage.under?.remove();
+  stage.dim.remove();
+}
+
+/** Let go: past the third it goes back, under cover; short of it, nothing happened. */
+function closeStage(stage: Stage, done: boolean): void {
+  if (reducedMotion()) {
+    takeDown(stage);
+    if (done) goBack();
+    return;
+  }
+  moveStage(stage, done ? stage.width : 0, BACK_MS);
+  if (done) {
+    const body = sliding();
+    goBack();
+    // the list comes back where it was left, as the copy showed it
+    if (body && stage.snapshot) {
+      const at = stage.snapshot.scrollTop;
+      requestAnimationFrame(() => requestAnimationFrame(() => { body.scrollTop = at; }));
+    }
+  }
+  window.setTimeout(() => takeDown(stage), BACK_MS + 20);
+}
+
 function springBack(el: HTMLElement): void {
   if (reducedMotion()) {
     clear(el);
@@ -619,8 +770,14 @@ export function listenForSwipeBack(): void {
   let drag: Drag | null = null;
   /** the two tabs, while a sideways drag has them open */
   let pair: Pair | null = null;
+  /** the page and the page below, while a back drag has them */
+  let stage: Stage | null = null;
+  rememberScreens();
   const letGo = () => {
-    if (pair) {
+    if (stage) {
+      closeStage(stage, false);
+      stage = null;
+    } else if (pair) {
       closePair(pair, false);
       pair = null;
     } else if (drag?.engaged) {
@@ -733,10 +890,16 @@ export function listenForSwipeBack(): void {
 
       const el = movingFor(started.kind);
       if (!el) return;
-      // back never goes left; between tabs nothing moves until the pair is
-      // ready, and nothing moves at all where the row has run out
+      // between tabs nothing moves until the pair is ready, and nothing moves
+      // at all where the row has run out
       if (started.kind === "tabs") return;
-      el.style.transform = `translateX(${Math.max(0, travelled)}px)`;
+      // back: the copy of this page follows the finger, the page below under it
+      if (!stage) {
+        el.style.willChange = "";
+        el.style.transition = "";
+        stage = openStage(el);
+      }
+      moveStage(stage, travelled, 0);
     },
     { passive: false },
   );
@@ -748,6 +911,16 @@ export function listenForSwipeBack(): void {
       drag = null;
       const open = pair;
       pair = null;
+      const staged = stage;
+      stage = null;
+
+      // going back: past a third of the width, or not at all
+      if (staged) {
+        const touch = event.changedTouches[0];
+        const moved = touch && started ? touch.clientX - started.x : 0;
+        closeStage(staged, moved >= staged.width * COMMIT_SHARE);
+        return;
+      }
 
       if (!started?.engaged) {
         if (open) closePair(open, false);
