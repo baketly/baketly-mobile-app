@@ -80,7 +80,7 @@ For `PantryRecipes` add one sentence to the prompt:
 
 > Each row has a 44px photo tile when the recipe has a photo, else the dashed
 > icon tile. Nearby prices is a round pin button next to the + in the
-> header (amber dot when something is out of step), not a row.
+> header (amber dot when something is out of range), not a row.
 
 Then the swipe:
 
