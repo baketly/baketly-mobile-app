@@ -40,15 +40,25 @@ function readChoices(raw: string): Choice[] {
 function fill(select: HTMLSelectElement): void {
   const raw = select.getAttribute("data-bk-options");
   if (raw === null) return;
-  // the same list as last time, and the options still there: nothing to do
-  if (built.get(select) === raw && select.options.length > 0) return;
+  // The value as a plain attribute. The app sets a select's value as a
+  // property, on a select that has no options yet -- they are built here,
+  // afterwards -- so the property is lost, and the reminder times opened on
+  // 6:00am whatever they were set to. An attribute is still there to read.
+  const pinned = select.getAttribute("data-bk-value");
+  // the same list as last time, and the options still there: only the value
+  if (built.get(select) === raw && select.options.length > 0) {
+    if (pinned !== null && select.value !== pinned && Array.from(select.options).some((o) => o.value === pinned)) {
+      select.value = pinned;
+    }
+    return;
+  }
 
   const choices = readChoices(raw);
   if (!choices.length && !raw.startsWith("[]")) return;
 
   // The value the app wants selected. Read before the options are replaced,
   // because replacing them clears it.
-  const wanted = select.getAttribute("value") ?? select.value;
+  const wanted = pinned ?? select.getAttribute("value") ?? select.value;
 
   select.replaceChildren(
     ...choices.map((choice) => {
@@ -108,7 +118,7 @@ export function keepSelectsFilled(): void {
       childList: true,
       subtree: true,
       attributes: true,
-      attributeFilter: ["data-bk-options", "value"],
+      attributeFilter: ["data-bk-options", "data-bk-value", "value"],
     });
   };
 

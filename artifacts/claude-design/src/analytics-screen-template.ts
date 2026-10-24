@@ -274,7 +274,7 @@ const header =
   // a select laid over the button, so the phone's own picker opens
   `<label style="position:relative;flex:none;display:flex;align-items:center;gap:6px;height:40px;padding:0 14px;border:1px solid ${BORDER};border-radius:14px;background:${SURFACE};color:${INK};font-size:13px;font-weight:600;cursor:pointer">` +
   `{{ anMonthLabel }}${svg(14, '<path d="M6 9l6 6 6-6"></path>')}` +
-  '<select value="{{ analyticsMonth }}" data-bk-options="{{ monthOptionsJson }}" sc-camel-on-change="{{ setAnalyticsMonth }}" aria-label="Month" ' +
+  '<select value="{{ analyticsMonth }}" data-bk-value="{{ analyticsMonth }}" data-bk-options="{{ monthOptionsJson }}" sc-camel-on-change="{{ setAnalyticsMonth }}" aria-label="Month" ' +
   'style="position:absolute;inset:0;width:100%;height:100%;margin:0;opacity:0;cursor:pointer;font-size:16px"></select></label>' +
   "</div>" +
   `<div role="group" aria-label="Analytics section" style="display:flex;gap:4px;padding:4px;border:1px solid ${BORDER};border-radius:14px;background:${SURFACE}">` +
