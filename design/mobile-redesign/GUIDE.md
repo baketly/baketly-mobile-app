@@ -79,7 +79,8 @@ One prompt per file, in this order:
 For `PantryRecipes` add one sentence to the prompt:
 
 > Each row has a 44px photo tile when the recipe has a photo, else the dashed
-> icon tile, and the "Nearby prices" row sits above the search.
+> icon tile. Nearby prices is a round pin button next to the + in the
+> header (amber dot when something is out of step), not a row.
 
 Then the swipe:
 
@@ -272,7 +273,7 @@ In order: `SaleChooser`, `SaleTill`, `SaleTillEvent`, `SaleCharge`
 > product with one verdict tag, the three-cell strip, "Worth a look yourself"
 > with Open ↗) and `screens/NearbyProduct.dc.html` (your price vs median, the
 > range bar, the three suggested prices, who sells it). Its entry point is the
-> row above the recipe search. Show me.
+> pin button next to the + on the Recipes tab. Show me.
 
 ## Stage 8 — Settings, Ask, Contact
 
