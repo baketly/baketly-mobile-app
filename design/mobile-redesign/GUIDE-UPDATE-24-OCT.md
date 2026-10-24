@@ -188,7 +188,17 @@ This one adds plugins.
 
 ---
 
-## 7b — Recipe calculator
+## 8 — Check
+
+> Go through `design/mobile-redesign/README.md`'s "What is new" list and tell
+> me which items from this update are built and which aren't. Then commit.
+
+Then build for the phone as usual and try: share the shopping list to
+WhatsApp, print the bake plan, open a past event.
+
+---
+
+## 9 — Recipe calculator (added last)
 
 > Restyle the recipe calculator (`calculator-template.ts`) to
 > `screens/Calculator.dc.html` and `screens/CalculatorScrolled.dc.html`. Keep
@@ -212,13 +222,5 @@ This one adds plugins.
 > with a batch of 9 shows "about 2¼ batches of 9" and amounts for exactly 20.
 > Show me.
 
----
-
-## 8 — Check
-
-> Go through `design/mobile-redesign/README.md`'s "What is new" list and tell
-> me which items from this update are built and which aren't. Then commit.
-
-Then build for the phone as usual and try: share the shopping list to
-WhatsApp, print the bake plan, open a past event, open the calculator from
+Then build for the phone again and open the calculator from Home and from
 Bake.
