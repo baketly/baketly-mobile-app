@@ -216,7 +216,8 @@ export function sheet(opts: {
   label?: string;
 }): string {
   return (
-    `<div role="dialog" aria-modal="true" aria-label="${opts.label || opts.title}" ` +
+    // data-bk-sheet: sheet-dismiss.ts lets it be dragged down to close
+    `<div role="dialog" aria-modal="true" aria-label="${opts.label || opts.title}" data-bk-sheet="1" ` +
     `style="position:absolute;left:0;right:0;bottom:0;height:${opts.height};background:${BG};` +
     `border-radius:${R_SHEET} ${R_SHEET} 0 0;box-shadow:${SHEET_SHADOW};padding:10px 20px 0;` +
     `display:flex;flex-direction:column;gap:14px;box-sizing:border-box">` +

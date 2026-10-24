@@ -4,6 +4,7 @@ import { apiFetch, rememberSession } from "./api";
 import { listenForSignInReturn } from "./native-auth";
 import { ensureViewport, showLoadingScreen, whenSettled } from "./loading-screen";
 import { listenForSwipeBack } from "./swipe-back";
+import { listenForSheetDismiss } from "./sheet-dismiss";
 import { keepDayStripInPlace } from "./day-strip";
 import { keepChatBubblesPopping } from "./chat-pop";
 import { keepChatBoxFitted } from "./chat-grow";
@@ -456,6 +457,7 @@ window.__baketlyDeleteAccount = async () => {
 // for a desktop and scaled down, then jumps when the app template arrives
 keepSelectsFilled();
 listenForSwipeBack();
+listenForSheetDismiss();
 keepDayStripInPlace();
 keepChatBubblesPopping();
 keepChatBoxFitted();
