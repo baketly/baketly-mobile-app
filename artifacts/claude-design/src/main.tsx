@@ -51,6 +51,7 @@ import { applySaleFinishBehavior } from "./sale-finish-template";
 import { applyAnalyticsScreenBehavior } from "./analytics-screen-template";
 import { applyAnalyticsSwipeBehavior } from "./analytics-swipe-template";
 import { applyProductDetailBehavior } from "./product-detail-template";
+import { applyNearbyPricesBehavior } from "./nearby-prices-template";
 import { applySwipeRemoveBehavior } from "./swipe-remove-template";
 import { marketCheckIsDue, runMarketCheck, suggestPlaces } from "./market-check";
 import { askBaketly, buildAskContext } from "./ask-baketly";
@@ -347,6 +348,7 @@ window.__baketlyApplyRecipeRecords = (template) => {
     applySwipeBackBehavior(
     applyPantrySwipeBehavior(
     applySwipeRemoveBehavior(
+    applyNearbyPricesBehavior(
     applyProductDetailBehavior(
     applyAnalyticsSwipeBehavior(
     applyAnalyticsScreenBehavior(
@@ -386,6 +388,7 @@ window.__baketlyApplyRecipeRecords = (template) => {
           ),
         ),
       ),
+    ),
     ),
     ),
     ),
